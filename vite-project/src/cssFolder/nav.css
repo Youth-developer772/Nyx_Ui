@@ -1,0 +1,283 @@
+
+.navcontainer{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+.nav{
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background-color: #0D1B2A;
+    flex-shrink: 0;
+}
+.dashboard{
+    flex-grow: 1;
+    background-color: #F0F0F0;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.navheader{
+    width: 100%;
+    margin-left: 20px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    margin-top: 20px;
+    color: white;
+    gap: 1em;
+}
+.nav .buttoncontainer a{
+    width: 170px;
+    padding: 7px;
+    text-decoration: none;
+    color: white;
+    font-size: large;
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    text-align: center;
+    font-weight: 400;
+    font-family: inter;
+    text-transform: uppercase;
+    
+}
+.nav .buttoncontainer{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.buttoncontainer a.active{
+    background-color: white;
+    color: black;
+}
+
+/*For PosOverview*/
+
+
+.posoverviewmain{
+    margin: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.posheader h1{
+    font-weight: bold;
+    font-family: Belanosima;
+}
+.posheader p{
+    font-weight: lighter;
+}
+.posbody{
+    display: flex;
+    justify-content: space-between;
+}
+
+.posbody div{
+    background-color: #F0F0F0;
+    padding: 1em;
+    width: 250px;
+    height: 100px;
+    box-shadow: 0px 1px 2px 1px gray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+.posbody div p{
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    color: #898484;
+}
+.posbody div h3{
+    color: #1B263B;
+    font-weight: lighter;
+}
+.posbody div h5{
+    color: #898484;
+    font-size: large;
+    font-weight: lighter;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.posbody div h5 span{
+    width: 35px;
+    height: auto;
+    padding: 1px 5px 1px 5px;
+    background-color: #16F90E;
+    border-radius: 10px;
+}
+
+.posbody2{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.poschart{
+    width: 75%;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+   
+}
+.poschart h2{
+    margin-left: 1em;
+    font-weight: lighter;
+
+}
+.topProduct{
+    width: 100%;
+    height: 48%;
+    gap: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 3px 2px 2px gray;
+}
+
+.top{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 20%;
+}
+.topProduct img{
+    width: 130px;
+    height: 90px;
+    box-shadow: 1px 2px 1px 1px gray;
+    border-radius: 5px;
+}
+.top h2{
+    padding: 5px;
+    font-weight: lighter;
+}
+.top p{
+    font-size: large;
+}
+/*for table*/
+.posfooter {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.posfooter h2 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.posfooter table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.posfooter th {
+    text-align: left;
+    padding: 12px 8px;
+    border-bottom: 2px solid #eee; 
+    color: #555;
+}
+
+.posfooter td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee; 
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.status-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
+}
+
+.status-badge.pending {
+    background-color: #c4f9c4; 
+    color: #2e7d32;
+}
+
+.status-badge.complete {
+    background-color: #e1d5f9; 
+    color: #673ab7;
+}
+
+.status-badge.cancel {
+    background-color: #ffcdd2; 
+    color: #c62828;
+}
+
+
+/*For pos Order*/
+.ordermain{
+    margin: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+.orderbody{
+    display: flex;
+    justify-content: space-between;
+}
+.orderitem{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 120px;
+    border: 1px solid black;
+    border-radius: 5px;
+    justify-content: space-around;
+    background-color: #BECEFD;
+}
+.orderitem p{
+    padding: 1px 10px;
+    font-weight: lighter;
+    opacity: 0.4;
+}
+.orderitem h4{
+    padding: 4px 10px;
+    font-family: inter;
+
+}
+.orderheader{
+    display: flex;
+    justify-content: space-between;
+}
+.orderheader h2{
+    display: flex;
+    align-items: center;
+    font-size: xx-large;
+}
+.orderheader div{
+    display: flex;
+    height: 30px;
+    padding: 5px;
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 15px;
+    background-color: #0D1B2A;
+    justify-content: space-between;
+    color: white;
+}
+.orderheader div input{
+    border: none;
+    background-color: #0D1B2A;
+    color: white;
+    font-size: large;
+}

@@ -1,0 +1,125 @@
+.posinventorymain{
+    display: flex;
+    flex-direction: column;
+    margin: 1em 2em;
+    gap: 1em;
+    color: #0D1B2A; 
+}
+.Inventorytitle{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: Inter;
+}
+.inventoryIcon{
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 2px;
+    font-weight: 100;
+}
+.inventoryCondition{
+    display: flex;
+    justify-content: space-between;
+}
+.inventoryCondition div{
+    font-family: Inter;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding: 1em;
+    width: 250px;
+    height: 70px;
+    border-radius: 6px;
+}
+.condition0{
+    background-color: #BECEFD;
+}
+.condition1{
+    background-color: #16f90e96;
+}
+.condition2{
+    background-color: #DDC2FF;
+}
+.condition3{
+    background-color: #fa6767c0;
+}
+.inventoryheader{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.inventoryheader select{
+    margin-left: auto;
+    background-color: #FFFFFF;
+    width: 180px;
+    border: 1px solid #0D1B2A;
+    outline: none;
+    height: 35px;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: Belanosima;
+}
+.inventoryheader div{
+    display: flex;
+    align-items: center;
+    width: 180px;
+    height: 20px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #0D1B2A;
+    background-color: #0D1B2A;
+}
+.inventoryheader div input{
+    border: none;
+    outline: none;
+    background-color: initial;
+    
+}
+.inventorytablecontainer{
+    width: 100%;
+}
+.inventorytable{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 40px;
+    background-color: #FFFFFF;
+    padding: 1em;
+}
+.inventorytable thead{
+    background-color: #A6C4FF;
+    font-family: Inter;
+    height: 35px;
+}
+.test{
+    height: 40px;
+}
+.inventorytable td{
+    border-top: 1px solid #dee2e6;    
+    border-bottom: 1px solid #dee2e6;
+    padding: 0;
+    
+}
+.inventorytable th,td{
+    text-align: left;
+}
+.invbutcontainer div{
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+.Ibtn1{
+    border: none;
+    outline: none;
+    background-color: #0D1B2A;
+    border-radius: 6px;
+    color: #FFFFFF;
+    padding: 5px;
+}
+.Ibtn2{
+    border: 1px solid black;
+    outline: none;
+    background-color: initial;
+    border-radius: 6px;
+    padding: 4px;
+    color: red;
+}

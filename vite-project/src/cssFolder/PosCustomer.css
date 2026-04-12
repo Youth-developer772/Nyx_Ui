@@ -1,0 +1,71 @@
+.Poscustomermain{
+    display: flex;
+    flex-direction: column;
+    margin: 1em 2em;
+    gap: 1em;
+    color: #0D1B2A;   
+}
+.Poscustomerheader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+.Poscustomerheader h1{
+    display: flex;
+    align-items: center;
+}
+.Poscustomerheader div{
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 30px;
+    background-color: #0D1B2A;
+    border-radius: 9px;
+    padding: 1px 7px;
+
+}
+.Poscustomerheader div input{
+    border: none;
+    outline: none;
+    background-color: initial;
+}
+.customertableContainer{
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding:1em;
+}
+.customertable{
+    width: 100%;
+    border-collapse: collapse;
+}
+.customertable tr{
+    border-bottom: 1px solid black;
+}
+.customertable th,td{
+    padding: 1em;
+    text-align: center;
+    font-family: inter;
+}
+.editbutton{
+    padding: 4px 10px;
+    border-radius: 10px;
+    margin: 4px;
+    background-color: #16f90ed2;
+    border: none;
+    outline: none;
+    color: black;
+    font-weight: lighter;
+}
+.deletebutton{
+    padding: 4px 10px;
+    border-radius: 10px;
+    margin: 4px;
+    background-color: #db0707ec;
+    border: none;
+    outline: none;
+    color: #F0F0F0;
+    font-weight: lighter;
+    
+}

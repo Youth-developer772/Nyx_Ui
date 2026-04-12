@@ -1,0 +1,14 @@
+.posreportcontainer{
+    display: flex;
+    flex-direction: column;
+    margin: 1em 2em;
+    gap: 1em;
+    color: #0D1B2A; 
+}
+.reporttitle{
+    display: flex;
+    align-items: center;
+}
+.reporttitle .titleicon{
+    font-size: xx-large;
+}
