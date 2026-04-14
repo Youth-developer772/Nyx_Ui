@@ -10,6 +10,7 @@ import PosCustomer from './poscustomer';
 import PosInventory from './posinventory';
 import PosReport from './posreport';
 import PosSetting from './possetting';
+import AddProduct from './posproductadd';
 function App(){
  
   return(
@@ -21,7 +22,9 @@ function App(){
       <Route path='posoverview' element={<PosOverview/>}/>
       <Route path='posorder' element={<PosOrder/>}/>
       <Route path='poscategory' element={<PosCategory/>}/>
-      <Route path='posproduct' element={<PosProduct/>}/>
+      <Route path='posproduct' element={<PosProduct/>}>
+        <Route path='posaddproduct' element={<AddProduct/>}/>
+      </Route>
       <Route path='poscustomer' element={<PosCustomer/>}/>
       <Route path='posinventory' element={<PosInventory/>}/>
       <Route path='posreport' element={<PosReport/>}/>

@@ -6,23 +6,23 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import { useRef, useState } from 'react';
 import { useGetCategory } from './Hooks/CustomHooks';
 import toast, { Toaster } from 'react-hot-toast';
+import CloseIcon from '@mui/icons-material/Close';
 function PosCategory(){
 
     const[show ,setshow]=useState(false);
     const[show1,setshow1]=useState(false);
-    const [alert,setalert]=useState(false);
     const [alert1,setalert1]=useState(false);
-    const [update,setupdate]=useState(false);
     const [editdata,seteditdata]=useState(null);
     const [selecttoDel,setselecttoDel]=useState(null);
-
+    const [allow,setallow]=useState(false);
+    const [isallow,setisallow]=useState(editdata ? true : false);
+     console.log(editdata)
     let Categoryname=useRef();
     let CategoryImage=useRef();
     let Tagsref=useRef();
     
 
     const {Categories,GetCategories,Tags,GetTags}=useGetCategory();
-    console.log(Categories)
     
     async function addCategory(e){
         let formdata=new FormData();
@@ -32,7 +32,6 @@ function PosCategory(){
         try{
             let reponse=await fetch(import.meta.env.VITE_ADD_CATEGORY,{
                 method:"POST",
-                
                 body: formdata
             })
             if(reponse.ok){
@@ -77,6 +76,7 @@ function PosCategory(){
     function handleEdit(item){
         setshow1(true)
         seteditdata(item)
+        setisallow(true)
     }
 
     function editCategory(item){
@@ -84,41 +84,52 @@ function PosCategory(){
         setselecttoDel(item);
     }
 
+    async function handleUpdateCategory(){
+        alert('Update function is currently unavailable')
+        let categoryname=Categoryname.current.value;
+        let categoryimage=CategoryImage.current.files[0];
+        
+    }
 
-    async function handleUpdate(e){
-        e.preventDefault();
+    async function handleUpdateTags(){
         let tagsname=Tagsref.current.value;
-        try{
-            let reponse= await fetch(`${import.meta.env.VITE_UPDATE_TAGS}${tagsname}`,{
-                method:'Put'
-            })
-            if(reponse.ok){
-                GetCategories();
-            }
-        }catch(err){
-            console.log(err)
-        }
+        alert('Update function is currently unavailable')
+        // try{
+        //     let reponse= await fetch(`${import.meta.env.VITE_UPDATE_TAGS}${tagsname}`,{
+        //         method:'Put'
+        //     })
+        //     if(reponse.ok){
+        //         GetCategories();
+        //     }
+        // }catch(err){
+        //     console.log(err)
+        // }
     }
 
 
-    async function handleDelete(){
-        let tagsName=Tagsref.current.value
-        setshow1(false)
+    async function handleDeleteTags(){
+        let tagsName=editdata.name;
+        
         try{
             let reponse= await fetch(`${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,{
                 method:'DELETE',
             })
             if(reponse.ok){
                 GetTags();
+                setshow1(false)
+                seteditdata(null)
+                setisallow(false)
             }
         }catch(err){
             console.log(err)
+            setshow1(false)
+            seteditdata(null)
+            setisallow(false)
         }
     }
 
     async function handleDeleteCategory() {
-        let data=Categoryname.current.value;
-        console.log(data)
+        let data=selecttoDel.name;
         try{
             let reponse=await fetch(`${import.meta.env.VITE_DELETE_CATEGORY}${data}`,{
                 method:'DELETE'
@@ -149,8 +160,9 @@ function PosCategory(){
             <div className='Poscategoryheader'>
                 <h1><CategoryIcon/>Category</h1>
                 <button onClick={()=>{
-                    setselecttoDel(null)
                     setshow(true)
+                    setselecttoDel(null)
+                    setallow(false)
                 }}><AddIcon/>Add Category</button>
             </div>
             <div className='poscategorybody'>
@@ -171,26 +183,56 @@ function PosCategory(){
              show && (
                 <div className='categorypopup'>
 
-                    <h1>{selecttoDel ? 'Update Category' : 'New Category'}</h1>
+                    <h1>{selecttoDel ? 'Category Details' : 'New Category'}</h1>
+
+                    <button className='categorycloseIcon'
+                    onClick={()=>{
+                        setshow(false)
+                        setallow(false)
+                        setselecttoDel(null)
+                    }}
+                    ><CloseIcon/></button>
 
                     <p>Category Name</p>
 
-                    <input type='text' className='category'
-                    defaultValue={selecttoDel ? selecttoDel.name : ''}
-                    ref={Categoryname} key={selecttoDel ? 2 : ''}/>
-                    <input type='file' ref={CategoryImage}/>
+                        <input type='text' className='category'
+                        defaultValue={selecttoDel ? selecttoDel.name : ''}
+                        readOnly={ selecttoDel && !allow}
+                        ref={Categoryname} key={selecttoDel ? 2 : ''} />
 
-                    <label htmlFor="statuscheck"> <input type='checkbox'  className='checkstatus'/>Avaliable</label>
+                        <input type='file' ref={CategoryImage} disabled={ selecttoDel && !allow}/>
+                   
 
-                    <div>
+                    
+
+                    {/* <label htmlFor="statuscheck"> <input type='checkbox'  className='checkstatus'/>Avaliable</label> */}
+
+                    {selecttoDel ? 
+                    <div className='categoryupdate'>
+
+                        <button onClick={handleDeleteCategory} >Delete</button>
+
+                        <div >
+                            <button onClick={()=>{
+                                setallow(true)
+                                Categoryname.current.focus();
+                            }} type='button'>Edit</button>
+                            <button disabled={ selecttoDel && !allow } onClick={handleUpdateCategory}
+                            >Update</button>
+                        </div>
+
+                    </div>
+                     :
+                    <div className='categorycreatebtn'>
                         <button style={{background:'#0D1B2A',color:'white'}}
                         onClick={()=>{
-                            selecttoDel ? handleDeleteCategory() : addCategory();
+                            addCategory();
                             setshow(false);
                         }}
-                        >{selecttoDel ? 'Delete' : 'Create'}</button>
+                        >Create</button>
                         <button onClick={()=>setshow(false)} type='button'>cancel</button>
                     </div>
+                    }
                 </div>
              )
             }
@@ -199,24 +241,48 @@ function PosCategory(){
             {
                 show1 && (
                     <div className='tagpopup'>
-                        <h2>{editdata ? 'Update Tags' : 'New Tags'}</h2>
+                        <div className='tagheader'>
+                            <h2>{editdata ? 'Update Tags' : 'New Tags'}</h2>
+                            <button className='tagcloseIcon'
+                            onClick={()=>{
+                                setshow1(false)
+                                setisallow(true)
+                            }}
+                            >
+                                <CloseIcon/>
+                            </button>
+
+                        </div>
                         <p>Tag name</p>
-                        <form onSubmit={editdata ? handleDelete : AddTags}>
+                        <form onSubmit={editdata ? handleUpdateTags : AddTags}>
                             <input type="text" className='taginput' ref={Tagsref} required
                             defaultValue={editdata ? editdata.name : ''}
                             key={editdata ? 3 : ''} 
+                            readOnly={isallow}
                             />
                             <label htmlFor="statuscheck"> <input type='checkbox' 
                              className='checkstatus' 
-                             
                              />Avaliable</label>
+                             
+                            {editdata ? 
+                            <div className='tagupdatebtn'>
+                                <button onClick={handleDeleteTags} type='button'>Delete</button>
+                                <div>
+                                    <button onClick={()=>{
+                                        setisallow(false)
+                                        Tagsref.current.focus();
+                                    }} type='button'>Edit</button>
+                                    <button disabled={isallow} >Update</button>
+                                </div>
+                            </div>
+                            :
                             <div className='tagbutton'>
                                 <button type='submit'>{editdata ? 'Delete' : 'Create'}</button>
                                 <button
                                 type='button'
                                 onClick={()=>setshow1(false)}
                                 >cancel</button>
-                            </div>
+                            </div>}
                         </form>
                     </div>
                 )
@@ -236,8 +302,6 @@ function PosCategory(){
                     </div>
                 )
             }
-
-           
             
             <hr  style={{margin:'1em '}}/>
             <div className='poscategorybody2'>
@@ -247,6 +311,7 @@ function PosCategory(){
                     seteditdata(null)
                     setshow(false)
                     setshow1(true)
+                    setisallow(false)
                 }}
                 ><AddIcon/>Add Tags</button>
             </div>
