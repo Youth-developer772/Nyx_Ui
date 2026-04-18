@@ -1,13 +1,86 @@
 import './cssFolder/posreport.css';
 import ReportIcon from '@mui/icons-material/AssessmentOutlined';
+import DollarIcon from '@mui/icons-material/Paid';
+import ProductIcon from '@mui/icons-material/Widgets';
+import CustomerIcon from '@mui/icons-material/Groups';
+import SearchIcon from '@mui/icons-material/SearchSharp';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import {  LineChart,  Line,  XAxis,  YAxis,  CartesianGrid,  Tooltip,  Legend,  ResponsiveContainer,} from "recharts";
+
+
 function PosReport(){
+
+let data = [
+            { name: "Jan", sales: 3000 },
+            { name: "Feb", sales: 4000 },
+            { name: "Mar", sales: 5000 },
+            { name: "Apr", sales: 6000 },
+            { name: "May", sales: 7000 },
+            { name: "Jun", sales: 8000 },
+        ];
+
     return(
         <>
         <div className="posreportcontainer">
             <h1 className="reporttitle"><ReportIcon className='titleicon'/> Report</h1>
-            <div className="header">
-                div
+            <div className="tilteline">
+               
             </div>
+
+            <div className="posreportbody">
+
+                <div className="posreporttitle">
+                    <p>Total Revenue <DollarIcon/></p>
+                    <h3>60000ks</h3>
+                    <h5> <span>11%</span>from yesterday</h5>
+                </div>
+
+                <div className="posreporttitle">
+                    <p>Order Received <ProductIcon/></p>
+                    <h3>1200</h3>
+                    <h5><span>-3%</span>from yesterday</h5>
+                </div>
+
+                <div className="posreporttitle">
+                    <p>Total Product <ProductIcon/></p>
+                    <h3>55</h3>
+                    <h5><span>+5%</span>New Product</h5>
+                </div>
+
+                <div className="posreporttitle">
+                    <p>Total Customers<CustomerIcon/></p>
+                    <h3>245</h3>
+                    <h5><span>+12</span>New Customers</h5>
+                </div>
+
+            </div>
+            
+            <div className='posreportbody2'>
+                <div className='posreportbody2header'>
+                    <h2>Sale Trends</h2>
+                    <div>
+                        <input type='search' placeholder='Search...' />
+                        <SearchIcon />
+                    </div>
+                    <button><SaveAltIcon /> Export</button>
+                </div>
+                <div className='posreportbody2secheader'>
+                    <input type='date' />
+                    <input type='date' />
+                </div>
+                <div style={{width:'100%',height:'270px'}}>
+                    <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={data}>
+                    <CartesianGrid strokeDasharray="0" vertical={false} stroke="#ccc"/>
+                    <XAxis datakey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="sales" stroke="red" />
+                    </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+
         </div>
         </>
     )

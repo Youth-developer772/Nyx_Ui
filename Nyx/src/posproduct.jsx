@@ -68,9 +68,11 @@ function PosProduct(){
                         fliterdata.map((item,index)=>{
                             return(
                                 <div key={index} className='singleproduct' onClick={()=>{handleupdate(item)}}>
-                                    <img src={item.images} alt={item.name}/>
-                                    <div>
-                                        <h3>{item.productName}</h3>
+                                    <div className="productimgcontainer">
+                                        <img src={item.images} alt={item.name}/>
+                                    </div>
+                                    <div className='producttext'>
+                                        <h3 >{item.productName}</h3>
                                         <h4 style={{fontFamily:'Inter',fontWeight:300}}>{item.price}MMk</h4>
                                         {item.status == 'isAvailable' ? <p style={{backgroundColor:'#16F90E'}}>Avaliable</p>
                                         : <p style={{backgroundColor:'#FF0302',width:'100px'}}>Out of Stocks</p>}

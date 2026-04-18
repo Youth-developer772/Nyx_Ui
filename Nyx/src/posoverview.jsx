@@ -25,22 +25,22 @@ function PosOverview(){
                 <p>Welcome back.Here's today's shop overview</p>
             </div>
             <div className="posbody">
-                <div>
+                <div className="posbodyheader">
                     <p>Total Revenue <DollarIcon/></p>
                     <h3>60000ks</h3>
                     <h5> <span>11%</span>from yesterday</h5>
                 </div>
-                <div>
+                <div className="posbodyheader">
                     <p>Total Order <ProductIcon/></p>
                     <h3>1200</h3>
                     <h5><span>-3%</span>from yesterday</h5>
                 </div>
-                <div>
+                <div className="posbodyheader">
                     <p>Total Product <ProductIcon/></p>
                     <h3>55</h3>
                     <h5><span>+5%</span>New Product</h5>
                 </div>
-                <div>
+                <div className="posbodyheader">
                     <p>Total Customers<CustomerIcon/></p>
                     <h3>245</h3>
                     <h5><span>+12</span>New Customers</h5>

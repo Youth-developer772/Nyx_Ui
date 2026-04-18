@@ -7,21 +7,20 @@ import { useRef, useState } from 'react';
 import { useGetCategory } from './Hooks/CustomHooks';
 import toast, { Toaster } from 'react-hot-toast';
 import CloseIcon from '@mui/icons-material/Close';
+import Swal from 'sweetalert2';
+
 function PosCategory(){
 
-    const[show ,setshow]=useState(false);
-    const[show1,setshow1]=useState(false);
+    const [show ,setshow]=useState(false);
+    const [show1,setshow1]=useState(false);
     const [alert1,setalert1]=useState(false);
-    const [editdata,seteditdata]=useState(null);
+    const [editdata,seteditdata]=useState(null);//for tagsupdate
     const [selecttoDel,setselecttoDel]=useState(null);
-    const [allow,setallow]=useState(false);
-    const [isallow,setisallow]=useState(editdata ? true : false);
-     console.log(editdata)
+    const [allow,setallow]=useState( selecttoDel ? true : false);
+    const [isallow,setisallow]=useState(editdata ? true : false); //for tagsupdate
     let Categoryname=useRef();
     let CategoryImage=useRef();
     let Tagsref=useRef();
-    
-
     const {Categories,GetCategories,Tags,GetTags}=useGetCategory();
     
     async function addCategory(e){
@@ -85,63 +84,164 @@ function PosCategory(){
     }
 
     async function handleUpdateCategory(){
-        alert('Update function is currently unavailable')
-        let categoryname=Categoryname.current.value;
-        let categoryimage=CategoryImage.current.files[0];
-        
-    }
+        let formdata=new FormData();
+            formdata.append('id',selecttoDel.id)
+            if(Categoryname.current.value != selecttoDel.name){
+                formdata.append('name',Categoryname.current.value)
+            }
 
-    async function handleUpdateTags(){
-        let tagsname=Tagsref.current.value;
-        alert('Update function is currently unavailable')
-        // try{
-        //     let reponse= await fetch(`${import.meta.env.VITE_UPDATE_TAGS}${tagsname}`,{
-        //         method:'Put'
-        //     })
-        //     if(reponse.ok){
-        //         GetCategories();
-        //     }
-        // }catch(err){
-        //     console.log(err)
-        // }
+            if(CategoryImage.current.files[0]){
+                formdata.append('image',CategoryImage.current.files[0])
+            }
+
+           if(Categoryname.current.value == selecttoDel.name && !CategoryImage.current.files[0]){ 
+                toast.error('No changes made')
+                setshow(false)
+                setallow(false)
+                setselecttoDel(null)
+                return;
+            }
+            const laodingtag=toast.loading('Updating Tags...')
+            try{
+
+                let reponse=await fetch(import.meta.env.VITE_UPDATE_CATEGORY,{
+                    method:'PUT',
+                    body: formdata
+                })
+
+                if(reponse.ok){
+                    GetCategories();
+                    toast.success('Successfully Uploaded',{id:laodingtag})
+                    setselecttoDel(null)
+                    setallow(false)
+                    setshow(false)
+                }else{
+                    toast.error('Upload Fail',{id:laodingtag})
+                    setselecttoDel(null)
+                    setshow(false)
+                    setallow(false)
+                }
+                
+
+            }catch(err){
+                console.log(err)
+                toast.error('Upload Fail',{id:laodingtag})
+                setselecttoDel(null)
+                setallow(false)
+                setshow(false)
+            }
+           
+    }
+            
+
+    async function handleUpdateTags(e){
+        e.preventDefault(); 
+        let name=Tagsref.current.value;
+        let id=editdata.id;
+
+        if(name == editdata.name){
+            setshow1(false);
+            seteditdata(null)
+            setisallow(false)
+            return;
+        }
+        try{
+            let response= await fetch(import.meta.env.VITE_UPDATE_TAGS,{
+                method:'PUT',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({id,name})
+            })
+            if(response.ok){
+                GetTags();
+                setshow1(false)
+                seteditdata(null)
+                setisallow(false)
+                
+            }
+        }catch(err){
+            console.log(err)
+        }
     }
 
 
     async function handleDeleteTags(){
         let tagsName=editdata.name;
-        
-        try{
-            let reponse= await fetch(`${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,{
-                method:'DELETE',
-            })
-            if(reponse.ok){
+        const result= await Swal.fire({
+            title:'Are you sure To Delete?',
+            text:'You will not be able to recover this Tags',
+            icon:'warning',
+            showCancelButton:true,
+            confirmButtonColor:'#3085d6',
+            cancelButtonColor:'#d33',
+            confirmButtonText:'Yes, delete it!'
+        })
+        if(result.isConfirmed){
+            let tagdelete=toast.loading('Deleting Tags...')
+            try{
+                let reponse= await fetch(`${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,{
+                    method:'DELETE',
+                })
+                if(reponse.ok){
+                toast.success('Tags Deleted',{id:tagdelete})
                 GetTags();
                 setshow1(false)
                 seteditdata(null)
                 setisallow(false)
+            }else{
+                setshow1(false)
+                seteditdata(null)
+                setisallow(false)
+                toast.error('Failed to delete Tags',{id:tagdelete})
             }
+
         }catch(err){
             console.log(err)
             setshow1(false)
             seteditdata(null)
             setisallow(false)
+            toast.error('Failed to delete Tags',{id:tagdelete})
         }
     }
+}
 
     async function handleDeleteCategory() {
         let data=selecttoDel.name;
-        try{
-            let reponse=await fetch(`${import.meta.env.VITE_DELETE_CATEGORY}${data}`,{
-                method:'DELETE'
-            })
-            if(reponse.ok){
+        const result= await Swal.fire({
+            title:'Are you sure To Delete?',
+            text:'You will not be able to recover this Category',
+            icon:'warning',
+            showCancelButton:true,
+            confirmButtonColor:'#3085d6',
+            cancelButtonColor:'#d33',
+            confirmButtonText:'Yes, delete it!'
+        })
+        if(result.isConfirmed){
+            try{
+                let reponse=await fetch(`${import.meta.env.VITE_DELETE_CATEGORY}${data}`,{
+                    method:'DELETE'
+                })
+
+                if(reponse.ok){
                 setTimeout(async()=>{
                     await GetCategories();
                 },500)
+
                 setshow(false);
+                setselecttoDel(null);
+                toast.success('Category Deleted')
+            }else{
+                setshow(false);
+                setselecttoDel(null);
+                toast.error('Failed to delete Category')
             }
-        }catch(err){
-            console.log(err)
+
+                }catch(err){
+                console.log(err)
+                setshow(false);
+                setselecttoDel(null);
+            }
         }
     }
     
@@ -183,7 +283,7 @@ function PosCategory(){
              show && (
                 <div className='categorypopup'>
 
-                    <h1>{selecttoDel ? 'Category Details' : 'New Category'}</h1>
+                    <h1 className='categorypopupheader'>{selecttoDel ? 'Category Details' : 'New Category'}</h1>
 
                     <button className='categorycloseIcon'
                     onClick={()=>{
@@ -205,7 +305,6 @@ function PosCategory(){
 
                     
 
-                    {/* <label htmlFor="statuscheck"> <input type='checkbox'  className='checkstatus'/>Avaliable</label> */}
 
                     {selecttoDel ? 
                     <div className='categoryupdate'>
@@ -288,20 +387,6 @@ function PosCategory(){
                 )
             }
             {/*for tag alret box*/}
-            {
-                alert1 && (
-                    <div className="orderalret">
-                        <CheckCircleIcon style={{
-                            color:'green',padding:'5px',borderRadius:'50%',background:'white',margin:'0'
-                        }}/>
-                        <h1>Tags Added To New List</h1>
-                        <p>Your new Tags is now avaliable</p>
-                        <button
-                        onClick={()=>setalert1(false)}
-                        >Great,Thanks</button>
-                    </div>
-                )
-            }
             
             <hr  style={{margin:'1em '}}/>
             <div className='poscategorybody2'>

@@ -4,12 +4,15 @@ import ProductIcon from '@mui/icons-material/Inventory2Outlined';
 import SearchIcon from '@mui/icons-material/SearchSharp';
 import AddIcon from '@mui/icons-material/AddCircleOutlineSharp';
 import { useEffect, useRef, useState } from 'react';
-import Image from './images/shoe.png';
 import { NavLink, Outlet, useFetcher, useNavigate, useOutletContext } from 'react-router-dom';
 import { useGetCategory } from './Hooks/CustomHooks';
 import CloseIcon from '@mui/icons-material/Close';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import uploader from '@zwehtetpaing55/uploader';
+uploader.config({
+    baseURL: "http://38.60.216.25:3000/api"
+});
 
 function AddProduct(){
 
@@ -105,7 +108,6 @@ function AddProduct(){
 
 
     async function deleteProduct(id){
-
         const result = await Swal.fire({
             title: "Are you sure to delete this product?",
             text: "You can't undo this action!",
@@ -137,6 +139,44 @@ function AddProduct(){
             }
     }
 
+    async function updateProduct(e){
+        try{
+            e.preventDefault();
+            let formdata=new FormData();
+            formdata.append('productName',nameref.current.value);
+            formdata.append('brand',brandref.current.value);
+            formdata.append('made',maderef.current.value);
+            formdata.append('types',typeref.current.value);
+            formdata.append('total_stock',stockref.current.value);
+            formdata.append('description',descriptionref.current.value);
+            formdata.append('category',categoryref.current.value);
+            formdata.append('cost',costref.current.value);
+            formdata.append('tags',tagref.current.value);
+            formdata.append('colors',colorref.current.value);
+            formdata.append('weight',weightref.current.value);
+            formdata.append('rating',ratingref.current.value);
+            formdata.append('price',priceref.current.value);
+            formdata.append('sizes',sizeref.current.value);
+            formdata.append('warranty',wranartref.current.value);
+            formdata.append('date',dateref.current.value);
+
+            if(imageref.current.files[0]){
+                formdata.append('image',imageref.current.files[0]);
+            }
+            
+            let reponse= await fetch('http://38.60.216.25:5000/api/updateshowproduct/updateproduct',{
+                method:'PUT',
+                body: formdata
+            })
+            if(reponse.ok){
+                GetProducts();
+                setallowupdate(true);
+                setinfo(null);
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
     
     
     return(
@@ -150,7 +190,7 @@ function AddProduct(){
             zIndex:100,
         }}
         />
-        <form onSubmit={AddProduct} className='addproductform'>
+        <form onSubmit={info ? updateProduct : AddProduct} className='addproductform'>
             <div className='posadditemcontainer'>
                 <div className='additemheader'>
                     <button onClick={()=>{
@@ -227,12 +267,10 @@ function AddProduct(){
                                 <input type="text" placeholder="" ref={ratingref} required
                                 readOnly={allowupdate} defaultValue={info ? info.rating : ''}/>
 
-                                
-                                {/* Uploaad Section */}
                                 <div className="categoryupload9">
                                     <label>Upload Image</label>
-                                {/* Upload Box */}
-                                    <input type='file' placeholder='' ref={imageref} required disabled={allowupdate}/>
+                                    <input type='file' placeholder='' ref={imageref}
+                                    required={allowupdate} disabled={allowupdate}/>
                                 </div>
                                 </div>
 
@@ -285,7 +323,8 @@ function AddProduct(){
                                             onClick={()=>{
                                                 setallowupdate(false)
                                             }}>Edit</button>
-                                            <button disabled={allowupdate} className='up132btn3'>Update</button>
+                                            <button disabled={allowupdate}
+                                            className='up132btn3'>Update</button>
                                         </div>
                                     </div>:
                                     <div className=" categoryupload13">

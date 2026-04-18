@@ -42,7 +42,7 @@ function PosInventory(){
                     </select>   
                     <div>
                         <input type="search" placeholder='Search..' />
-                        <SearchIcon/>
+                        <SearchIcon style={{color:'white'}}/>
                     </div>
             </div>
             <div className='inventorytablecontainer'>
