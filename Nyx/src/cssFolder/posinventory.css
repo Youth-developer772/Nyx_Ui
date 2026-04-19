@@ -99,8 +99,8 @@
     padding: 0;
     
 }
-.inventorytable th,td{
-    text-align: left;
+#inventorytable th,td{
+    text-align: left !important;
 }
 .invbutcontainer div{
     display: flex;

@@ -45,8 +45,12 @@
 }
 .customertable th,td{
     padding: 1em;
-    text-align: center;
+    text-align: left;
     font-family: inter;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
 }
 .editbutton{
     padding: 4px 10px;

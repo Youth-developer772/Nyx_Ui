@@ -1,3 +1,9 @@
+.recharts-wrapper, 
+.recharts-surface {
+    outline: none !important;
+    border: none !important;
+}
+
 .posreportcontainer{
     display: flex;
     flex-direction: column;
@@ -5,6 +11,7 @@
     gap: 1em;
     color: #0D1B2A; 
 }
+
 .reporttitle{
     display: flex;
     align-items: center;
@@ -48,7 +55,7 @@
     font-size: large;
     font-weight: lighter;
     display: flex;
-    gap: 4px;
+    gap: 1px;
     align-items: center;
 }
 .posreportbody .posreporttitle h5 span{
@@ -61,23 +68,111 @@
 .posreportbody2{
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 1px;
     border: 1px solid black;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .posreportbody2 .posreportbody2header{
     display: flex;
     justify-content: space-between;
+    padding: 10px 10px;
+    gap: 10px;
+}
+
+.posreportbody2header button{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 1px 15px;
+    border-radius: 1em;
+    background-color: #0D1B2A;
+    color: white;
 }
 
 .posreportbody2 .posreportbody2header div{
     display: flex; 
-    margin-left: auto; 
+    align-items: center;
+    margin-left: auto;
+    border: 1px solid black;
+    border-radius: 1em;
+    background-color: #0D1B2A; 
+}
+
+.posreportbody2 .posreportbody2header div input{
+    padding: 0;
+    padding-left: 10px;
+    border: none;
+    outline: none;
+    background-color: initial;
+    color: white;
 }
 
 .posreportbody2secheader{
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    padding-right: 10px;
+    gap: 10px;
+}
+
+.posreportbody2secheader input{
+    border-radius: 10px;
+    padding: 3px 1px;
+}
+
+.posreporttablecontainer{
+    padding: 10px;
+    background-color: #F0F0F0;
+}
+
+.posreporttable{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.posreporttable thead{
+    background-color: #F0F0F0;
+    font-weight: 700;
+}
+.posreporttable th, .posreporttable td{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.329);
+    padding: 8px 15px;
+    text-align: center;/*Designer choice is left but I think center is better for this table*/
+    margin: 3px;
+    font-size: 0.95rem;
+    font-family: Inter;
+}
+.posreporttable .posreporttablecancelled{
+    background-color: rgba(255, 0, 0, 0.363);
+    border-radius: 10px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+}
+.posreporttable .posreporttablecompleted{
+    background-color: #DDC2FF;
+    border-radius: 10px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+}
+.posreporttable .posreporttablepending{
+    background-color: #16F90E;
+    border-radius: 10px;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
 }

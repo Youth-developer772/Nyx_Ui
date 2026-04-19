@@ -1,0 +1,32 @@
+.possettingcontainer{
+    margin: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.possettingheader{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #0D1B2A;
+    font-weight: 600;
+}
+
+.possettingnav{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 3px solid black;
+}
+
+.possettingnav a{
+    padding: 4px;
+    text-decoration: none;
+    color: #0D1B2A;
+}
+
+.possettingnav a.active{
+    border-bottom: 3px solid #0D1B2A;
+    font-weight: 600;
+    color: rgba(16, 16, 39, 0.705);
+}

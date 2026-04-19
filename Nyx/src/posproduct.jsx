@@ -79,7 +79,8 @@ function PosProduct(){
                                     </div>
                                 </div>
                             )
-                        }): (<h1>No Result Found....</h1>))
+                        }): (<h1 style={{fontWeight:'lighter',textWrap:'nowrap',gridColumn: '1 / -1',justifySelf:'center'}}
+                        >No Result Found....</h1>))
                         : (<h1>Loading...</h1>)
                 }
             </div>

@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/SearchOutlined';
 import './cssFolder/PosCustomer.css';
 function PosCustomer(){
     let tabledata=[
-        {id:1,name:"Mg Mg",adderss:'Yangon',phone:'09333455666',email:'mgmg@gmail.com',remark:'...'},
+        {id:1,name:"Mg Mg",adderss:'Yangon',phone:'09333455666',email:'mgmg@ggfgfdgdfgfsdgfdgfdgdfsgsfdgdsgsfdgdsgdsgmail.com',remark:'...'},
         {id:1,name:"Ma Ma",adderss:'Yangon',phone:'09593855666',email:'mama@gmail.com',remark:'...'},
     ];
     return(
@@ -18,7 +18,7 @@ function PosCustomer(){
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Customer Name</th>
+                            <th>Customer</th>
                             <th>Address</th>
                             <th>Phone</th>
                             <th>Email</th>

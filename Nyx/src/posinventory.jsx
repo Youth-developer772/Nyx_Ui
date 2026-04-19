@@ -46,7 +46,7 @@ function PosInventory(){
                     </div>
             </div>
             <div className='inventorytablecontainer'>
-                    <table className='inventorytable'>
+                    <table className='inventorytable' id='inventorytable'>
                         <thead>
                             <tr>
                                 <th>Order Id</th>

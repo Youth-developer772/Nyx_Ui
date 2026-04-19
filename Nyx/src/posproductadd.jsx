@@ -143,38 +143,49 @@ function AddProduct(){
         try{
             e.preventDefault();
             let formdata=new FormData();
+            formdata.append('id',info.id);
             formdata.append('productName',nameref.current.value);
             formdata.append('brand',brandref.current.value);
             formdata.append('made',maderef.current.value);
-            formdata.append('types',typeref.current.value);
-            formdata.append('total_stock',stockref.current.value);
+            formdata.append('type',typeref.current.value);
+            formdata.append('stock',stockref.current.value);
             formdata.append('description',descriptionref.current.value);
             formdata.append('category',categoryref.current.value);
             formdata.append('cost',costref.current.value);
             formdata.append('tags',tagref.current.value);
-            formdata.append('colors',colorref.current.value);
+            formdata.append('color',colorref.current.value);
             formdata.append('weight',weightref.current.value);
             formdata.append('rating',ratingref.current.value);
             formdata.append('price',priceref.current.value);
-            formdata.append('sizes',sizeref.current.value);
+            formdata.append('size',sizeref.current.value);
             formdata.append('warranty',wranartref.current.value);
             formdata.append('date',dateref.current.value);
 
             if(imageref.current.files[0]){
                 formdata.append('image',imageref.current.files[0]);
             }
-            
-            let reponse= await fetch('http://38.60.216.25:5000/api/updateshowproduct/updateproduct',{
+            const productUpdateLoading=toast.loading('Updating Product');
+            let reponse= await fetch(import.meta.env.VITE_UPDATE_PRODUCT,{
                 method:'PUT',
                 body: formdata
             })
             if(reponse.ok){
+                toast.loading('Getting Product',{id:productUpdateLoading})
+                await GetProducts();
+                toast.success('Successfully Updated',{id:productUpdateLoading});
+                setallowupdate(true);
+                setinfo(null);
+                navigate(-1); 
+            }else{
                 GetProducts();
                 setallowupdate(true);
                 setinfo(null);
+                navigate(-1); 
+                toast.error('Updating fail',{id:productUpdateLoading})
             }
         }catch(err){
             console.log(err)
+            toast.error('Updating failed',{id:productUpdateLoading})
         }
     }
     
@@ -301,8 +312,8 @@ function AddProduct(){
                                     <input type="number" placeholder="" ref={sizeref} required
                                     readOnly={allowupdate} defaultValue={info ? info.sizes : ''}/>
 
-                                    <label>Wranarty</label>
-                                    <input type="number" placeholder="" ref={wranartref} required
+                                    <label>Warranty</label>
+                                    <input type="text" placeholder="" ref={wranartref} required
                                     readOnly={allowupdate} defaultValue={info ? info.warranty : ''}/>
 
                                     <label>Date</label>
