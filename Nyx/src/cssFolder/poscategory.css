@@ -42,13 +42,12 @@
 
 .poscategorybody div{
     border: 1px solid #0D1B2A;
-    width: 215px;
-    height: 300px;
+    width: 150px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 250px;
     border-radius: 5px;
     flex: 0 0 auto;
 }
@@ -92,8 +91,31 @@
     color: #0D1B2A;
     font-family: inter;
 }
+ /* .poscategoryfooter{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+ }
+
+ .poscategoryfooter h3{
+    border: 1px solid black;
+    padding: 7px 5px;
+    border-radius: 10px;
+    font-weight: lighter;
+ } */
+
 
 /* for Pop up box*/
+.showwarper{
+    width: calc(100% - 230px);
+    height: 100vh;
+    background-color: rgba(169, 169, 169, 0.39);
+    z-index: 100;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
 .categorypopup{
     display: flex;
     flex-direction: column;
@@ -213,6 +235,16 @@
 
 /*for tag popupbox*/
 
+.show1warper{
+    width: calc(100% - 230px);
+    height: 100vh;
+    background-color: rgba(169, 169, 169, 0.39);
+    z-index: 10000;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
 .tagpopup{
     display: flex;
     flex-direction: column;
@@ -227,7 +259,7 @@
     background-color: #F0F0F0;
     border-radius: 10px;
     font-family: inter;
-    padding: 5px;
+    padding: 1em;
     padding-left: 1em;
     gap: 1em;
 }
@@ -266,7 +298,7 @@
 }
 .taginput{
     width: 90%;
-    font-size: large;
+    font-size: medium;
     height: 30px;
     border-radius: 5px;
     background-color: #D9D9D9;
@@ -281,6 +313,7 @@
 .tagupdatebtn {
     display: flex;
     justify-content: space-between;
+    margin-top: 2em;
 }
 
 .tagupdatebtn div{

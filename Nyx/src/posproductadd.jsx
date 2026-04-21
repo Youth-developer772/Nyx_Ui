@@ -258,7 +258,7 @@ function AddProduct(){
                                         return(
                                             <option key={index} value={item.name}>{item.name}</option>
                                         )
-                                    }): (<option>Loading...</option>)  
+                                    }): (<option disabled>Loading...</option>)  
                                 }
                                 </select>
 
@@ -300,7 +300,7 @@ function AddProduct(){
                                             return(
                                                 <option key={index} value={item.name}>{item.name}</option>
                                             )
-                                        }):(<option>Loading...</option>)
+                                        }):(<option disabled>Loading...</option>)
                                     }
                                     </select>
 

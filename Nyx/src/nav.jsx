@@ -1,14 +1,19 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import './cssFolder/nav.css';
 import Logo from './images/logo.png';
+import { useContext, useState } from 'react';
+import { Context } from './Hooks/context';
 
 function Nav(){
-    const nagivate=useNavigate();
+
+  const ContextData=useContext(Context);
+  const {color,setcolor,backcolor,setbackcolor}=ContextData;
+  const nagivate=useNavigate();
     
     return(
         <>
         <div className='navcontainer'>
-            <div className='nav'>
+            <div className='nav' style={{background:color}}>
               <div className='navheader'>
                     <img src={Logo} alt='Logo'/>
                     <h2>POS SYSTEM</h2>
@@ -24,7 +29,7 @@ function Nav(){
                 <NavLink  to='possetting'>Setting</NavLink>
               </div>
             </div>
-            <div className='dashboard'>
+            <div className='dashboard' style={{background:backcolor}}>
                <Outlet/>
             </div>
         </div>

@@ -1,0 +1,84 @@
+.staffmanagementmain{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #F0F0F0;
+}
+.staffmanagementmain .SMB1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.SMB1 h3{
+    font-weight: 500;
+}
+.SMB1 button{
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: #0D1B2A;
+    color: white;
+}
+.stafftablecontainer{
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+.stafftable{
+    width: 100%;
+    border-collapse: collapse;
+}
+.stafftable th, .stafftable td{
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+    text-align: center !important;
+}
+.stafftable th{
+    font-weight: 500;
+}
+.stafftable td{
+    font-size: 12px;
+}
+.stafftable td button{
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    color: white;
+    margin: 0 3px;
+    width: 70px;
+}
+
+.SMF{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.SMB2{
+    font-family: Belanosima;
+    font-weight: 600;
+    font-size: large;
+}
+.SMB3{
+    display: flex;
+    justify-content: space-between;
+    background-color: #0d1b2a4d;
+    padding: 1em;
+    border-radius: 10px;
+}
+.SMB3 ul{
+    display: flex;
+    flex-direction: column;
+    margin: 1px 1em;
+}
+.SMB3 ul .taskheader{
+    font-weight: bold;
+    list-style: none;
+    align-self: center;
+    margin-bottom: 10px;
+}
+.SMB3 ul li{
+    padding: 5px;
+    font-family: Inter;
+}

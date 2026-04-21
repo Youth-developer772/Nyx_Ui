@@ -40,6 +40,9 @@ function PosCategory(){
                 }, 500);
                 setshow(false)   
                 toast.success('Successfully Uploaded',{id:loadingtoast})            
+            }else{
+                toast.error('Upload Failed',{id:loadingtoast})
+                setshow(false)
             }
         }
         catch(err){
@@ -64,7 +67,11 @@ function PosCategory(){
                 GetTags();
                 toast.success('Successfully Uploaded',{id:laodingtag})
                 setshow1(false)
+            }else{
+                toast.error('Upload Fail',{id:laodingtag})
+                setshow1(false)
             }
+            
         }catch (err){
             console.log(err)
             toast.error('Upload Fail',{id:laodingtag})
@@ -159,6 +166,11 @@ function PosCategory(){
                 seteditdata(null)
                 setisallow(false)
                 
+            }else{
+                setshow1(false)
+                seteditdata(null)
+                setisallow(false)
+                toast.error('Failed to update Tags')
             }
         }catch(err){
             console.log(err)
@@ -281,57 +293,59 @@ function PosCategory(){
            { /*for Pop up box*/}
             {
              show && (
-                <div className='categorypopup'>
+                <div className="showwarper">
+                    <div className='categorypopup'>
 
-                    <h1 className='categorypopupheader'>{selecttoDel ? 'Category Details' : 'New Category'}</h1>
+                        <h1 className='categorypopupheader'>{selecttoDel ? 'Category Details' : 'New Category'}</h1>
 
-                    <button className='categorycloseIcon'
-                    onClick={()=>{
-                        setshow(false)
-                        setallow(false)
-                        setselecttoDel(null)
-                    }}
-                    ><CloseIcon/></button>
+                        <button className='categorycloseIcon'
+                        onClick={()=>{
+                            setshow(false)
+                            setallow(false)
+                            setselecttoDel(null)
+                        }}
+                        ><CloseIcon/></button>
 
-                    <p>Category Name</p>
+                        <p>Category Name</p>
 
-                        <input type='text' className='category'
-                        defaultValue={selecttoDel ? selecttoDel.name : ''}
-                        readOnly={ selecttoDel && !allow}
-                        ref={Categoryname} key={selecttoDel ? 2 : ''} />
+                            <input type='text' className='category'
+                            defaultValue={selecttoDel ? selecttoDel.name : ''}
+                            readOnly={ selecttoDel && !allow}
+                            ref={Categoryname} key={selecttoDel ? 2 : ''} />
 
-                        <input type='file' ref={CategoryImage} disabled={ selecttoDel && !allow}/>
-                   
-
+                            <input type='file' ref={CategoryImage} disabled={ selecttoDel && !allow}/>
                     
 
+                        
 
-                    {selecttoDel ? 
-                    <div className='categoryupdate'>
 
-                        <button onClick={handleDeleteCategory} >Delete</button>
+                        {selecttoDel ? 
+                        <div className='categoryupdate'>
 
-                        <div >
-                            <button onClick={()=>{
-                                setallow(true)
-                                Categoryname.current.focus();
-                            }} type='button'>Edit</button>
-                            <button disabled={ selecttoDel && !allow } onClick={handleUpdateCategory}
-                            >Update</button>
+                            <button onClick={handleDeleteCategory} >Delete</button>
+
+                            <div >
+                                <button onClick={()=>{
+                                    setallow(true)
+                                    Categoryname.current.focus();
+                                }} type='button'>Edit</button>
+                                <button disabled={ selecttoDel && !allow } onClick={handleUpdateCategory}
+                                >Update</button>
+                            </div>
+
                         </div>
-
+                        :
+                        <div className='categorycreatebtn'>
+                            <button style={{background:'#0D1B2A',color:'white'}}
+                            onClick={()=>{
+                                addCategory();
+                                setshow(false);
+                            }}
+                            >Create</button>
+                            <button onClick={()=>setshow(false)} type='button'>cancel</button>
+                        </div>
+                        }
                     </div>
-                     :
-                    <div className='categorycreatebtn'>
-                        <button style={{background:'#0D1B2A',color:'white'}}
-                        onClick={()=>{
-                            addCategory();
-                            setshow(false);
-                        }}
-                        >Create</button>
-                        <button onClick={()=>setshow(false)} type='button'>cancel</button>
-                    </div>
-                    }
                 </div>
              )
             }
@@ -339,50 +353,52 @@ function PosCategory(){
             {/*for Tag box*/}
             {
                 show1 && (
-                    <div className='tagpopup'>
-                        <div className='tagheader'>
-                            <h2>{editdata ? 'Update Tags' : 'New Tags'}</h2>
-                            <button className='tagcloseIcon'
-                            onClick={()=>{
-                                setshow1(false)
-                                setisallow(true)
-                            }}
-                            >
-                                <CloseIcon/>
-                            </button>
+                    <div className="show1warper">
+                        <div className='tagpopup'>
+                            <div className='tagheader'>
+                                <h2>{editdata ? 'Update Tags' : 'New Tags'}</h2>
+                                <button className='tagcloseIcon'
+                                onClick={()=>{
+                                    setshow1(false)
+                                    setisallow(true)
+                                }}
+                                >
+                                    <CloseIcon/>
+                                </button>
 
-                        </div>
-                        <p>Tag name</p>
-                        <form onSubmit={editdata ? handleUpdateTags : AddTags}>
-                            <input type="text" className='taginput' ref={Tagsref} required
-                            defaultValue={editdata ? editdata.name : ''}
-                            key={editdata ? 3 : ''} 
-                            readOnly={isallow}
-                            />
-                            <label htmlFor="statuscheck"> <input type='checkbox' 
-                             className='checkstatus' 
-                             />Avaliable</label>
-                             
-                            {editdata ? 
-                            <div className='tagupdatebtn'>
-                                <button onClick={handleDeleteTags} type='button'>Delete</button>
-                                <div>
-                                    <button onClick={()=>{
-                                        setisallow(false)
-                                        Tagsref.current.focus();
-                                    }} type='button'>Edit</button>
-                                    <button disabled={isallow} >Update</button>
-                                </div>
                             </div>
-                            :
-                            <div className='tagbutton'>
-                                <button type='submit'>{editdata ? 'Delete' : 'Create'}</button>
-                                <button
-                                type='button'
-                                onClick={()=>setshow1(false)}
-                                >cancel</button>
-                            </div>}
-                        </form>
+                            <p>Tag name</p>
+                            <form onSubmit={editdata ? handleUpdateTags : AddTags}>
+                                <input type="text" className='taginput' ref={Tagsref} required
+                                defaultValue={editdata ? editdata.name : ''}
+                                key={editdata ? 3 : ''} 
+                                readOnly={isallow}
+                                />
+                                {/* <label htmlFor="statuscheck"> <input type='checkbox' 
+                                className='checkstatus' 
+                                />Avaliable</label> */}
+                                
+                                {editdata ? 
+                                <div className='tagupdatebtn'>
+                                    <button onClick={handleDeleteTags} type='button'>Delete</button>
+                                    <div>
+                                        <button onClick={()=>{
+                                            setisallow(false)
+                                            Tagsref.current.focus();
+                                        }} type='button'>Edit</button>
+                                        <button disabled={isallow} >Update</button>
+                                    </div>
+                                </div>
+                                :
+                                <div className='tagbutton'>
+                                    <button type='submit'>{editdata ? 'Delete' : 'Create'}</button>
+                                    <button
+                                    type='button'
+                                    onClick={()=>setshow1(false)}
+                                    >cancel</button>
+                                </div>}
+                            </form>
+                        </div>
                     </div>
                 )
             }
@@ -401,13 +417,19 @@ function PosCategory(){
                 ><AddIcon/>Add Tags</button>
             </div>
             <div className='poscategoryfooter'>
-                {Array.isArray(Tags.data) && Tags.data.length > 0 ? 
+                {Array.isArray(Tags.data) ? 
+                (Tags.data.length > 0 ?
                    Tags.data.map((item,index)=>{
                         return(<h3 key={index}
                         onClick={()=>handleEdit(item)}
-                        >{item.name}</h3>);
-
-                   }) : (<h1>Loading....</h1>)    
+                        >{item.name}</h3>) 
+                        
+                   }):
+                   (<div>
+                   <p>There is no tags</p>
+                   <h1 onClick={()=>setshow1(true)}>Add New Tags</h1>
+                   </div>))
+                    : (<h4>Loading....</h4>)    
             }
             </div>
         </div>

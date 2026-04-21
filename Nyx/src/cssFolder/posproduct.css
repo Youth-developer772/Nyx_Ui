@@ -49,6 +49,7 @@
     gap: 1em;
 }
 .singleproduct{
+    text-transform: capitalize;
     height: 180px;
     border-radius: 1em;
     display: flex;

@@ -7,9 +7,8 @@ import SearchIcon from '@mui/icons-material/SearchSharp';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import {  LineChart,  Line,  XAxis,  YAxis,  CartesianGrid,  Tooltip,  Legend,  ResponsiveContainer,} from "recharts";
 import TriangleIcon from '@mui/icons-material/EjectSharp';
-import html2canvas from 'html2canvas';
-import { saveAs } from 'file-saver';
 import { useRef } from 'react';
+import * as XLSX from 'xlsx';
 
 function PosReport(){
 
@@ -34,29 +33,34 @@ let tabledata=[
 ];
 
     async function handleExport() {
-        if (chartsref.current) {
-            const canvas = await html2canvas(chartsref.current,{
-                logging: false,
-                useCORS: true, 
-                backgroundColor: '#ffffff'
-            });
-            canvas.toBlob((blob) => {
-                saveAs(blob, 'sales-report.png');
-            });
-        }
+        let formattedData=data.map(item=>({
+            'Month':item.name,
+            'Sales':item.sales
+        }));
+        const Worksheet = XLSX.utils.json_to_sheet(formattedData);
+        const Workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(Workbook, Worksheet, 'Sales Trends');
+        XLSX.writeFile(Workbook, 'sales-trends.xlsx');
+        
     }   
 
     async function handleExportTable() {
-        if (tableref.current) {
-            const canvas = await html2canvas(tableref.current,{
-                logging: false,
-                useCORS: true, 
-                backgroundColor: '#ffffff'
-            });
-            canvas.toBlob((blob) => {
-                saveAs(blob, 'sales-report.png');
-            });
-        }
+        let formattedData=tabledata.map(item=>({
+            'Order Id':item.orderId,
+            'Customer':item.customer,
+            'Product':item.product,
+            'Amount':item.amount,
+            'Date':item.date,
+            'Time':item.time,
+            'Payment':item.payment,
+            'Order Status':item.orderStatus
+        }));
+        const worksheet = XLSX.utils.json_to_sheet(formattedData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sales Report');
+        XLSX.writeFile(workbook, 'sales-report.xlsx');
+
+        // Implementation for exporting table data can be added here
     }   
 
     return(
