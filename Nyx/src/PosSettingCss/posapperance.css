@@ -31,7 +31,7 @@
 .apperancechild{
     display: flex;
     width: 100%;
-    background-color: #0d1b2a31;
+    background-color: #E1E1E1;
     padding: 5px;
     gap: 10px;
     border-radius: 5px;
@@ -64,7 +64,7 @@
     align-items: center;
     width: 100%;
     padding: 5px 10px;
-    background-color: #0d1b2a31;
+    background-color: #E1E1E1;
     border-radius: 5px;
     height: 50px;
 }

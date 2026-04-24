@@ -2,18 +2,29 @@ import InventoryIcon from '@mui/icons-material/DensityMediumOutlined';
 import SearchIcon from '@mui/icons-material/SearchOutlined';
 import './cssFolder/posinventory.css';
 import { useGetCategory } from './Hooks/CustomHooks';
+
 function PosInventory(){
-    const {Categories}=useGetCategory();
+    const {Categories,Inventory,GetInventory}=useGetCategory();
     let Condition=[
         {title:'Total Inventory',data:'1200'},
         {title:'Out of Stocks',data:'98'},
         {title:'Out of Stocks',data:'98'},
         {title:'Top Categories',data:'Badminton'},
     ]
-    let itemdata=[
-        {id:1,productId:1,productName:'Badminton',prodcutCategory:'Badminton',tag:"New Arrival",date:'26/3/26',stocks:145,staus:'stock'},
-        {id:2,productId:2,productName:'Ball',prodcutCategory:'Foodball',tag:"Special Promotion",date:'26/3/26',stocks:0,staus:'out of stock'},
-    ]
+
+    async function DeleteInventoryData(item){
+        try {
+            let reponse = await fetch(`${import.meta.env.VITE_DELETE_INVENTORY}/${item}`,{
+                method: 'DELETE'
+            })
+            if(reponse.ok){
+                await GetInventory()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
     return(
         <>
         <div className="posinventorymain">
@@ -49,38 +60,38 @@ function PosInventory(){
                     <table className='inventorytable' id='inventorytable'>
                         <thead>
                             <tr>
-                                <th>Order Id</th>
                                 <th>Product Id</th>
                                 <th>Product Name</th>
                                 <th>Category</th>
                                 <th>Tags</th>
                                 <th>Date</th>
-                                <th>Current Stocks</th>
+                                <th>Stocks</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                           {itemdata.map((item,index)=>{
+                           {Array.isArray(Inventory.data) && Inventory.data.length > 0 ?
+                            Inventory.data.map((item,index)=>{
                                 return(
                                     <tr key={index} className='test'>
-                                        <td>{item.id}</td>
-                                        <td>{item.productId}</td>
+                                        <td>{item.ProductID}</td>
                                         <td>{item.productName}</td>
-                                        <td>{item.prodcutCategory}</td>
-                                        <td>{item.tag}</td>
-                                        <td>{item.date}</td>
-                                        <td>{item.stocks}</td>
-                                        <td>{item.staus}</td>
+                                        <td>{item.category}</td>
+                                        <td>{item.tags}</td>
+                                        <td>{item.Date}</td>
+                                        <td>{item.current_stock}</td>
+                                        <td>{item.status}</td>
                                         <td className='invbutcontainer'>
                                             <div>
                                                 <button className='Ibtn1'>View</button>
-                                                <button className='Ibtn2'>Delete</button>
+                                                <button className='Ibtn2' onClick={()=>{DeleteInventoryData(item.ProductID)}}>Delete</button>
                                             </div>
                                         </td>
                                     </tr>
                                 )
-                           })}
+                            }) : <tr><td>Loading....</td></tr>    
+                           }
                         </tbody>
                     </table>
             </div>

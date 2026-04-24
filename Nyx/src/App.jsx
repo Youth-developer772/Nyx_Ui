@@ -2,7 +2,6 @@ import { BrowserRouter,Routes,Route, Outlet, Navigate} from 'react-router-dom';
 import Nav from './nav';
 import './App.css'
 import PosOverview from './posoverview';
-import Classnav from './classnav';
 import PosOrder from './posorder';
 import PosCategory from './poscategory';
 import PosProduct from './posproduct';
@@ -17,22 +16,34 @@ import PosPaymentTax from './PosSetting/PaymentTax';
 import PosApperance from './PosSetting/Appernace';
 import { Context } from './Hooks/context';
 import { useState } from 'react';
+import Login from './Account/login';
+import PosLogin from './Account/poslogin';
+import AcademicLogin from './Account/academiclogin';
+import PosProtectedRoute from './Hooks/PosProtectedRoute';
 
 function App(){
- 
+  const [childData,SetchildData]=useState({});
   const [NavColor,setNavColor]=useState(localStorage.getItem('navcolor') || '#0D1B2A')
   const [BackColor,setBackColor]=useState(localStorage.getItem('background') || '#F0F0F0')
+  const [token,settoken]=useState(localStorage.getItem('allow') || false);
  
   return(
     <>
-    <Context.Provider value={{color:NavColor,setcolor:setNavColor,backcolor:BackColor,setbackcolor:setBackColor}}>
+    <Context.Provider value={{
+      color:NavColor,setcolor:setNavColor,
+      backcolor:BackColor,setbackcolor:setBackColor,
+      Token:token,setToken:settoken,
+      childdata:childData,setchilddata:SetchildData,
+      }}>
       <BrowserRouter>
       <Routes>
-        <Route path='/'element={<Nav/>}>
+        <Route path='/'element={
+           <PosProtectedRoute><Nav/></PosProtectedRoute>
+          }>
 
         <Route index  element={< Navigate to='/posoverview' replace/>}/>
 
-        <Route path='posoverview' element={<PosOverview/>}/>
+        <Route path='posoverview' element={ <PosOverview/> }/>
 
         <Route path='posorder' element={<PosOrder/>}/>
 
@@ -58,10 +69,12 @@ function App(){
 
         </Route>
 
+      <Route path='login' element={<Login/>}>
+        <Route index element={< Navigate to='poslogin' replace />}/>
+        <Route path='poslogin' element={<PosLogin/>}/>
+        <Route path='academiclogin' element={<AcademicLogin/>}/>
+      </Route>
 
-        <Route path='/classnav' element={<div><h1>Hello world2</h1><Outlet/></div>}>
-        <Route index element={<Classnav/>}/>
-        </Route>
       </Routes>
       </BrowserRouter>
     </Context.Provider>

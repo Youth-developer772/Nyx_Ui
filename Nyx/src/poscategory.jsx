@@ -18,9 +18,11 @@ function PosCategory(){
     const [selecttoDel,setselecttoDel]=useState(null);
     const [allow,setallow]=useState( selecttoDel ? true : false);
     const [isallow,setisallow]=useState(editdata ? true : false); //for tagsupdate
+    
     let Categoryname=useRef();
     let CategoryImage=useRef();
     let Tagsref=useRef();
+
     const {Categories,GetCategories,Tags,GetTags}=useGetCategory();
     
     async function addCategory(e){
@@ -187,7 +189,16 @@ function PosCategory(){
             showCancelButton:true,
             confirmButtonColor:'#3085d6',
             cancelButtonColor:'#d33',
-            confirmButtonText:'Yes, delete it!'
+            confirmButtonText:'Yes, delete it!',
+            customClass: {
+                popup: 'modern-swal-popup',
+                title: 'modern-swal-title',
+                htmlContainer: 'modern-swal-text',
+                confirmButton: 'modern-swal-confirm',
+                cancelButton: 'modern-swal-cancel',
+                icon: 'modern-swal-icon'
+            },
+            buttonsStyling: false
         })
         if(result.isConfirmed){
             let tagdelete=toast.loading('Deleting Tags...')
@@ -227,7 +238,16 @@ function PosCategory(){
             showCancelButton:true,
             confirmButtonColor:'#3085d6',
             cancelButtonColor:'#d33',
-            confirmButtonText:'Yes, delete it!'
+            confirmButtonText:'Yes, delete it!',
+            customClass: {
+                popup: 'modern-swal-popup',
+                title: 'modern-swal-title',
+                htmlContainer: 'modern-swal-text',
+                confirmButton: 'modern-swal-confirm',
+                cancelButton: 'modern-swal-cancel',
+                icon: 'modern-swal-icon'
+            },
+            buttonsStyling: false
         })
         if(result.isConfirmed){
             try{

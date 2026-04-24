@@ -1,0 +1,154 @@
+.ordermain{
+    padding: 1em 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    width: 100%;
+}
+.orderbody{
+    display: flex;
+    justify-content: space-between;
+}
+.orderitem{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 120px;
+    border: 1px solid black;
+    border-radius: 5px;
+    justify-content: space-around;
+    background-color: #BECEFD;
+}
+.orderitem p{
+    padding: 1px 10px;
+    font-weight: lighter;
+    opacity: 0.4;
+}
+.orderitem h4{
+    padding: 4px 10px;
+    font-family: inter;
+
+}
+.orderheader{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.addorderbutton{
+    padding: 1px 1em !important;
+    height: 30px;
+    background-color: #0D1B2A;
+    border-radius: 10px;
+    color: white;
+}
+.orderheader h2{
+    display: flex;
+    align-items: center;
+    font-size: xx-large;
+}
+.ordertableheader{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.ordersearch{
+    display: flex;
+    align-items: center;
+    height: 30px;
+    padding: 5px;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #0D1B2A;
+    justify-content: space-between;
+    color: white;
+}
+.ordersearch input{
+    border: none;
+    outline: none;
+    width: 170px !important;
+    padding: 5px 10px;
+    background-color: #0D1B2A;
+    color: white;
+    font-size: small;
+}
+.posordertable{
+    width: 100%;
+    border-collapse: collapse;
+}
+.posordertable th{
+    font-family: Inter;
+    font-size: small;
+    font-weight: 700;
+    color: #000000;
+}
+.posordertable td{
+    font-family: Inter;
+    font-size: small;
+}
+
+.posordertable .actioncolumn{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.orderdeleteIcon{
+    border: none;
+    outline: none;
+    background-color: initial;
+}
+.completeaction p{
+    background-color: #16F90E;
+    text-align: center;
+    padding: 3px;
+    border-radius: 10px;
+}
+.pendingaction p{
+    background-color: #874BD3;
+    text-align: center;
+    padding: 3px;
+    border-radius: 10px;
+    line-height: 20px;
+}
+.Paymentimgcontaienr{
+    width: 50px;
+    height: 40px;
+    padding: 0;
+}
+.posorderimg{
+    width: 60px;
+    height: 30px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/*for pop up*/
+.addorderpopupC{
+    width: calc(100% - 230px);
+    height: 100vh;
+    background-color: rgba(169, 169, 169, 0.39);
+    z-index: 100;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    
+}
+.addorderpopup{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    align-items: flex-start;
+    gap: 1em;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    font-family: inter;
+    padding: 1em;
+    padding-left: 1em;
+    gap: 1em;
+}

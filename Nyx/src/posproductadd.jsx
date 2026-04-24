@@ -118,6 +118,15 @@ function AddProduct(){
             confirmButtonText: 'Delete',
             cancelButtonText: 'Cancel',
             background: '#off1f2',
+            customClass: {
+                popup: 'modern-swal-popup',
+                title: 'modern-swal-title',
+                htmlContainer: 'modern-swal-text',
+                confirmButton: 'modern-swal-confirm',
+                cancelButton: 'modern-swal-cancel',
+                icon: 'modern-swal-icon'
+            },
+        buttonsStyling: false
             
         });
 

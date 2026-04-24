@@ -40,13 +40,19 @@
     padding: 1px 1em;
     border-radius: 10px;
     font-family: Inter;
-    font-size: larger;
+    font-size: medium;
+    font-weight: 600;
+    outline: none;
+    border: 2px solid #0D1B2A;
 }
 .productbody{
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(4,1fr);
-    gap: 1em;
+    /* grid-template-columns: repeat(auto-fill,minmax(200px,250px)); */
+    /* gap: 10px; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 .singleproduct{
     text-transform: capitalize;

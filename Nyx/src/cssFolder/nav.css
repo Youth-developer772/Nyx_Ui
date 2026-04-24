@@ -43,23 +43,46 @@
     
 }
 .nav .buttoncontainer{
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
     width: 100%;
+    height: 70%;
+}
+.buttoncontainer a:hover{
+    margin-top: 5px;
+    background-color: #898484;
+    transform: skewX(-20deg);
 }
 .buttoncontainer a.active{
     background-color: white;
     color: black;
+}
+.logoutbutton{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 4px 7px;
+    padding-left: 10px;
+    width: 160px;
+    margin-top: auto;
+    font-weight: 400;
+    font-family: inter;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+}
+.logoutbutton:hover{
+    transform: skewX(20deg);
+    opacity: 0.9;
 }
 
 /*For PosOverview*/
 
 
 .posoverviewmain{
-    margin: 1em 2em;
+    padding: 1em 2em;
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -226,59 +249,3 @@
 
 
 /*For pos Order*/
-.ordermain{
-    margin: 1em 2em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
-.orderbody{
-    display: flex;
-    justify-content: space-between;
-}
-.orderitem{
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    height: 120px;
-    border: 1px solid black;
-    border-radius: 5px;
-    justify-content: space-around;
-    background-color: #BECEFD;
-}
-.orderitem p{
-    padding: 1px 10px;
-    font-weight: lighter;
-    opacity: 0.4;
-}
-.orderitem h4{
-    padding: 4px 10px;
-    font-family: inter;
-
-}
-.orderheader{
-    display: flex;
-    justify-content: space-between;
-}
-.orderheader h2{
-    display: flex;
-    align-items: center;
-    font-size: xx-large;
-}
-.orderheader div{
-    display: flex;
-    height: 30px;
-    padding: 5px;
-    width: 300px;
-    border: 1px solid black;
-    border-radius: 15px;
-    background-color: #0D1B2A;
-    justify-content: space-between;
-    color: white;
-}
-.orderheader div input{
-    border: none;
-    background-color: #0D1B2A;
-    color: white;
-    font-size: large;
-}

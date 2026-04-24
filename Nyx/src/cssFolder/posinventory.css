@@ -1,9 +1,10 @@
 .posinventorymain{
     display: flex;
     flex-direction: column;
-    margin: 1em 2em;
+    padding: 1em 2em;
     gap: 1em;
     color: #0D1B2A; 
+    height: 100vh;
 }
 .Inventorytitle{
     display: flex;
@@ -18,18 +19,21 @@
     font-weight: 100;
 }
 .inventoryCondition{
-    display: flex;
-    justify-content: space-between;
+   display: grid;
+   grid-template-columns: repeat( 4, 1fr);
+   gap: 5px;
+
 }
 .inventoryCondition div{
     font-family: Inter;
     display: flex;
     flex-direction: column;
-    gap: 1em;
-    padding: 6px;
-    width: 250px;
-    height: 70px;
+    gap: 10px;
+    height: 90px;
     border-radius: 6px;
+}
+.inventoryCondition *{
+    padding: 5px;
 }
 .condition0{
     background-color: #BECEFD;
@@ -47,6 +51,9 @@
     display: flex;
     align-items: center;
     gap: 10px;
+}
+.inventoryheader h2{
+    font-family: Inter;
 }
 .inventoryheader select{
     margin-left: auto;
@@ -83,24 +90,32 @@
     border-collapse: separate;
     border-spacing: 0 40px;
     background-color: #FFFFFF;
-    padding: 1em;
 }
-.inventorytable thead{
+.inventorytable thead , .inventorytable tbody{
+    padding: 1px 5px;
+}
+.inventorytable th{
     background-color: #A6C4FF;
     font-family: Inter;
-    height: 35px;
+    font-size: small;
+    color: #000000;
+    font-weight: 500;
+    font-size: medium;
+    padding: 10px 5px;
+    padding-left: 10px;
 }
-.test{
-    height: 40px;
-}
+
 .inventorytable td{
     border-top: 1px solid #dee2e6;    
     border-bottom: 1px solid #dee2e6;
-    padding: 0;
-    
-}
-#inventorytable th,td{
+    font-family: Inter;
+    font-size: small;
     text-align: left !important;
+    padding: 10px 5px;
+    padding-left: 10px;
+}
+.inventorytable tr{
+    text-align: left ;
 }
 .invbutcontainer div{
     display: flex;
@@ -113,13 +128,13 @@
     background-color: #0D1B2A;
     border-radius: 6px;
     color: #FFFFFF;
-    padding: 5px;
+    padding: 5px 10px;
 }
 .Ibtn2{
-    border: 1px solid black;
     outline: none;
+    border: 1px solid #1B263B;
     background-color: initial;
     border-radius: 6px;
-    padding: 4px;
+    padding: 5px 10px;
     color: red;
 }

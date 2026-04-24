@@ -1,0 +1,89 @@
+.loginContainer{
+    display: flex;
+    width: 95%;
+    height: 95vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.loginContainer .loginimg{
+    width: 50%;
+    height: 100%;
+}
+.loginsection{
+    width: 50%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    background-color: #F0F0F0;
+    box-shadow: -10px 0 10px -3px gray;
+    height: 100%;
+}
+.loginsectionheader{
+    font-family: Inter;
+}
+.loginsectionp{
+    font-family: Inter;
+    font-weight: 100 !important;
+    font-size: medium;
+}
+.switchwarper{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+.switchwarper a{
+    text-decoration: none;
+    padding: 10px 1em;
+    color: #0D1B2A;
+    border-radius: 5px;
+}
+.switchwarper a.active{
+    color: white;
+    background-color: #0D1B2A;
+}
+.loginOutlet{
+    flex-grow: 1;
+}
+
+
+/*for Pos login and Academic login*/
+.posloginwarper{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    margin-top: 1em;
+    height: 80%;
+}
+.posloginwarper span{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.posloginwarper span label{
+    font-family: Inter;
+    font-weight: bold;
+}
+.posloginwarper span p{
+    font-family: Inter;
+    font-weight: 400;
+    font-size: small ;
+}
+.posloginwarper input{
+    padding: 15px 10px;
+    border-radius: 10px;
+    background-color: #F0F0F0;
+}
+.posloginwarper button{
+    padding: 10px;
+    background-color: #0D1B2A;
+    color: white;
+    border-radius: 10px;
+    font-size: large;
+    margin-top: auto;
+}
