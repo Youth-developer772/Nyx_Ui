@@ -15,9 +15,10 @@
 .reporttitle{
     display: flex;
     align-items: center;
+    gap: 5px;
 }
 .reporttitle .titleicon{
-    font-size: xx-large;
+    font-size: 35px;
 }
 
 .posreportbody{
@@ -71,6 +72,7 @@
     gap: 1px;
     border: 1px solid black;
     border-radius: 10px;
+    background-color: #E1E1E1;
 }
 
 .posreportbody2 .posreportbody2header{

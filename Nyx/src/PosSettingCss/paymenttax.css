@@ -21,7 +21,6 @@
     border-radius: 5px;
     border: none;
     outline: none;
-    background-color: #0d1b2a21;
 }
 .pospaymentmethod{
     font-weight: 500;
@@ -58,7 +57,11 @@
     margin-top: 3em;
 }
 .pospaymentbutton button{
-    padding: 7px 10px;
+    padding: 7px 1em;
     border-radius: 5px;
+    font-weight: 500;
+    font-size: medium;
+    outline: none;
+    border: 1px solid #0D1B2A;
 
 }

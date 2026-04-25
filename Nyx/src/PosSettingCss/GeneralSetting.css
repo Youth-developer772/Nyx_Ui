@@ -5,6 +5,7 @@
     border: 1px solid black;
     padding: 1em;
     border-radius: 1em;
+    background-color: #f0f0f0;
 }
 .posgeneralsettingbody1{
     display: flex;

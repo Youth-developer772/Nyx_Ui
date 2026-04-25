@@ -23,8 +23,8 @@
     width: 250px;
     padding: 5px 10px;
     border-radius: 10px;
-    background-color: #0D1B2A;
     height: 30px;
+    justify-content: space-between;
 }
 .productsearch input{
     border: none;
@@ -63,11 +63,13 @@
     gap: 1em;
     padding: 10px;
     box-shadow: 0px 1px 2px 1px gray;
+    background-color: #FFFFFF;
 }
 .productimgcontainer{
     height: 150px;
     width: 90px;
     border-radius: 10px;
+    background-color: #6b737a;
 }
 .singleproduct img{
     height: 150px;
@@ -97,9 +99,8 @@
 }
 
 .singleproduct .producttext h4{
-    align-self: flex-end;
-    font-size: small;
-    font-style: italic;
+    font-weight: 600 !important;
+    font-size: small !important;
 }
 
 .singleproduct .producttext h3{

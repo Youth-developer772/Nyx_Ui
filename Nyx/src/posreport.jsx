@@ -7,13 +7,24 @@ import SearchIcon from '@mui/icons-material/SearchSharp';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import {  LineChart,  Line,  XAxis,  YAxis,  CartesianGrid,  Tooltip,  Legend,  ResponsiveContainer,} from "recharts";
 import TriangleIcon from '@mui/icons-material/EjectSharp';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import * as XLSX from 'xlsx';
+import { Context } from './Hooks/context';
 
 function PosReport(){
 
 const chartsref =useRef(null);
 const tableref =useRef(null);
+
+const {backcolor}=useContext(Context);
+
+const Font_color=Boolean(backcolor == '#1A1C1E');
+const FontStyle={
+    color: Font_color ? '#E1E1E1' : '#0D1B2A'
+}
+const InputStyle={
+    backgroundColor: Font_color ? '#E1E1E1' : '#0D1B2A'
+}
 
 let data = [
             { name: "Jan", sales: 3000 },
@@ -66,7 +77,7 @@ let tabledata=[
     return(
         <>
         <div className="posreportcontainer">
-            <h1 className="reporttitle"><ReportIcon className='titleicon'/> Report</h1>
+            <h1 className="reporttitle" style={FontStyle}><ReportIcon className='titleicon'/> Report</h1>
             <div className="tilteline">
                
             </div>

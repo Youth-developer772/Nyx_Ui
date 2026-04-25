@@ -12,10 +12,19 @@ import Swal from 'sweetalert2';
 
 function PosOrder(){
     const [show,setshow]=useState(false);
-    console.log('Page rendered')
 
     const {Orders,GetOrders}=useGetCategory();
     const {UpdateOrder}=useUpdateFun();
+    const {backcolor}=useContext(Context);
+
+    const Font_color=Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
+    const ButtonStyle={
+        color: Font_color ? '#0d1b2a': 'white',
+        backgroundColor: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
     
 
     let data=[
@@ -56,9 +65,12 @@ function PosOrder(){
     return(
         <>
         <div className="ordermain">
-            <div className='orderheader'>
+            <div className='orderheader' style={FontStyle}>
                 <h2><AssignmentIcon/>Orders</h2>
-                <button className='addorderbutton' onClick={()=>setshow(true)}>+ Add Order</button>
+                <button className='addorderbutton' 
+                onClick={()=>setshow(true)}
+                style={ButtonStyle}
+                >+ Add Order</button>
             </div>
             <div className='orderbody'>
                 {
@@ -75,40 +87,59 @@ function PosOrder(){
             </div>
 
             {
-                show && (
-                    <div className='addorderpopupC'>
-                        <form className='addorderpopup'>
-                            <div className='addorderpopupheader'>
-                                <h2>New Order</h2>
-                                <CloseIcon />
-                            </div>
-                            <div className="addorderpopupbody">
-                                <div className='addorderchild1'>
-                                    <span>
-                                        <h4>Customer Name</h4>
-                                        <input type="text" />
-                                    </span>
-                                    <span>
-                                        <h4>Select Payment Method</h4>
-                                        <select name="paymentmethod" id="">
-                                            <option value="kpay">KBZ Pay</option>
-                                            <option value="wave">Wave Pay</option>
-                                            <option value="cash">Cash</option>
-                                        </select>
-                                    </span>
-                                    <div className="addorderchild2">
-                                        <span>
-                                            <h4>Amount</h4>
-                                            <input type="number" />
-                                        </span>
-                                        <span>
-                                            {/*here is continue to write*/}
-                                        </span>
-                                    </div>
+            show && (
+                <div className="addorderpopupC">
+                    <form className="addorderpopup">
+                                 
+                        <div className="addorderpopupheader">
+                            <h2>New Order</h2>
+                            <CloseIcon />
+                        </div>
+                    
+                        <div className="addorderpopupbody">
+                            <div className="left">
+                                <div className="field">
+                                    <h4>Customer Name</h4>
+                                    <input type="text" />
                                 </div>
+                    
+                                <div className="field">
+                                    <h4>Amount</h4>
+                                    <input type="number" />
+                                </div>
+                    
+                                <div className="field">
+                                    <h4>Upload Image</h4>
+                                    <input type="file" />
+                                </div>
+                        </div>
+                    
+                        <div className="right">
+                            <div className="field">
+                                <h4>Select Payment Method</h4>
+                                    <select className="payment">
+                                        <option value="kpay">KBZ Pay</option>
+                                        <option value="wave">Wave Pay</option>
+                                        <option value="cash">Cash</option>
+                                    </select>
                             </div>
-                        </form>
-                    </div>
+                            <div className="paymentinfo">
+                                <h4>Payment Info</h4>
+                                <p>Kpay name: Admin Name</p>
+                                <p>Kpay Number:09 xxx xxx xx</p>
+                            </div>
+                            <div className="addorderfooter">
+                                <button type="submit" className="createbtn">
+                                    Create
+                                </button>
+                                <button type=":submit" className="cancelbtn">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
                 )
             }
 
@@ -136,10 +167,10 @@ function PosOrder(){
                     </thead>
                     <tbody>
                         {
-                        Array.isArray(Orders.data) &&
+                        Array.isArray(Orders.data) && Orders.data.length > 0 ?
                         Orders.data.map((item, index) => {
                             return (
-                                <tr key={index}>
+                                <tr key={index} className='ordertablerow'>
                                     <td>{item.OrderNo}</td>
                                     <td>{item.Customer}</td>
                                     <td>{item.Amount}</td>
@@ -160,7 +191,8 @@ function PosOrder(){
                                     </td>
                                 </tr>
                             );
-                        })}
+                        }): <tr><td>Loading....</td></tr>
+                    }
                     </tbody>
                 </table>
             </div>

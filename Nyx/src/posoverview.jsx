@@ -3,7 +3,16 @@ import DollarIcon from '@mui/icons-material/Paid';
 import ProductIcon from '@mui/icons-material/Widgets';
 import CustomerIcon from '@mui/icons-material/Groups';
 import Shoe from './images/shoe.png';
+import { useContext } from "react";
+import { Context } from "./Hooks/context";
 function PosOverview(){
+
+    const {backcolor}=useContext(Context);
+    const Font_color=Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
+
     let data = [
             { name: "Jan", sales: 3000 },
             { name: "Feb", sales: 4000 },
@@ -17,34 +26,30 @@ function PosOverview(){
         {id:'2',customer:'Msh',product:'Badminton',amount:"8,000ks",date:'17-03-2026',time:'02:45:37 AM', status:'Complete'},
         {id:'3',customer:'Feddy',product:'Adidas',amount:"250,000ks",date:'17-03-2026',time:'02:45:37 AM', status:'Cancel'}
     ];
+    let headerdata=[
+        {title:'Total Revenue',amount:'60000ks',increasement:'11%',compare:'from yesterday'},
+        {title:'Total Order',amount:'1200',increasement:'-3%',compare:'from yesterday'},
+        {title:'Total Product',amount:'55',increasement:'+5',compare:'New Products'},
+        {title:'Total Customers',amount:'245',increasement:'+12',compare:'New Customers'}
+    ]
     return(
         <>
         <div className="posoverviewmain">
             <div className="posheader">
-                <h1>Point of Sale Overview Dashboard</h1>
-                <p>Welcome back.Here's today's shop overview</p>
+                <h1 style={FontStyle}>Point of Sale Overview Dashboard</h1>
+                <p  style={FontStyle}>Welcome back.Here's today's shop overview</p>
             </div>
             <div className="posbody">
-                <div className="posbodyheader">
-                    <p>Total Revenue <DollarIcon/></p>
-                    <h3>60000ks</h3>
-                    <h5> <span>11%</span>from yesterday</h5>
-                </div>
-                <div className="posbodyheader">
-                    <p>Total Order <ProductIcon/></p>
-                    <h3>1200</h3>
-                    <h5><span>-3%</span>from yesterday</h5>
-                </div>
-                <div className="posbodyheader">
-                    <p>Total Product <ProductIcon/></p>
-                    <h3>55</h3>
-                    <h5><span>+5%</span>New Product</h5>
-                </div>
-                <div className="posbodyheader">
-                    <p>Total Customers<CustomerIcon/></p>
-                    <h3>245</h3>
-                    <h5><span>+12</span>New Customers</h5>
-                </div>
+                {headerdata.map((item,index)=>{
+                    return(
+                        <div className="posbodyheader" key={index}>
+                            <p>{item.title}</p>
+                            <h3>{item.amount}</h3>
+                            <h5><span>{item.increasement}</span>{item.compare}</h5>
+                        </div>
+                    )
+                })}
+            
             </div>
             <div className="posbody2">
                 <div className="poschart">
@@ -62,7 +67,7 @@ function PosOverview(){
                     </div>
                 </div>
                 <div className="top">
-                    <div className="topProduct">
+                    <div className="topProduct" style={{background: Font_color && '#E1E1E1'}}>
                         <h2>Popular Product</h2>
                         <div style={{display:'flex',alignItems:'center',gap:'10px',marginLeft:'1em'}}>
                             <img src={Shoe} alt="Product" />
@@ -72,7 +77,7 @@ function PosOverview(){
                             </div>
                         </div>
                     </div>
-                     <div className="topProduct">
+                     <div className="topProduct" style={{background: Font_color && '#E1E1E1'}}>
                         <h2>Popular Product</h2>
                         <div style={{display:'flex',alignItems:'center',gap:'10px',marginLeft:'1em'}}>
                             <img src={Shoe} alt="Product" />

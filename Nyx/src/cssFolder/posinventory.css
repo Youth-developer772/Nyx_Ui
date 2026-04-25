@@ -13,7 +13,7 @@
     font-family: Inter;
 }
 .inventoryIcon{
-    border: 2px solid black;
+    font-size: 35px;
     border-radius: 5px;
     padding: 2px;
     font-weight: 100;
@@ -84,12 +84,13 @@
 }
 .inventorytablecontainer{
     width: 100%;
+    background-color: #FFFFFF;
+
 }
 .inventorytable{
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 40px;
-    background-color: #FFFFFF;
 }
 .inventorytable thead , .inventorytable tbody{
     padding: 1px 5px;

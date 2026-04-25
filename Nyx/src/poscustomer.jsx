@@ -1,17 +1,34 @@
 import PersonIcon from '@mui/icons-material/Person';
 import SearchIcon from '@mui/icons-material/SearchOutlined';
 import './cssFolder/PosCustomer.css';
+import { useContext } from 'react';
+import { Context } from './Hooks/context';
+import { useGetCategory } from './Hooks/CustomHooks';
 function PosCustomer(){
     let tabledata=[
         {id:1,name:"Mg Mg",adderss:'Yangon',phone:'09333455666',email:'mgmg@ggfgfdgdfgfsdgfdgfdgdfsgsfdgdsgsfdgdsgdsgmail.com',remark:'...'},
         {id:1,name:"Ma Ma",adderss:'Yangon',phone:'09593855666',email:'mama@gmail.com',remark:'...'},
     ];
+
+    const {backcolor}=useContext(Context);
+    const {GetCustomer,Customers}=useGetCategory();
+
+    const Font_color=Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
+    const InputStyle={
+        backgroundColor: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
     return(
         <>
           <div className="Poscustomermain">
             <div className='Poscustomerheader'>
-                <h1><PersonIcon style={{fontSize:'larger'}}/>Customers</h1>
-                <div><input type="search" placeholder='Search...' /><SearchIcon/></div>
+                <h1 style={FontStyle}><PersonIcon style={{fontSize:'35px'}}/>Customers</h1>
+                <div style={InputStyle}>
+                    <input type="search" placeholder='Search...' style={{color: !backcolor ? 'white' : '#0D1B2A'}} />
+                    <SearchIcon/>
+                </div>
             </div>
             <div className="customertableContainer">
                 <table className='customertable'>
@@ -27,22 +44,24 @@ function PosCustomer(){
                         </tr>
                     </thead>
                     <tbody>
-                        {tabledata.map((item,index)=>{
-                            return(
-                                <tr key={index}>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.adderss}</td>
-                                    <td>{item.phone}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.remark}</td>
-                                    <td className='customerbuttoncontainer'>
-                                        <button className='editbutton'>Edit</button>
-                                        <button className='deletebutton'>Delete</button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                        {Array.isArray(Customers.showCustomerData) && Customers.showCustomerData.length > 0 ?
+                            Customers.showCustomerData.map((item,index)=>{
+                                return(
+                                    <tr key={index}>
+                                        <td>{item.id}</td>
+                                        <td>{item.name}</td>
+                                        <td>{item.adderss}</td>
+                                        <td>{item.phone}</td>
+                                        <td>{item.email}</td>
+                                        <td>....</td>
+                                        <td className='customerbuttoncontainer'>
+                                            <button className='editbutton'>Edit</button>
+                                            <button className='deletebutton'>Delete</button>
+                                        </td>
+                                    </tr>
+                                )
+                        }): <tr><td>Loading..</td></tr>
+                    }
                     </tbody>
                 </table>
             </div>

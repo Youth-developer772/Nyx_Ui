@@ -1,6 +1,5 @@
 .posapperancecontainer{
     display: flex;
-    border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
     flex-direction: column;
@@ -78,13 +77,4 @@
 .apperancebody2 .lightanddark img{
     width: 50px;
     height: 30px;
-}
-.apperancebutton{
-    display: flex;
-    gap: 10px;
-    align-self: flex-end;
-}
-.apperancebutton button{
-    padding: 7px 10px;
-    border-radius: 5px;
 }

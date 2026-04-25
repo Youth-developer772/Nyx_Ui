@@ -8,6 +8,11 @@ function PosApperance(){
     const ContextData=useContext(Context);
     const {color,setcolor,backcolor,setbackcolor}=ContextData;
 
+    const Font_Color= Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_Color ? '#E1E1E1' : '#0D1B2A'
+    }
+
     let styledata=[
         {text:'Midnight Blue',value:'#0D1B2A'},
         {text:'Dark Green',value:'#142B65'},
@@ -28,11 +33,11 @@ function PosApperance(){
         setbackcolor(style)
     }
     return(
-        <div className='posapperancecontainer'>
-            <h2 className='posregionalsetting'>Regional Setting</h2>
+        <div className='posapperancecontainer' style={{border: Font_Color ? '1px solid white' : '1px solid black'}}>
+            <h2 className='posregionalsetting' style={FontStyle}>Regional Setting</h2>
             <div className='posapperancesection'>
                 <div className='apperancebody1'>
-                    <p className='posprimarycolor'>General regional primary color</p>
+                    <p className='posprimarycolor' style={FontStyle}>General regional primary color</p>
                     {styledata.map((item,index)=>{
                         return(
                             <div className='apperancechild' key={index}>
@@ -48,7 +53,7 @@ function PosApperance(){
                     })}
                 </div>
                 <div className='apperancebody2'>
-                    <h4 className='apperancetheme'>Theme</h4>
+                    <h4 className='apperancetheme' style={FontStyle}>Theme</h4>
                     <div className='lightanddark'>
                         <p>Light</p>
                         <input type="radio" name='theme' 
@@ -61,7 +66,7 @@ function PosApperance(){
                         checked={'#1A1C1E' == backcolor} 
                         onChange={()=>{handlebackground('#1A1C1E')}}/>
                     </div>
-                    <h4 className='apperancelangauge'>Languages</h4>
+                    <h4 className='apperancelangauge' style={FontStyle}>Languages</h4>
                     <div className='lightanddark'>
                         <img src={myanmarFlag} alt="Myanmar Flag" />
                         <input type='radio' name='language'/>
@@ -76,10 +81,7 @@ function PosApperance(){
                     </div>
                 </div>
             </div>  
-            <div className='apperancebutton'>
-                <button>cancel</button>
-                <button style={{backgroundColor:'#0D1B2A',color:'white'}}>save changes</button>
-            </div>
+            
         </div>
     )
 }

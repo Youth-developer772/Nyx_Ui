@@ -1,6 +1,18 @@
+import { useContext } from 'react';
 import '../PosSettingCss/staffmanagement.css';
+import { Context } from '../Hooks/context';
 
 function StaffManagement(){
+
+    const {backcolor}=useContext(Context);
+    const Font_Color= Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_Color ? 'white': '#0D1B2A',
+    }
+    const ButtonStyle={
+        color: Font_Color && '#0D1B2A',
+        background: Font_Color && 'white'
+    }
 
     let staffData=[
         {id:1,name:'Mg Mg',email:'mgmg@example.com',role:'Admin',status:'active'},
@@ -10,8 +22,8 @@ function StaffManagement(){
     return(
         <div className="staffmanagementmain">
             <div className="SMB1">
-                <h3>Staff Management</h3>
-                <button>+ Add New Staff</button>
+                <h3 style={FontStyle}>Staff Management</h3>
+                <button style={ButtonStyle}>+ Add New Staff</button>
             </div>
             <div className='stafftablecontainer'>
                 <table className='stafftable'>
@@ -43,8 +55,8 @@ function StaffManagement(){
                 </table>
             </div>
             <div className='SMF'>
-                <h3 className='SMB2'>Role & Permission Overview</h3>
-                <div className='SMB3'>
+                <h3 className='SMB2' style={FontStyle}>Role & Permission Overview</h3>
+                <div className='SMB3' style={{background: backcolor ? '#E1E1E1':'#0d1b2a4d'}}>
                     <ul>
                         <li className='taskheader'>Admin</li>
                         <li>All Access Granted</li>

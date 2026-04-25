@@ -3,11 +3,12 @@ import CategoryIcon from '@mui/icons-material/Category';
 import AddIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import TagIcon from '@mui/icons-material/Inventory2Outlined';
 import CheckCircleIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useGetCategory } from './Hooks/CustomHooks';
 import toast, { Toaster } from 'react-hot-toast';
 import CloseIcon from '@mui/icons-material/Close';
 import Swal from 'sweetalert2';
+import { Context } from './Hooks/context';
 
 function PosCategory(){
 
@@ -23,7 +24,13 @@ function PosCategory(){
     let CategoryImage=useRef();
     let Tagsref=useRef();
 
+
     const {Categories,GetCategories,Tags,GetTags}=useGetCategory();
+    const {backcolor}=useContext(Context);
+    const Font_color=Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
     
     async function addCategory(e){
         let formdata=new FormData();
@@ -92,7 +99,8 @@ function PosCategory(){
         setselecttoDel(item);
     }
 
-    async function handleUpdateCategory(){
+    async function handleUpdateCategory(e){
+        e.preventDefault();
         let formdata=new FormData();
             formdata.append('id',selecttoDel.id)
             if(Categoryname.current.value != selecttoDel.name){
@@ -289,14 +297,16 @@ function PosCategory(){
         }}
         />
         <div className='poscategorymain'>
+
             <div className='Poscategoryheader'>
-                <h1><CategoryIcon/>Category</h1>
+                <h1 style={FontStyle}><CategoryIcon style={{fontSize:'35px'}}/>Category</h1>
                 <button onClick={()=>{
                     setshow(true)
                     setselecttoDel(null)
                     setallow(false)
                 }}><AddIcon/>Add Category</button>
             </div>
+
             <div className='poscategorybody'>
                 {Array.isArray(Categories.data) && Categories.data.length > 0 ? 
                      Categories.data.map((item,index)=>{
@@ -310,11 +320,12 @@ function PosCategory(){
                     : (<h1>Loading....</h1>)
             }
             </div>
+
            { /*for Pop up box*/}
             {
              show && (
                 <div className="showwarper">
-                    <div className='categorypopup'>
+                    <form className='categorypopup' onSubmit={selecttoDel ? handleUpdateCategory : addCategory}>
 
                         <h1 className='categorypopupheader'>{selecttoDel ? 'Category Details' : 'New Category'}</h1>
 
@@ -331,25 +342,24 @@ function PosCategory(){
                             <input type='text' className='category'
                             defaultValue={selecttoDel ? selecttoDel.name : ''}
                             readOnly={ selecttoDel && !allow}
+                            required={!selecttoDel}
                             ref={Categoryname} key={selecttoDel ? 2 : ''} />
 
-                            <input type='file' ref={CategoryImage} disabled={ selecttoDel && !allow}/>
-                    
-
-                        
+                            <input type='file' ref={CategoryImage} 
+                            disabled={ selecttoDel && !allow} required={!selecttoDel}/>
 
 
                         {selecttoDel ? 
                         <div className='categoryupdate'>
 
-                            <button onClick={handleDeleteCategory} >Delete</button>
+                            <button onClick={handleDeleteCategory} type='button'>Delete</button>
 
                             <div >
                                 <button onClick={()=>{
                                     setallow(true)
                                     Categoryname.current.focus();
                                 }} type='button'>Edit</button>
-                                <button disabled={ selecttoDel && !allow } onClick={handleUpdateCategory}
+                                <button disabled={ selecttoDel && !allow } 
                                 >Update</button>
                             </div>
 
@@ -357,15 +367,11 @@ function PosCategory(){
                         :
                         <div className='categorycreatebtn'>
                             <button style={{background:'#0D1B2A',color:'white'}}
-                            onClick={()=>{
-                                addCategory();
-                                setshow(false);
-                            }}
                             >Create</button>
                             <button onClick={()=>setshow(false)} type='button'>cancel</button>
                         </div>
                         }
-                    </div>
+                    </form>
                 </div>
              )
             }
@@ -424,9 +430,9 @@ function PosCategory(){
             }
             {/*for tag alret box*/}
             
-            <hr  style={{margin:'1em '}}/>
+            <hr  style={{margin:'1em ',height:'5px',background:'black',width:'100%'}}/>
             <div className='poscategorybody2'>
-                <h1><TagIcon/>Tags</h1>
+                <h1 style={FontStyle}><TagIcon style={{fontSize:'35px'}}/>Tags</h1>
                 <button
                 onClick={()=>{
                     seteditdata(null)

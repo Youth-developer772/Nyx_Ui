@@ -2,10 +2,11 @@ import './cssFolder/posproduct.css';
 import ProductIcon from '@mui/icons-material/Inventory2Outlined';
 import SearchIcon from '@mui/icons-material/SearchSharp';
 import AddIcon from '@mui/icons-material/AddCircleOutlineSharp';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useFetcher, useNavigate } from 'react-router-dom';
 import { useGetCategory } from './Hooks/CustomHooks';
 import toast, { Toaster } from 'react-hot-toast';
+import { Context } from './Hooks/context';
 
 function PosProduct(){
     const [fliterdata,setfliterdata]=useState();
@@ -14,12 +15,17 @@ function PosProduct(){
     
 
     const nagivate=useNavigate();
+    const {backcolor}=useContext(Context);
 
-    const handleChange = (e) => {
-    setCategory(e.target.value);
-    setTag(e.target.value);
-  };
-   
+    const Font_color=Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
+    const InputStyle={
+        backgroundColor: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
+
+    
   
   const{Categories,GetCategories,Tags,GetTags,Products,GetProducts}=useGetCategory();
   useEffect(()=>{
@@ -51,9 +57,10 @@ function PosProduct(){
         <>
         <div className="posproductmain">
             <div className="productheader">
-                <h1><ProductIcon/>Products</h1>
-                <div className="productsearch">
-                    <input type='search' placeholder='Search...' value={text} onChange={searchHandler}/>
+                <h1 style={FontStyle}><ProductIcon/>Products</h1>
+                <div className="productsearch" style={InputStyle}>
+                    <input type='search' placeholder='Search...' value={text}
+                     onChange={searchHandler} style={{color: Font_color ? '#0D1B2A' : '#E1E1E1'}}/>
                     <SearchIcon/>
                 </div>
                <button onClick={()=>nagivate('posaddproduct')}><AddIcon/> Add Product</button>
@@ -73,15 +80,16 @@ function PosProduct(){
                                     </div>
                                     <div className='producttext'>
                                         <h3 >{item.productName}</h3>
-                                        <h4 style={{fontFamily:'Inter',fontWeight:300}}>{item.price}MMk</h4>
+                                        <h4 style={{fontFamily:'Inter',fontWeight:300}}>{item.price}mmk</h4>
                                         {item.status == 'isAvailable' ? <p style={{backgroundColor:'#16F90E'}}>Avaliable</p>
                                         : <p style={{backgroundColor:'#FF0302',width:'100px'}}>Out of Stocks</p>}
                                     </div>
                                 </div>
                             )
-                        }): (<h1 style={{fontWeight:'lighter',textWrap:'nowrap',gridColumn: '1 / -1',justifySelf:'center'}}
+                        }): (<h1 style={{fontWeight:'lighter',textWrap:'nowrap',gridColumn: '1 / -1'
+                            ,justifySelf:'center',color: Font_color ? '#E1E1E1' : '#0D1B2A'}}
                         >No Result Found....</h1>))
-                        : (<h1>Loading...</h1>)
+                        : (<h1 style={FontStyle}>Loading...</h1>)
                 }
             </div>
             <Outlet context={{info,setinfo,GetProducts}}/>

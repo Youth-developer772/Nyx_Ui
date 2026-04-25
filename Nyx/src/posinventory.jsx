@@ -2,15 +2,27 @@ import InventoryIcon from '@mui/icons-material/DensityMediumOutlined';
 import SearchIcon from '@mui/icons-material/SearchOutlined';
 import './cssFolder/posinventory.css';
 import { useGetCategory } from './Hooks/CustomHooks';
+import { useContext } from 'react';
+import { Context } from './Hooks/context';
 
 function PosInventory(){
     const {Categories,Inventory,GetInventory}=useGetCategory();
+    const {backcolor}=useContext(Context);
+
     let Condition=[
         {title:'Total Inventory',data:'1200'},
         {title:'Out of Stocks',data:'98'},
         {title:'Out of Stocks',data:'98'},
         {title:'Top Categories',data:'Badminton'},
-    ]
+    ];
+
+    const Font_color=Boolean(backcolor == '#1A1C1E');
+    const FontStyle={
+        color: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
+    const InputStyle={
+        backgroundColor: Font_color ? '#E1E1E1' : '#0D1B2A'
+    }
 
     async function DeleteInventoryData(item){
         try {
@@ -28,7 +40,8 @@ function PosInventory(){
     return(
         <>
         <div className="posinventorymain">
-            <h1 className='Inventorytitle'><InventoryIcon className='inventoryIcon'
+            <h1 className='Inventorytitle' style={FontStyle}><InventoryIcon className='inventoryIcon'
+            style={{border: backcolor ? '1px solid white':'1px solid black' }}
             />Inventory</h1>
             <div className='inventoryCondition'>
                 {Condition.map((item,index)=>{
@@ -41,7 +54,7 @@ function PosInventory(){
                 })}
             </div>
             <div className="inventoryheader">
-                <h2>Product Stocks Overview</h2>
+                <h2 style={FontStyle}>Product Stocks Overview</h2>
                     <select>
                        {Array.isArray(Categories.data) && Categories.data.length > 0 ?
                             Categories.data.map((item,index)=>{
@@ -51,9 +64,9 @@ function PosInventory(){
                                 }): (<option>Loading...</option>)  
                             } 
                     </select>   
-                    <div>
-                        <input type="search" placeholder='Search..' />
-                        <SearchIcon style={{color:'white'}}/>
+                    <div style={InputStyle}>
+                        <input type="search" placeholder='Search..' style={{color: !backcolor ? 'white' : '#0D1B2A'}}/>
+                        <SearchIcon style={{color: !backcolor ? 'white' : '#0D1B2A'}}/>
                     </div>
             </div>
             <div className='inventorytablecontainer'>

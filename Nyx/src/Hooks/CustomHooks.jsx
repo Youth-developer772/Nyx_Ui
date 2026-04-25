@@ -6,6 +6,7 @@ export const useGetCategory =()=>{
     const [Products,setProducts]=useState([]);
     const [Orders,setOrders]=useState([]);
     const [Inventory,setInventory]=useState([]);
+    const [Customers,setCustomers]=useState([]);
 
 
 
@@ -70,13 +71,26 @@ export const useGetCategory =()=>{
     // for Inventory
     const GetInventory = async ()=>{
         try{
-            let reponse=await fetch(import.meta.env.VITE_GET_INVENTORY);
+            let reponse = await fetch(import.meta.env.VITE_GET_INVENTORY);
             if(reponse.ok){
                 let data= await reponse.json();
                 setInventory(data)
             }
         }catch(err){
             console.log(err)
+        }
+    }
+
+    // For Customer
+    const GetCustomer = async ()=>{
+        try{
+            let reponse = await fetch(import.meta.env.VITE_GET_CUSTOMERS);
+            if(reponse.ok){
+                let data= await reponse.json();
+                setCustomers(data);
+            }
+        }catch(error){
+            console.log(error)
         }
     }
 
@@ -87,6 +101,7 @@ export const useGetCategory =()=>{
         GetProducts();
         GetOrders();
         GetInventory();
+        GetCustomer();
     },[])
 
     return {
@@ -95,5 +110,6 @@ export const useGetCategory =()=>{
         Products,GetProducts,
         Orders,GetOrders,
         Inventory,GetInventory,
+        Customers,GetCustomer,
     }
 }

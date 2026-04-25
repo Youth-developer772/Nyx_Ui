@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: #F0F0F0;
 }
 .staffmanagementmain .SMB1{
     display: flex;
@@ -10,20 +9,22 @@
     align-items: center;
 }
 .SMB1 h3{
-    font-weight: 500;
+    font-weight: 600;
+    font-family: Belanosima;
 }
 .SMB1 button{
     padding: 8px 15px;
     border-radius: 5px;
     border: none;
     outline: none;
-    background-color: #0D1B2A;
     color: white;
+    font-weight: 600;
 }
 .stafftablecontainer{
     width: 100%;
     background-color: #FFFFFF;
     border-radius: 5px;
+    padding: 1em;
 }
 .stafftable{
     width: 100%;
@@ -63,7 +64,6 @@
 .SMB3{
     display: flex;
     justify-content: space-between;
-    background-color: #0d1b2a4d;
     padding: 1em;
     border-radius: 10px;
 }
