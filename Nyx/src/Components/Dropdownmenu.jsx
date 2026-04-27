@@ -11,7 +11,7 @@ function Dropdownmenu({data,refresh}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const {childdata,setchilddata}=useContext(Context);
+  const {childdata,setchilddata,Token}=useContext(Context);
 //   const {UpdateOrder}=useUpdateFun();
 
   const handleClick = (event) => setAnchorEl(event.currentTarget);
@@ -24,7 +24,8 @@ function Dropdownmenu({data,refresh}) {
             let reponse= await fetch(`${import.meta.env.VITE_UPDATE_ORDER}/${id}`,{
                 method:'PUT',
                 headers:{
-                    'Content-Type':'application/json'
+                    'Content-Type':'application/json',
+                    'Authorization': `Bearer ${Token}`
                 },
                 body: JSON.stringify({action:item.action.toLowerCase()})
             })
