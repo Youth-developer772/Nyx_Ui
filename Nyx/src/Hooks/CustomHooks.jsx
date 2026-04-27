@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react"
 
 export const useGetCategory =()=>{
+
     const [Categories,setCategories]=useState([]);
     const [Tags,setTags]=useState([]);
     const [Products,setProducts]=useState([]);
     const [Orders,setOrders]=useState([]);
     const [Inventory,setInventory]=useState([]);
     const [Customers,setCustomers]=useState([]);
+    const [Staff,setStaff]=useState([]);
+    const [General,setGeneral]=useState([]);
+
+    const Token=localStorage.getItem('JWTToken');
 
 
 
@@ -16,7 +21,13 @@ export const useGetCategory =()=>{
     const GetCategories = async ()=>{
         const url=import.meta.env.VITE_GET_CATEGORIES;
         try {
-            let reponse= await fetch(url);
+            let reponse= await fetch(url,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            });
             if(reponse.ok){
                 let data= await reponse.json();
                 setCategories(data);
@@ -30,7 +41,13 @@ export const useGetCategory =()=>{
     // for Tags
     const GetTags = async ()=>{
         try{
-            let reponse=await fetch(import.meta.env.VITE_GET_TAGS);
+            let reponse=await fetch(import.meta.env.VITE_GET_TAGS,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            });
             if(reponse.ok){
                 let data=await reponse.json();
                 setTags(data)
@@ -45,7 +62,13 @@ export const useGetCategory =()=>{
     // for Products
     const GetProducts = async ()=>{
         try{
-            let reponse=await fetch(import.meta.env.VITE_GET_PRODUCTS);
+            let reponse=await fetch(import.meta.env.VITE_GET_PRODUCTS,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            });
             if(reponse.ok){
                 let data=await reponse.json();
                 setProducts(data)
@@ -58,7 +81,13 @@ export const useGetCategory =()=>{
     //for Order
     const GetOrders = async ()=>{
         try{
-            let reponse=await fetch(import.meta.env.VITE_GET_ORDERS);
+            let reponse=await fetch(import.meta.env.VITE_GET_ORDERS,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            });
             if(reponse.ok){
                 let data= await reponse.json();
                 setOrders(data)
@@ -71,7 +100,13 @@ export const useGetCategory =()=>{
     // for Inventory
     const GetInventory = async ()=>{
         try{
-            let reponse = await fetch(import.meta.env.VITE_GET_INVENTORY);
+            let reponse = await fetch(import.meta.env.VITE_GET_INVENTORY,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            });
             if(reponse.ok){
                 let data= await reponse.json();
                 setInventory(data)
@@ -84,7 +119,13 @@ export const useGetCategory =()=>{
     // For Customer
     const GetCustomer = async ()=>{
         try{
-            let reponse = await fetch(import.meta.env.VITE_GET_CUSTOMERS);
+            let reponse = await fetch(import.meta.env.VITE_GET_CUSTOMERS,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            });
             if(reponse.ok){
                 let data= await reponse.json();
                 setCustomers(data);
@@ -94,6 +135,44 @@ export const useGetCategory =()=>{
         }
     }
 
+    //for staff
+    async function GetStaff(){
+        try {
+            let response= await fetch(import.meta.env.VITE_GET_STAFFS,{
+                method:'GET',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type' :'application/json'
+                }
+            })
+            if(response.ok){
+                let data= await response.json();
+                setStaff(data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    //for General setting
+    async function GetGenerals(){
+        try{
+            let response = await fetch(import.meta.env.VITE_GET_GENERAL,{
+                method:'GET',
+                headers:{
+                    'Authorization': `Bearer ${Token}`,
+                    'Content-Type':'application/json'
+                }
+            })
+            if(response.ok){
+                let data = await response.json();
+                setGeneral(data)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    } 
+
 
     useEffect(()=>{
         GetCategories();
@@ -102,6 +181,8 @@ export const useGetCategory =()=>{
         GetOrders();
         GetInventory();
         GetCustomer();
+        GetStaff();
+        GetGenerals();
     },[])
 
     return {
@@ -111,5 +192,7 @@ export const useGetCategory =()=>{
         Orders,GetOrders,
         Inventory,GetInventory,
         Customers,GetCustomer,
+        Staff,GetStaff,
+        General,GetGenerals,
     }
 }

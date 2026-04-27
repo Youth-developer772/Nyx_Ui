@@ -5,14 +5,10 @@ import { useContext } from 'react';
 import { Context } from './Hooks/context';
 import { useGetCategory } from './Hooks/CustomHooks';
 function PosCustomer(){
-    let tabledata=[
-        {id:1,name:"Mg Mg",adderss:'Yangon',phone:'09333455666',email:'mgmg@ggfgfdgdfgfsdgfdgfdgdfsgsfdgdsgsfdgdsgdsgmail.com',remark:'...'},
-        {id:1,name:"Ma Ma",adderss:'Yangon',phone:'09593855666',email:'mama@gmail.com',remark:'...'},
-    ];
+    
 
     const {backcolor}=useContext(Context);
     const {GetCustomer,Customers}=useGetCategory();
-
     const Font_color=Boolean(backcolor == '#1A1C1E');
     const FontStyle={
         color: Font_color ? '#E1E1E1' : '#0D1B2A'

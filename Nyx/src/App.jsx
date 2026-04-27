@@ -20,12 +20,28 @@ import Login from './Account/login';
 import PosLogin from './Account/poslogin';
 import AcademicLogin from './Account/academiclogin';
 import PosProtectedRoute from './Hooks/PosProtectedRoute';
+import ClassNav from './Class/classnav';
+import ClassOverview from './Class/classoverview';
+import ClassSchedule from './Class/classschedule';
+import ClassList from './Class/classlist';
+import ClassStudent from './Class/classstudent';
+import ClassCourt from './Class/classcourt';
+import ClassMember from './Class/classmember';
+import ClassEquipment from './Class/classequipment';
+import ClassOrder from './Class/classorder';
+import ClassProduct from './Class/classproduct';
+import ClassCustomer from './Class/classcustomer';
+import ClassReport from './Class/classreport';
+import ClassInventory from './Class/classinventory';
+import ClassSetting from './Class/classsetting';
 
 function App(){
   const [childData,SetchildData]=useState({});
   const [NavColor,setNavColor]=useState(localStorage.getItem('navcolor') || '#0D1B2A')
   const [BackColor,setBackColor]=useState(localStorage.getItem('background') || '#F0F0F0')
-  const [token,settoken]=useState(localStorage.getItem('allow') || false);
+  const [token,settoken]=useState(localStorage.getItem('JWTToken') || false);
+
+  const Token=localStorage.getItem('JWTToken');
  
   return(
     <>
@@ -34,6 +50,7 @@ function App(){
       backcolor:BackColor,setbackcolor:setBackColor,
       Token:token,setToken:settoken,
       childdata:childData,setchilddata:SetchildData,
+      Token
       }}>
       <BrowserRouter>
       <Routes>
@@ -67,6 +84,23 @@ function App(){
           <Route path='apperance' element={<PosApperance/>}/>
         </Route>
 
+        </Route>
+
+        <Route path='/class' element={<ClassNav/>}>
+          <Route index  element={< Navigate to='classoverview' replace />} />
+          <Route path='classoverview'element={<ClassOverview />} />
+          <Route path='classschedule' element={<ClassSchedule/>} />
+          <Route path='classlist' element={<ClassList/>} />
+          <Route path='classstudent' element={<ClassStudent />} />
+          <Route path='classcourt' element={<ClassCourt/>} />
+          <Route path='classmembers' element={<ClassMember />} />
+          <Route path='classequipment' element={<ClassEquipment />} />
+          <Route path='classorder' element={<ClassOrder />} />
+          <Route path='classproduct' element={<ClassProduct />} />
+          <Route path='classcustomer' element={<ClassCustomer />} />
+          <Route path='classinventory' element={<ClassInventory />} />
+          <Route path='classreport' element={<ClassReport />} />
+          <Route path='classsetting' element={<ClassSetting />} />
         </Route>
 
       <Route path='login' element={<Login/>}>

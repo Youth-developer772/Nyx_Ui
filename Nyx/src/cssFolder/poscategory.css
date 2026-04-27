@@ -64,6 +64,8 @@
 }
 .poscategorybody div p{
     text-align: center;
+    word-break: break-all;
+    padding: 2px 8px;
 }
 .poscategorybody2{
     display: flex;

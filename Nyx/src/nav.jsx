@@ -14,7 +14,8 @@ function Nav(){
 
   const handletoken=()=>{
     setToken(false);
-    localStorage.removeItem('allow');
+    localStorage.removeItem('JWTToken');
+
   }
     
     return(

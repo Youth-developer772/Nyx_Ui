@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 function AcademicLogin(){
+    const navigate=useNavigate();
     return(
         <form className="posloginwarper">
              <span>
@@ -12,7 +15,7 @@ function AcademicLogin(){
                 <p>Forgot Password ?</p>
             </span>
 
-            <button>Login</button>
+            <button onClick={()=>navigate('/class')}>Login</button>
         </form>
     )
 }

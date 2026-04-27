@@ -3,16 +3,15 @@ import './cssFolder/posproduct.css';
 import ProductIcon from '@mui/icons-material/Inventory2Outlined';
 import SearchIcon from '@mui/icons-material/SearchSharp';
 import AddIcon from '@mui/icons-material/AddCircleOutlineSharp';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useFetcher, useNavigate, useOutletContext } from 'react-router-dom';
 import { useGetCategory } from './Hooks/CustomHooks';
 import CloseIcon from '@mui/icons-material/Close';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import uploader from '@zwehtetpaing55/uploader';
-uploader.config({
-    baseURL: "http://38.60.216.25:3000/api"
-});
+import { Context } from './Hooks/context';
+
 
 function AddProduct(){
 
@@ -22,7 +21,7 @@ function AddProduct(){
     const navigate=useNavigate();
 
     const{Categories,GetCategories,Tags,GetTags,Products}=useGetCategory();
-    console.log(Products);
+    const {Token}=useContext(Context)
 
     const nameref=useRef();
     const brandref=useRef();
@@ -74,12 +73,14 @@ function AddProduct(){
 
             let reponse= await fetch(import.meta.env.VITE_ADD_PRODUCT,{
                 method:"POST",
+                headers:{
+                    "Authorization": `Bearer ${Token}`
+                },
                 body: formdata
             });
             
             if(reponse.ok){
                 toast.success('Successfully Uploaded',{id:uploading})
-                console.log('uploaded succefully')
                 GetProducts();
                 nameref.current.value=''
                 brandref.current.value=''
@@ -117,7 +118,7 @@ function AddProduct(){
             cancelButtonColor: '#a2aeb9',
             confirmButtonText: 'Delete',
             cancelButtonText: 'Cancel',
-            background: '#off1f2',
+            background: '#F0F0F0',
             customClass: {
                 popup: 'modern-swal-popup',
                 title: 'modern-swal-title',
@@ -134,12 +135,19 @@ function AddProduct(){
             const deleting=toast.loading('Deleting Prodcut')
             try{
                 let reponse= await fetch(`${import.meta.env.VITE_DELETE_PRODUCT}/${id}`,{
-                method:'DELETE'
+                method:'DELETE',
+                headers:{
+                    "Authorization": `Bearer ${Token}`,
+                    'Content-Type':'application/json'
+                }
             })
             if(reponse.ok){
                 toast.success('Succssfully Deleted',{id:deleting})
                 await GetProducts()
                 navigate(-1)
+            }
+            else{
+                toast.error('Deleting fail',{id:deleting})
             }
             }catch(err){
                 console.log(err)
@@ -176,6 +184,9 @@ function AddProduct(){
             const productUpdateLoading=toast.loading('Updating Product');
             let reponse= await fetch(import.meta.env.VITE_UPDATE_PRODUCT,{
                 method:'PUT',
+                headers:{
+                    "Authorization": `Bearer ${Token}`
+                },
                 body: formdata
             })
             if(reponse.ok){

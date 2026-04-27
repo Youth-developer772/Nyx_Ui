@@ -1,29 +1,89 @@
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import '../PosSettingCss/staffmanagement.css';
 import { Context } from '../Hooks/context';
+import CloseIcon from '@mui/icons-material/Close';
+import { useGetCategory } from '../Hooks/CustomHooks';
+import toast, { Toaster } from 'react-hot-toast';
+
+
 
 function StaffManagement(){
 
-    const {backcolor}=useContext(Context);
+    const nameref=useRef();
+    const emailref=useRef();
+    const passwordref=useRef();
+    const roleref=useRef();
+
+    const [show,setshow]=useState(false);
+
+    const {backcolor,Token}=useContext(Context);
+    const {Staff,GetStaff}=useGetCategory();
+
+
     const Font_Color= Boolean(backcolor == '#1A1C1E');
     const FontStyle={
         color: Font_Color ? 'white': '#0D1B2A',
     }
     const ButtonStyle={
         color: Font_Color && '#0D1B2A',
-        background: Font_Color && 'white'
+        background: Font_Color ? 'white' : '#0D1B2A'
     }
 
-    let staffData=[
-        {id:1,name:'Mg Mg',email:'mgmg@example.com',role:'Admin',status:'active'},
-        {id:2,name:'Aye Aye',email:'ayeaye@example.com',role:'Manager',status:'active'},
-        {id:3,name:'Zaw Zaw',email:'zawzaw@example.com',role:'Cashier',status:'active'},
-    ]
+    async function Add_Staff(e){
+        e.preventDefault();
+        let data={
+            name:nameref.current.value,
+            email:emailref.current.value,
+            password:passwordref.current.value,
+            role:roleref.current.value
+        }
+        const adding=toast.loading('Adding New Staff');
+        try{
+            let response= await fetch(import.meta.env.VITE_ADD_NEWSTAFF,{
+                method:'POST',
+                headers:{
+                    'Authorization':`Bearer ${Token}`,
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            if(response.ok){
+                await GetStaff();
+                toast.success('Successfully Adding',{id:adding})
+                setshow(false)
+            }else{
+                toast.error('failed Adding',{id:adding})
+            }
+        }catch(err){
+            console.log(err)
+            toast.error('failed Adding',{id:adding})
+        }
+    }
+
+    async function delete_staff(id){
+        try{
+            let response= await fetch(`${import.meta.env.VITE_DELETE_STAFF}/${id}`,{
+                method:'DELETE',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization':`Bearer ${Token}`
+                }
+            })
+            if(response.ok){
+                await GetStaff();
+                setshow(false)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
     return(
         <div className="staffmanagementmain">
+            <Toaster />
             <div className="SMB1">
                 <h3 style={FontStyle}>Staff Management</h3>
-                <button style={ButtonStyle}>+ Add New Staff</button>
+                <button style={ButtonStyle} onClick={()=>setshow(true)}>+ Add New Staff</button>
             </div>
             <div className='stafftablecontainer'>
                 <table className='stafftable'>
@@ -38,19 +98,22 @@ function StaffManagement(){
                         </tr>
                     </thead>
                     <tbody>
-                        {staffData.map((staff) => (
-                            <tr key={staff.id}>
-                                <td>{staff.id}</td>
-                                <td>{staff.name}</td>
-                                <td>{staff.email}</td>
-                                <td>{staff.role}</td>
-                                <td style={{color:'#16F90E'}}>{staff.status}</td>
-                                <td >
-                                    <button style={{background:'#16f90ea6'}}>Edit</button>
-                                    <button style={{background:'#D12C2C'}}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
+                        {Array.isArray(Staff.data) && Staff.data.length > 0 ?
+                            Staff.data.map((staff) => (
+                                <tr key={staff.id}>
+                                    <td>{staff.id}</td>
+                                    <td>{staff.name}</td>
+                                    <td>{staff.email}</td>
+                                    <td>{staff.role_name}</td>
+                                    <td style={{color:'#16F90E'}}>{staff.status}</td>
+                                    <td >
+                                        {/* <button style={{background:'#16f90ea6'}}>Edit</button> */}
+                                        <button style={{background:'#D12C2C'}} onClick={()=>delete_staff(staff.id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            )):
+                        <tr><td>Loading....</td></tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -82,6 +145,43 @@ function StaffManagement(){
                         <li>Restricion</li>
                 </ul>
                 </div>
+
+                
+                {
+                    show && 
+                    <div className="newstaffwarper">
+                        <form className="newstaff" onSubmit={Add_Staff}>
+                            <div className='newstaffbody1'>
+                                <h3>New Staff</h3>
+                                <button onClick={()=>setshow(false)}><CloseIcon /></button>
+                            </div>
+                            <div className="newstaffbody2">
+                                <p>Name</p>
+                                <input type="text" required ref={nameref} />
+                            </div>
+                            <div className="newstaffbody2">
+                                <p>Email</p>
+                                <input type="email" required ref={emailref}/>
+                            </div>
+                            <div className='newstaffbody2'>
+                                <p>Password</p>
+                                <input type='password' required ref={passwordref}/>
+                            </div>
+                            <div className="newstaffbody5">
+                                <p>Role</p>
+                                <select name="role" id="role" ref={roleref}>
+                                    <option value="admin">Admin</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="cashier">Cashier</option>
+                                </select>
+                            </div>
+                            <div className="newstaffbody6">
+                                <button style={{background:'#0D1B2A',color:'white'}}>Create</button>
+                                <button onClick={()=>setshow(false)}>Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                }
             </div>
         </div>
     )

@@ -15,7 +15,7 @@ function PosOrder(){
 
     const {Orders,GetOrders}=useGetCategory();
     const {UpdateOrder}=useUpdateFun();
-    const {backcolor}=useContext(Context);
+    const {backcolor,Token}=useContext(Context);
 
     const Font_color=Boolean(backcolor == '#1A1C1E');
     const FontStyle={
@@ -38,7 +38,10 @@ function PosOrder(){
     async function DeleteOrder(OrderID){
         try{
             let reponse=await fetch(`${import.meta.env.VITE_DELETE_ORDER}/${OrderID}`,{
-                method:'DELETE'
+                method:'DELETE',
+                headers:{
+                    "Authorization": `Bearer ${Token}`
+                }
             })
             if(reponse.ok){
                 GetOrders();

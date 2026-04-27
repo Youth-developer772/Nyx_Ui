@@ -26,13 +26,18 @@ function PosCategory(){
 
 
     const {Categories,GetCategories,Tags,GetTags}=useGetCategory();
-    const {backcolor}=useContext(Context);
+    const {backcolor,Token}=useContext(Context);
+
     const Font_color=Boolean(backcolor == '#1A1C1E');
     const FontStyle={
         color: Font_color ? '#E1E1E1' : '#0D1B2A'
     }
+
+    
     
     async function addCategory(e){
+
+        e.preventDefault();
         let formdata=new FormData();
         formdata.append('image',CategoryImage.current.files[0])
         formdata.append('name',Categoryname.current.value)
@@ -40,12 +45,14 @@ function PosCategory(){
         try{
             let reponse=await fetch(import.meta.env.VITE_ADD_CATEGORY,{
                 method:"POST",
+                headers:{
+                    "Authorization": `Bearer ${Token}`
+                },
                 body: formdata
             })
             if(reponse.ok){
                 setTimeout(async () => {
                     await GetCategories();
-                    console.log("Categories refreshed!");
                 }, 500);
                 setshow(false)   
                 toast.success('Successfully Uploaded',{id:loadingtoast})            
@@ -67,6 +74,7 @@ function PosCategory(){
             let reponse= await fetch(import.meta.env.VITE_ADD_TAGS,{
                 method:'POST',
                 headers:{
+                    "Authorization": `Bearer ${Token}`,
                     'Content-Type':'application/json'
                 },
                 body: JSON.stringify(data)
@@ -123,6 +131,9 @@ function PosCategory(){
 
                 let reponse=await fetch(import.meta.env.VITE_UPDATE_CATEGORY,{
                     method:'PUT',
+                    headers:{
+                        "Authorization": `Bearer ${Token}`
+                    },
                     body: formdata
                 })
 
@@ -139,7 +150,6 @@ function PosCategory(){
                     setallow(false)
                 }
                 
-
             }catch(err){
                 console.log(err)
                 toast.error('Upload Fail',{id:laodingtag})
@@ -166,6 +176,7 @@ function PosCategory(){
             let response= await fetch(import.meta.env.VITE_UPDATE_TAGS,{
                 method:'PUT',
                 headers:{
+                    "Authorization": `Bearer ${Token}`,
                     'Content-Type':'application/json'
                 },
                 body: JSON.stringify({id,name})
@@ -213,6 +224,9 @@ function PosCategory(){
             try{
                 let reponse= await fetch(`${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,{
                     method:'DELETE',
+                    headers:{
+                        "Authorization": `Bearer ${Token}`
+                    }
                 })
                 if(reponse.ok){
                 toast.success('Tags Deleted',{id:tagdelete})
@@ -260,7 +274,10 @@ function PosCategory(){
         if(result.isConfirmed){
             try{
                 let reponse=await fetch(`${import.meta.env.VITE_DELETE_CATEGORY}${data}`,{
-                    method:'DELETE'
+                    method:'DELETE',
+                    headers:{
+                        "Authorization": `Bearer ${Token}`
+                    }
                 })
 
                 if(reponse.ok){

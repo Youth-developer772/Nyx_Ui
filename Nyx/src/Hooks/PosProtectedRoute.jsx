@@ -5,11 +5,12 @@ import { Context } from "./context";
 const PosProtectedRoute =({children})=>{
 
     const ContextData=useContext(Context);
-    const {Token,SetToken}=ContextData;
+    const {Token}=ContextData;
 
     if(!Token){
         return <Navigate to='/login/poslogin' replace />
     }
+    
     return children;
 
 }
