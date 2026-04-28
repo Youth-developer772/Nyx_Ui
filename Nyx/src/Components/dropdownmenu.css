@@ -1,10 +1,11 @@
 .dropbutton1{
-    color: black;
+    color: black !important;
+    font-weight: bold !important;
     text-transform: none !important;
-    padding: 0;
+    padding: 4px !important;
     margin: 0;
-    border-radius: 10px;
-    background-color: #D9D9D9;
+    border-radius: 10px ;
+    
 }
 .dropbuttonchild{
     color: black;

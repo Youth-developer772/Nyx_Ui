@@ -80,6 +80,7 @@
   font-size: small;
   font-weight: 700;
   color: #000000;
+  padding: 5px 1px;
 }
 .posordertable td {
   font-family: Inter;
@@ -96,9 +97,16 @@
   gap: 10px;
 }
 .orderdeleteIcon {
+  width: 30px;
   border: none;
   outline: none;
   background-color: initial;
+  color: darkslategray;
+}
+.orderdeleteIcon:hover{
+  background-color: gray;
+  color: white;
+  padding: 2px;
 }
 .completeaction p {
   background-color: #16f90e;
@@ -122,7 +130,7 @@
   width: 60px;
   height: 30px;
   border: 1px solid #eee;
-  border-radius: 10px;
+  border-radius: 5px;
   object-fit: cover;
 }
 

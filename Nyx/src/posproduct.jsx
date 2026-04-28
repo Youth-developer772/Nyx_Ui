@@ -7,6 +7,7 @@ import { NavLink, Outlet, useFetcher, useNavigate } from 'react-router-dom';
 import { useGetCategory } from './Hooks/CustomHooks';
 import toast, { Toaster } from 'react-hot-toast';
 import { Context } from './Hooks/context';
+import LoadingProduct from './Components/loadingproduct';
 
 function PosProduct(){
     const [fliterdata,setfliterdata]=useState();
@@ -89,7 +90,11 @@ function PosProduct(){
                         }): (<h1 style={{fontWeight:'lighter',textWrap:'nowrap',gridColumn: '1 / -1'
                             ,justifySelf:'center',color: Font_color ? '#E1E1E1' : '#0D1B2A'}}
                         >No Result Found....</h1>))
-                        : (<h1 style={FontStyle}>Loading...</h1>)
+                        : (
+                            [...Array(15)].map((_, index) => (
+                            <LoadingProduct key={index} />
+                            ))
+                        ) 
                 }
             </div>
             <Outlet context={{info,setinfo,GetProducts}}/>

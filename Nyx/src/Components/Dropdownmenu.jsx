@@ -53,7 +53,7 @@ function Dropdownmenu({data,refresh}) {
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={handleUpdate} className='dropbuttonchild'>Pending</MenuItem>
         <MenuItem onClick={handleUpdate} className='dropbuttonchild'>Completed</MenuItem>
-        <MenuItem onClick={handleUpdate} sx={{ color: 'red' }} className='dropbuttonchild'>Cancel</MenuItem>
+        <MenuItem onClick={handleUpdate}  className='dropbuttonchild'>Cancel</MenuItem>
       </Menu>
     </div>
   );

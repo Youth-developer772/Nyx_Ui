@@ -9,6 +9,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import CloseIcon from '@mui/icons-material/Close';
 import Swal from 'sweetalert2';
 import { Context } from './Hooks/context';
+import Loading from './Components/Loading';
+import LoaingTag from './Components/loadingTag';
 
 function PosCategory(){
 
@@ -328,13 +330,17 @@ function PosCategory(){
                 {Array.isArray(Categories.data) && Categories.data.length > 0 ? 
                      Categories.data.map((item,index)=>{
                         return(
-                            <div key={index} onClick={()=>editCategory(item)}>
+                            <div key={index} onClick={()=>editCategory(item)} className='singlecategory'>
                                 <img src={item.image_url} alt='image'/>
                                 <p>{item.name}</p>
                             </div>
                             )
                         })
-                    : (<h1>Loading....</h1>)
+                    : (
+                        [...Array(7)].map((_, index) => (
+                        <Loading key={index} />
+                        ))
+                    )
             }
             </div>
 
@@ -472,7 +478,11 @@ function PosCategory(){
                    <p>There is no tags</p>
                    <h1 onClick={()=>setshow1(true)}>Add New Tags</h1>
                    </div>))
-                    : (<h4>Loading....</h4>)    
+                    : (
+                        [...Array(4)].map((_, index) => (
+                        <LoaingTag key={index} />
+                        ))
+                    )   
             }
             </div>
         </div>

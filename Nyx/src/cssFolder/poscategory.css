@@ -43,7 +43,7 @@
   display: none;
 }
 
-.poscategorybody div{
+.poscategorybody .singlecategory{
     width: 150px;
     height: 200px;
     display: flex;
@@ -57,12 +57,12 @@
     background-color: #F0F0F0;
 }
 
-.poscategorybody div img{
+.poscategorybody .singlecategory img{
     width: 70%;
     height: 60%;
     border-radius: 10px;
 }
-.poscategorybody div p{
+.poscategorybody .singlecategory p{
     text-align: center;
     word-break: break-all;
     padding: 2px 8px;
@@ -263,7 +263,7 @@
 .tagpopup{
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 500px;
     height: 230px;
     position: absolute;
     left: 50%;

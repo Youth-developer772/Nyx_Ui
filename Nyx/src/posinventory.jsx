@@ -4,6 +4,7 @@ import './cssFolder/posinventory.css';
 import { useGetCategory } from './Hooks/CustomHooks';
 import { useContext } from 'react';
 import { Context } from './Hooks/context';
+import TableLoading from './Components/tableloading';
 
 function PosInventory(){
     const {Categories,Inventory,GetInventory}=useGetCategory();
@@ -103,7 +104,10 @@ function PosInventory(){
                                         </td>
                                     </tr>
                                 )
-                            }) : <tr><td>Loading....</td></tr>    
+                            }) : 
+                            [...Array(8)].map((_, index) => (
+                                <TableLoading key={index} data={8} />
+                            ))   
                            }
                         </tbody>
                     </table>

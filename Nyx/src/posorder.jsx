@@ -9,6 +9,7 @@ import Dropdownmenu from './Components/Dropdownmenu';
 import { Context } from './Hooks/context';
 import { useUpdateFun } from './Hooks/UpdateFun';
 import Swal from 'sweetalert2';
+import TableLoading from './Components/tableloading';
 
 function PosOrder(){
     const [show,setshow]=useState(false);
@@ -157,7 +158,7 @@ function PosOrder(){
                 <table className='posordertable'>
                     <thead>
                         <tr>
-                            <th>Order ID</th>
+                            <th>ID</th>
                             <th>Customer</th>
                             <th>Amount</th>
                             <th>Date</th>
@@ -194,7 +195,9 @@ function PosOrder(){
                                     </td>
                                 </tr>
                             );
-                        }): <tr><td>Loading....</td></tr>
+                        }): [...Array(12)].map((_, index) => (
+                            <TableLoading key={index} data={9} />
+                            ))
                     }
                     </tbody>
                 </table>
