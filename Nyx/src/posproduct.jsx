@@ -14,6 +14,7 @@ function PosProduct(){
     const [text,settext]=useState();
     const [info,setinfo]=useState(null);
     
+    
 
     const nagivate=useNavigate();
     const {backcolor}=useContext(Context);
@@ -33,6 +34,7 @@ function PosProduct(){
     setfliterdata(Products.data)
   },[Products.data])
 
+
   
     function searchHandler(e){
         let textvalue=e.target.value;
@@ -48,7 +50,6 @@ function PosProduct(){
         }
         }
     }
-
     function handleupdate(data){
         setinfo(data)
         nagivate('posaddproduct')
@@ -103,3 +104,36 @@ function PosProduct(){
     )
 }
 export default PosProduct;
+{/* <table className='addordertable'>
+                            <thead>
+                                <tr>
+                                    <th className='spe1'>Items Details</th>
+                                    <th className='spe2'>Qty</th>
+                                    <th className='spe3'>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    childdata.length > 0 ?
+                                    childdata.map((item,index)=>{
+                                        return(
+                                            <tr key={index}>
+                                                    <td className='addorderimgcontainer'>
+                                                        <div><img src={item.images} alt={item.productName} className='addordertableimg'/></div>
+                                                        <p>{item.productName}</p>
+                                                    </td>
+                                                    <td className='qtywarper'>
+                                                        <div className='qty'>
+                                                            <button onClick={() => updateCart(item.id, -1)}>-</button> 
+                                                            <p></p>
+                                                            <button onClick={() => updateCart(item.id, 1)}>+</button>
+                                                        </div>
+                                                    </td>
+                                                    <td>{item.price}</td>
+                                                </tr>
+                                            )
+                                        }):
+                                        <tr><td>no data</td></tr>                                   
+                                }
+                            </tbody>
+                        </table> */}

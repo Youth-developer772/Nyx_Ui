@@ -79,7 +79,7 @@ function PosCustomer(){
                                 )
                         }): (
                                 [...Array(10)].map((_, index) => (
-                                <CustomerLoading key={index} />
+                                <CustomerLoading key={index} times={7}/>
                                 ))
                             ) 
                     }

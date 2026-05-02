@@ -369,6 +369,13 @@
     background-color: #0d1b2a62;
     opacity: 0.5;
 }
+#brandupdate{
+    align-self: flex-end !important;
+    margin-top: 0 !important;
+}
+#brandcreate{
+    margin-top: 0 !important;
+}
 
 /*for confirm box*/
 .modern-swal-popup {

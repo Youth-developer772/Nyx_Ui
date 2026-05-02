@@ -34,6 +34,9 @@ import ClassCustomer from './Class/classcustomer';
 import ClassReport from './Class/classreport';
 import ClassInventory from './Class/classinventory';
 import ClassSetting from './Class/classsetting';
+import MobileOrder from './Routes/mobileorder';
+import LocalOrder from './Routes/localorder';
+import AddOrder from './Routes/AddOrder';
 
 function App(){
   const [childData,SetchildData]=useState({});
@@ -62,7 +65,12 @@ function App(){
 
         <Route path='posoverview' element={ <PosOverview/> }/>
 
-        <Route path='posorder' element={<PosOrder/>}/>
+        <Route path='posorder' element={<PosOrder/>}>
+        <Route index element={< Navigate to='mobileorder' replace />} />
+        <Route path='mobileorder' element={<MobileOrder />}/>
+        <Route path='localorder' element={<LocalOrder />} />
+        <Route path='posaddorder' element={<AddOrder />}/>
+        </Route>
 
         <Route path='poscategory' element={<PosCategory/>}/>
 
@@ -71,9 +79,7 @@ function App(){
         </Route>
 
         <Route path='poscustomer' element={<PosCustomer/>}/>
-
         <Route path='posinventory' element={<PosInventory/>}/>
-
         <Route path='posreport' element={<PosReport/>}/>
 
         <Route path='possetting' element={<PosSetting/>}>

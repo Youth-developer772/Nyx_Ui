@@ -1,9 +1,10 @@
 .Poscustomermain{
     display: flex;
     flex-direction: column;
-    margin: 1em 2em;
+    padding: 1em 2em;
     gap: 1em;
-    color: #0D1B2A;   
+    color: #0D1B2A;
+    height: 100vh;   
 }
 .Poscustomerheader{
     display: flex;
@@ -36,6 +37,8 @@
     border-radius: 5px;
     padding:1em;
     background-color: #E1E1E1;
+    height: 90vh;
+    overflow-y: scroll;
 }
 .customertable{
     width: 100%;
@@ -43,6 +46,12 @@
 }
 .customertable tr{
     border-bottom: 1px solid black;
+}
+.customertable thead{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #E1E1E1;
 }
 .customertable th,td{
     padding: 1em;

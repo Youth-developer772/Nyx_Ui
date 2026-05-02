@@ -99,6 +99,9 @@
 .posbody{
     display: flex;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 3;
 }
 
 .posbody .posbodyheader{
@@ -194,20 +197,28 @@
 /*for table*/
 .posfooter {
     background-color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     border: 1px solid #ccc;
+    height: 40vh;
 }
 
 .posfooter h2 {
     margin-bottom: 15px;
     font-size: 1.2rem;
     color: #333;
+    padding-top: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    background-color: white;
 }
 
 .posfooter table {
     width: 100%;
     border-collapse: collapse;
+    overflow-y: scroll;
+
 }
 
 .posfooter th {
@@ -215,13 +226,18 @@
     padding: 12px 8px;
     border-bottom: 2px solid #eee; 
     color: #555;
+    font-family: Inter;
+    position: sticky;
+    top: 10%;
+    z-index: 4;
+    background-color: white;
 }
 
 .posfooter td {
-    padding: 10px 8px;
+    padding: 2px 8px;
     border-bottom: 1px solid #eee; 
-    font-size: 0.95rem;
     color: #444;
+    font-size: small;
 }
 
 .status-badge {
@@ -239,7 +255,7 @@
     color: #2e7d32;
 }
 
-.status-badge.complete {
+.status-badge.completed {
     background-color: #e1d5f9; 
     color: #673ab7;
 }

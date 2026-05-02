@@ -18,8 +18,8 @@ function Dropdownmenu({data,refresh}) {
   const handleClose = () => setAnchorEl(null);
 
   async function UpdateOrder(item) {
-        
-        let id=item.OrderNo;
+        console.log(item)
+        let id=item.order_id;
         try {
             let reponse= await fetch(`${import.meta.env.VITE_UPDATE_ORDER}/${id}`,{
                 method:'PUT',

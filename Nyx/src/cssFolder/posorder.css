@@ -14,7 +14,6 @@
   flex-direction: column;
   width: 250px;
   height: 120px;
-  border: 1px solid black;
   border-radius: 5px;
   justify-content: space-around;
   background-color: #becefd;
@@ -49,6 +48,18 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: 0;
+  height: 10%;
+  background-color: white;
+  align-items: center;
+  gap: 10px;
+}
+.ordertableheader h2{
+  font-family: Inter;
+
 }
 .ordersearch {
   display: flex;
@@ -61,6 +72,8 @@
   background-color: #0d1b2a;
   justify-content: space-between;
   color: white;
+  z-index: 1;
+  margin-left: auto;
 }
 .ordersearch input {
   border: none;
@@ -71,9 +84,58 @@
   color: white;
   font-size: small;
 }
+.orderexportbtn{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 3px 15px;
+  border-radius: 7px;
+  border: none;
+  outline: none;
+  background-color: #0D1B2A;
+  color: white;
+}
+.addorderbutton a{
+  text-decoration: none;
+  color: white;
+}
+.Orderswitch{
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+  width: fit-content;
+  padding: 0;
+  border-radius: 5px;
+}
+.Orderswitch a{
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #000000;
+}
+.Orderswitch a.active{
+  background-color: #0D1B2A;
+  color: #FFFFFF;
+}
+.posfooter{
+  height: 70vh;
+  overflow-y: scroll;
+  padding-top: 0;
+  padding: 0;
+}
+
+
+/*for Mobile order and local order*/
+
 .posordertable {
   width: 100%;
   border-collapse: collapse;
+}
+.posordertable thead{
+  position: sticky;
+  top: 10%;
+  z-index: 2;
+  background-color: white;
+  
 }
 .posordertable th {
   font-family: Inter;
@@ -81,42 +143,43 @@
   font-weight: 700;
   color: #000000;
   padding: 5px 1px;
+  padding-top: 10px !important;
 }
 .posordertable td {
   font-family: Inter;
   font-size: small;
   padding: 0;
 }
+
 .posordertable .ordertablerow:hover td{
     background-color: rgba(128, 128, 128, 0.411);
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.281);
 }
 .posordertable .actioncolumn {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.orderdeleteIcon {
-  width: 30px;
-  border: none;
-  outline: none;
-  background-color: initial;
-  color: darkslategray;
-}
-.orderdeleteIcon:hover{
-  background-color: gray;
-  color: white;
-  padding: 2px;
-}
-.completeaction p {
+
+.completedaction p {
   background-color: #16f90e;
   text-align: center;
   padding: 3px;
   border-radius: 10px;
+  width: 70%;
 }
 .pendingaction p {
   background-color: #874bd3;
   text-align: center;
+  width: 70%;
+  padding: 3px;
+  border-radius: 10px;
+  line-height: 20px;
+}
+.cancelaction p{
+  background-color: #fa676785;
+  text-align: center;
+  width: 70%;
   padding: 3px;
   border-radius: 10px;
   line-height: 20px;
@@ -136,151 +199,4 @@
 
 /*for pop up*/
 /* overlay */
-.addorderpopupC {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
 
-/* popup card */
-.addorderpopup {
-  width: 750px;
-  max-width: 95%;
-  background: #f3f4f6;
-  border-radius: 14px;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-  font-family: Inter, sans-serif;
-}
-
-/* header */
-.addorderpopupheader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.addorderpopupheader h2 {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.addorderpopupheader svg {
-  cursor: pointer;
-}
-
-/* body layout */
-.addorderpopupbody {
-  display: flex;
-  gap: 25px;
-}
-
-/* columns */
-.left,
-.right {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-/* labels */
-.field h4 {
-  font-size: 13px;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #333;
-}
-
-/* inputs */
-.field input,
-.field select {
-  width: 100%;
-  padding: 11px 12px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  background: #e5e7eb;
-  font-size: 14px;
-}
-
-/* upload box (optional better UI) */
-.field input[type="file"] {
-  background: white;
-  padding: 8px;
-}
-
-/* payment info box */
-.paymentinfo {
-  background: #e5e7eb;
-  padding: 15px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.paymentinfo h4 {
-  margin-bottom: 5px;
-}
-
-.paymentinfo p {
-  font-size: 14px;
-  color: #333;
-}
-
-/* responsive */
-@media (max-width: 600px) {
-  .addorderpopupbody {
-    flex-direction: column;
-  }
-}
-
-/* footer */
-.addorderfooter {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 10px;
-}
-
-/* create button */
-.createbtn {
-  background: #111827;
-  color: #fff;
-  padding: 10px 22px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-.createbtn:hover {
-  opacity: 0.85;
-}
-
-/* cancel button */
-.cancelbtn {
-  background: transparent;
-  border: 1px solid #ccc;
-  padding: 10px 22px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-.cancelbtn:hover {
-  background: #eee;
-}

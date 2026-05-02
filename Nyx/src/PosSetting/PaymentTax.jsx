@@ -6,6 +6,7 @@ import Cash from '../images/Vector.png';
 import Unknow from '../images/barpone.png'
 import { useContext } from 'react';
 import { Context } from '../Hooks/context';
+import AddCircle from '@mui/icons-material/AddCircleOutlineTwoTone';
 
 function PosPaymentTax(){
 
@@ -44,11 +45,15 @@ function PosPaymentTax(){
                 {paymentMethod.map((item,index)=>{
                     return(
                         <div key={index} className='poscurrency'>
-                            <label htmlFor='input'><input type='radio'/>{item.name}</label>
+                            <label htmlFor='input'>{item.name}</label>
                             <img src={item.logo}alt={`${item.name}_logo`} className='paymentimg'/>
                         </div>
                     )
                 })}
+                <div className="paymentaddbtn">
+                    <AddCircle style={{width:'50px',height:'50px'}}/>
+                    <p>Add Payment Method</p>
+                </div>
             </div>
             <div className='pospaymentbutton'>
                 <button>cancel</button>

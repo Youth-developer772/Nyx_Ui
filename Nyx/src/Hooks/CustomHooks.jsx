@@ -5,7 +5,8 @@ export const useGetCategory =()=>{
     const [Categories,setCategories]=useState([]);
     const [Tags,setTags]=useState([]);
     const [Products,setProducts]=useState([]);
-    const [Orders,setOrders]=useState([]);
+    const [MOrders,setMOrders]=useState([]);
+    const [LOrders,setLOrders]=useState([]);
     const [Inventory,setInventory]=useState([]);
     const [Customers,setCustomers]=useState([]);
     const [Staff,setStaff]=useState([]);
@@ -78,19 +79,40 @@ export const useGetCategory =()=>{
         }
     }
 
-    //for Order
-    const GetOrders = async ()=>{
+    //for Mobile Order
+    const GetMobileOrders = async ()=>{
         try{
-            let reponse=await fetch(import.meta.env.VITE_GET_ORDERS,{
+            let reponse=await fetch(import.meta.env.VITE_GET_MOBILEORDER,{
                 method:'GET',
                 headers:{
                     "Authorization": `Bearer ${Token}`,
                     'Content-Type' :'application/json'
                 }
             });
+
             if(reponse.ok){
                 let data= await reponse.json();
-                setOrders(data)
+                setMOrders(data)
+            }
+        }catch(err){
+            console.log(err)
+        }
+    }
+
+
+    //for Loacal Order
+    const GetLocalOrders = async ()=>{
+        try{
+            let response= await fetch(import.meta.env.VITE_GET_LOCALORDER,{
+                method:'GET',
+                headers:{
+                    'Content-Type':'application/json',
+                    'Authorization':`Bearer ${Token}`
+                }
+            })
+            if(response.ok){
+                let data= await response.json();
+                setLOrders(data)
             }
         }catch(err){
             console.log(err)
@@ -178,7 +200,8 @@ export const useGetCategory =()=>{
         GetCategories();
         GetTags();
         GetProducts();
-        GetOrders();
+        GetMobileOrders();
+        GetLocalOrders();
         GetInventory();
         GetCustomer();
         GetStaff();
@@ -189,7 +212,8 @@ export const useGetCategory =()=>{
         Categories,GetCategories,
         Tags,GetTags,
         Products,GetProducts,
-        Orders,GetOrders,
+        MOrders,GetMobileOrders,
+        LOrders,GetLocalOrders,
         Inventory,GetInventory,
         Customers,GetCustomer,
         Staff,GetStaff,

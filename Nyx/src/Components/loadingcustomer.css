@@ -16,14 +16,14 @@
 }
 .loadingcustomer {
     height: 30px;
-    background-color: rgba(128, 128, 128, 0.76);
+    background-color: rgba(128, 128, 128, 0.452);
     border-radius: 2px;
     animation: loadingtable 1.2s ease-in-out infinite alternate;
     width: 90%;
 }
 .loadingcustomer1{
     height: 30px;
-    background-color: rgba(128, 128, 128, 0.774);
+    background-color: rgba(128, 128, 128, 0.479);
     border-radius: 2px;
     animation: loadingtable1 1.2s ease-in-out infinite alternate;
     width: 90%;

@@ -11,20 +11,30 @@ import Swal from 'sweetalert2';
 import { Context } from './Hooks/context';
 import Loading from './Components/Loading';
 import LoaingTag from './Components/loadingTag';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import BrandPopUp from './Components/brandaddpopup';
 
 function PosCategory(){
 
     const [show ,setshow]=useState(false);
     const [show1,setshow1]=useState(false);
+    const [show2,setshow2]=useState(false);
     const [alert1,setalert1]=useState(false);
+    const [selecttoDel,setselecttoDel]=useState(null);//for category update
+    const [allow,setallow]=useState( selecttoDel ? true : false); //for category update
     const [editdata,seteditdata]=useState(null);//for tagsupdate
-    const [selecttoDel,setselecttoDel]=useState(null);
-    const [allow,setallow]=useState( selecttoDel ? true : false);
     const [isallow,setisallow]=useState(editdata ? true : false); //for tagsupdate
+    
+
+   
+
     
     let Categoryname=useRef();
     let CategoryImage=useRef();
     let Tagsref=useRef();
+    
+
+
 
 
     const {Categories,GetCategories,Tags,GetTags}=useGetCategory();
@@ -35,6 +45,7 @@ function PosCategory(){
         color: Font_color ? '#E1E1E1' : '#0D1B2A'
     }
 
+    
     
     
     async function addCategory(e){
@@ -343,8 +354,72 @@ function PosCategory(){
                     )
             }
             </div>
+            
+            <hr  style={{margin:'1em ',height:'5px',background:'black',width:'100%'}}/>
 
-           { /*for Pop up box*/}
+{/*for pos brand_____________________________________________________________________________________________*/}
+
+            <div className="poscategorybrand">
+                <div className="Poscategoryheader">
+                    <h1 style={FontStyle}><TagIcon style={{fontSize:'35px'}}/>Brand</h1>
+                    <button onClick={()=>setshow2(true)}><AddIcon/>Add Brand</button>
+                </div>
+            </div>
+
+            <div className='poscategorybody'>
+                {Array.isArray(Categories.data) && Categories.data.length > 0 ? 
+                     Categories.data.map((item,index)=>{
+                        return(
+                            <div key={index} onClick={()=>editCategory(item)} className='singlecategory'>
+                                <img src={item.image_url} alt='image'/>
+                                <p>{item.name}</p>
+                            </div>
+                            )
+                        })
+                    : (
+                        [...Array(7)].map((_, index) => (
+                        <Loading key={index} />
+                        ))
+                    )
+            }
+            </div>
+
+            <hr  style={{margin:'1em ',height:'5px',background:'black',width:'100%'}}/>
+
+
+            <div className='poscategorybody2'>
+                <h1 style={FontStyle}><TagIcon style={{fontSize:'35px'}}/>Tags</h1>
+                <button
+                onClick={()=>{
+                    seteditdata(null)
+                    setshow(false)
+                    setshow1(true)
+                    setisallow(false)
+                }}
+                ><AddIcon/>Add Tags</button>
+            </div>
+            <div className='poscategoryfooter'>
+                {Array.isArray(Tags.data) ? 
+                (Tags.data.length > 0 ?
+                   Tags.data.map((item,index)=>{
+                        return(<h3 key={index}
+                        onClick={()=>handleEdit(item)}
+                        >{item.name}</h3>) 
+                        
+                   }):
+                   (<div>
+                   <p>There is no tags</p>
+                   <h1 onClick={()=>setshow1(true)}>Add New Tags</h1>
+                   </div>))
+                    : (
+                        [...Array(4)].map((_, index) => (
+                        <LoaingTag key={index} />
+                        ))
+                    )   
+            }
+            </div>
+{/* _______________________________________________________________________________________________________________________________________________*/}
+            { /*for Pop up box*/}
             {
              show && (
                 <div className="showwarper">
@@ -451,40 +526,10 @@ function PosCategory(){
                     </div>
                 )
             }
-            {/*for tag alret box*/}
-            
-            <hr  style={{margin:'1em ',height:'5px',background:'black',width:'100%'}}/>
-            <div className='poscategorybody2'>
-                <h1 style={FontStyle}><TagIcon style={{fontSize:'35px'}}/>Tags</h1>
-                <button
-                onClick={()=>{
-                    seteditdata(null)
-                    setshow(false)
-                    setshow1(true)
-                    setisallow(false)
-                }}
-                ><AddIcon/>Add Tags</button>
-            </div>
-            <div className='poscategoryfooter'>
-                {Array.isArray(Tags.data) ? 
-                (Tags.data.length > 0 ?
-                   Tags.data.map((item,index)=>{
-                        return(<h3 key={index}
-                        onClick={()=>handleEdit(item)}
-                        >{item.name}</h3>) 
-                        
-                   }):
-                   (<div>
-                   <p>There is no tags</p>
-                   <h1 onClick={()=>setshow1(true)}>Add New Tags</h1>
-                   </div>))
-                    : (
-                        [...Array(4)].map((_, index) => (
-                        <LoaingTag key={index} />
-                        ))
-                    )   
+            {/*for brand input box*/}
+            {
+             show2 && <BrandPopUp data={{setshow2:setshow2}}/>
             }
-            </div>
         </div>
         </>
     )

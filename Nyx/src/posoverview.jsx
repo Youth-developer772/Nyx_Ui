@@ -5,13 +5,30 @@ import CustomerIcon from '@mui/icons-material/Groups';
 import Shoe from './images/shoe.png';
 import { useContext } from "react";
 import { Context } from "./Hooks/context";
+import { useGetCategory } from "./Hooks/CustomHooks";
+import CustomerLoading from "./Components/loadingcustomer";
+import Swal from "sweetalert2";
 function PosOverview(){
 
     const {backcolor}=useContext(Context);
+    const {MOrders}=useGetCategory();
     const Font_color=Boolean(backcolor == '#1A1C1E');
     const FontStyle={
         color: Font_color ? '#E1E1E1' : '#0D1B2A'
     }
+    //for img preview
+    const showImagePreview = (imageUrl) => {
+        Swal.fire({
+            imageUrl: imageUrl,
+            imageAlt: 'Payment Proof',
+            showConfirmButton: false, 
+            showCloseButton: false,
+            background: 'transparent', 
+            customClass: {
+                image: 'preview-image-style'
+            }
+        });
+    };
 
     let data = [
             { name: "Jan", sales: 3000 },
@@ -21,11 +38,7 @@ function PosOverview(){
             { name: "May", sales: 7000 },
             { name: "Jun", sales: 8000 },
         ];
-    let tabledata=[
-        {id:'1',customer:'John',product:'Golf Bag',amount:"20,000ks",date:'17-03-2026',time:'02:45:37 AM', status:'Pending'},
-        {id:'2',customer:'Msh',product:'Badminton',amount:"8,000ks",date:'17-03-2026',time:'02:45:37 AM', status:'Complete'},
-        {id:'3',customer:'Feddy',product:'Adidas',amount:"250,000ks",date:'17-03-2026',time:'02:45:37 AM', status:'Cancel'}
-    ];
+    
     let headerdata=[
         {title:'Total Revenue',amount:'60000ks',increasement:'11%',compare:'from yesterday'},
         {title:'Total Order',amount:'1200',increasement:'-3%',compare:'from yesterday'},
@@ -96,31 +109,57 @@ function PosOverview(){
                         <tr>
                             <th>Order ID</th>
                             <th>Customer</th>
-                            <th>Product</th>
                             <th>Amount</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Payment</th>
+                            <th>Payment Proof</th>
                             <th>Order Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {tabledata.map((item, index) => {
+                        {Array.isArray(MOrders.data) ?
+                        (
+                            MOrders.data.length > 0 ?
+                            MOrders.data.map((item, index) => {
                             return (
-                                <tr key={index}>
-                                    <td>{item.id}</td>
-                                    <td>{item.customer}</td>
-                                    <td>{item.product}</td>
-                                    <td>{item.amount}</td>
-                                    <td style={{ color: '#6a7d95' }}>{item.date}</td>
-                                    <td>{item.time}</td>
+                                <tr key={index} className="posoverviewtr">
+                                    <td>{item.order_id}</td>
+                                    <td>{item.customer_name}</td>
+                                    <td>{item.Total}</td>
+                                    <td style={{ color: '#6a7d95' }}>{item.Date}</td>
+                                    <td>{item.Time}</td>
+                                    <td>{item.payment_method}</td>
+                                    <td className='imgcontainer'>
+                                        <img src={item.payment_proof} className='posorderimg'
+                                        onClick={() => showImagePreview(item.payment_proof)}
+                                        />
+                                    </td>
                                     <td>
-                                        <span className={`status-badge ${item.status.toLowerCase()}`}>
-                                            {item.status}
+                                        <span className={`status-badge ${item.order_status.toLowerCase()}`}>
+                                            {item.order_status}
                                         </span>
                                     </td>
                                 </tr>
                             );
-                        })}
+                        }):
+                        <tr>
+                            <td>The</td>
+                            <td>Orders</td>
+                            <td>appear</td>
+                            <td>when</td>
+                            <td>user</td>
+                            <td>add</td>
+                            <td>order</td>
+                        </tr>
+                        )
+                        :
+                        [...Array(10)].map((_,index)=>{
+                            return(
+                                <CustomerLoading times={8}/>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
             </div>

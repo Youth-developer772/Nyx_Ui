@@ -4,6 +4,8 @@ import { Context } from '../Hooks/context';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGetCategory } from '../Hooks/CustomHooks';
 import toast, { Toaster } from 'react-hot-toast';
+import TableLoading from '../Components/tableloading';
+import CustomerLoading from '../Components/loadingcustomer';
 
 
 
@@ -112,7 +114,11 @@ function StaffManagement(){
                                     </td>
                                 </tr>
                             )):
-                        <tr><td>Loading....</td></tr>
+                            (
+                                [...Array(5)].map((_, index) => (
+                                <CustomerLoading times={6} key={index} />
+                                ))
+                            ) 
                         }
                     </tbody>
                 </table>

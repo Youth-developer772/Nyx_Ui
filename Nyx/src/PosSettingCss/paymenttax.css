@@ -13,7 +13,7 @@
 }
 .pospaymentwarper .pospaymentchild2 div{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 10px;
 }
 .pospaymentwarper .pospaymentchild2 div input{
@@ -26,12 +26,13 @@
     font-weight: 500;
 }
 .pospaymentbody{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,300px));
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
 .pospaymentbody .poscurrency{
     display: flex;
+    width: 200px;
     align-items: center;
     border: 1px solid black;
     justify-content: space-between;
@@ -39,6 +40,23 @@
     height: 100px;
     background-color: #BECEFD;
     border-radius: 10px;
+}
+.paymentaddbtn{
+    display: flex;
+    border: 1px solid black;
+    height: 100px;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 200px !important;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #BECEFD;
+}
+.paymentaddbtn p{
+    font-weight: bold;
+    font-family: Inter;
+    white-space: wrap;
 }
 .pospaymentbody .poscurrency label{
     display: flex;

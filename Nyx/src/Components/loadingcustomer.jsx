@@ -1,14 +1,17 @@
 import './loadingcustomer.css';
-function CustomerLoading(){
+function CustomerLoading({times}){
+    let time = times || 8;
     return(
         <tr className="loadingcustomermain">
-            <td className="loadingcustomertd"><div className="loadingcustomer"></div></td>
-            <td className="loadingcustomertd"><div className="loadingcustomer1"></div></td>
-            <td className="loadingcustomertd"><div className="loadingcustomer"></div></td>
-            <td className="loadingcustomertd"><div className="loadingcustomer1"></div></td>
-            <td className="loadingcustomertd"><div className="loadingcustomer"></div></td>
-            <td className="loadingcustomertd"><div className="loadingcustomer1"></div></td>
-            <td className="loadingcustomertd"><div className="loadingcustomer"></div></td>
+            
+            {[...Array(time)].map((_,index)=>{
+                return(
+                    <td className='loadingcustomertd' key={index}>
+                        <div className={index % 2 == 0 ? 'loadingcustomer' : 'loadingcustomer1'}></div>
+                    </td>
+                )
+            })}
+
         </tr>
     )
 }
