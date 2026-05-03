@@ -13,11 +13,18 @@ function AddorderProduct({ data }) {
   const { Categories, Products } = useGetCategory();
   const { fun1, fun2, amount } = data;
 
+  var purifiedData;
+  if (Array.isArray(Products.data) && Products.data.length > 0) {
+    purifiedData = Products.data.filter((item) => {
+      return item.total_stock > 0;
+    });
+  }
+
   useEffect(() => {
-    if (Array.isArray(Products.data)) {
-      let result = Products.data;
+    if (Array.isArray(purifiedData)) {
+      let result = purifiedData;
       if (category !== "All") {
-        result = Products.data.filter((item) => {
+        result = purifiedData.filter((item) => {
           return item.category == category;
         });
       }
@@ -44,11 +51,12 @@ function AddorderProduct({ data }) {
 
   //function to clickable once
   function click_once(id) {
-    setstate((prev) => {
-      let newbtn = prev[id] || false;
-      if (prev[0]) return prev;
-      return { ...prev, [id]: true };
-    });
+    // setstate((prev) => {
+    //   let newbtn = prev, [id] || false;
+    //   if (prev[0]) return prev;
+    //   return { ...prev, [id]: true };
+    // });
+    setstate((prev) => ({ ...prev, [id]: true }));
   }
 
   return (
@@ -93,7 +101,7 @@ function AddorderProduct({ data }) {
         )}
       </div>
       <div className="Adpproduct">
-        {Array.isArray(Products.data) && Products.data.length > 0 ? (
+        {Array.isArray(purifiedData) && purifiedData.length > 0 ? (
           Array.isArray(fliterdata) && fliterdata.length > 0 ? (
             fliterdata.map((item, index) => {
               return (

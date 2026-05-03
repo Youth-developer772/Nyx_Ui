@@ -66,6 +66,7 @@
   width: 100%;
   justify-content: space-between;
   padding: 5px 1em;
+  height: 70vh;
 }
 .addorderchoice {
   width: 60%;
@@ -76,6 +77,7 @@
   gap: 10px;
   border-radius: 10px;
   border: 1px solid #0d1b2a;
+  height: 100%;
 }
 .addorderchoiceheader {
   display: flex;
@@ -188,72 +190,82 @@
   display: flex;
   flex-direction: column;
   width: 38%;
-  padding: 7px 1em 1em 1em;
+  gap: 10px;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+.orderprint1 {
+  width: 100%;
   border: 1px solid #0d1b2a;
   border-radius: 10px;
+  height: 90%;
   background-color: #ffffff;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+}
+.orderprintheader {
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 .ssx {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 0;
-  gap: 3px;
-}
-.orderprintheader {
-  display: flex;
-  align-items: center;
   gap: 5px;
+  width: 100%;
 }
-.orderprint label {
-  font-family: Inter;
-  padding: 5px;
-}
-.orderprint select {
-  border: 1px solid #0d1b2a;
+.ssx select {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 5px;
   outline: none;
-  padding: 10px;
-  border-radius: 5px;
+  border: 1px solid rgba(128, 128, 128, 0.548);
 }
-.paymentwarper {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-  gap: 10px;
-  color: #44474c;
+.receipet {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 .paymentmain {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
+  width: 100%;
+}
+.paymentwarper {
+  border: 1px solid rgba(128, 128, 128, 0.548);
+  padding: 7px;
+  border-radius: 10px;
 }
 .paymentwarper span {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
+.paymentwarper span p {
+  padding: 5px;
+  font-family: Inter;
+}
 .addorderreceipet {
   width: 100%;
-  height: 200px;
-  border: 1px dashed #0d1b2a;
-  border-radius: 5px;
+  height: 44%;
+  border-radius: 10px;
+  border: 1px dashed gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .addorderbtn {
-  align-self: flex-end;
   display: flex;
   gap: 10px;
+  align-self: flex-end;
 }
 .addorderbtn button {
-  padding: 5px 10px;
+  padding: 10px 2em;
   border-radius: 5px;
   border: 1px solid #0d1b2a;
   outline: none;
-}
-.addorderreceipet img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }

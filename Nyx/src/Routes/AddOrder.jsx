@@ -7,9 +7,12 @@ import { useContext, useEffect, useRef, useState } from "react";
 import AddorderProduct from "../Components/addorderproudct";
 import PaymentIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import RemoveIcon from "@mui/icons-material/RemoveShoppingCartRounded";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import toast, { Toaster } from "react-hot-toast";
 import { createPortal } from "react-dom";
 import { FunnelChart } from "recharts";
 import { Context } from "../Hooks/context";
+import { useNavigate } from "react-router-dom";
 function AddOrder() {
   const [reciept, setreciept] = useState();
   const [amount, setamount] = useState(0);
@@ -24,6 +27,8 @@ function AddOrder() {
   const paymentref = useRef();
   const { Token } = useContext(Context);
   const { GetLocalOrders } = useGetCategory();
+
+  const navigate = useNavigate();
 
   // function to  radom recepit number
   function randomNum() {
@@ -84,15 +89,18 @@ function AddOrder() {
     });
 
     let formData = new FormData();
-    formData.append("total_amount", amount);
-    formData.append("payment_method", paymentref.current.value);
-    formData.append("items", JSON.stringify(delta));
-    console.log(Object.fromEntries(formData));
+
     if (filetosend) {
       formData.append("payment_image", filetosend);
     }
 
+    formData.append("total_amount", amount);
+    formData.append("payment_method", paymentref.current.value);
+    formData.append("items", JSON.stringify(delta));
+    console.log(Object.fromEntries(formData));
+
     try {
+      const loading = toast.loading("Please Wait...");
       let response = await fetch(import.meta.env.VITE_ADD_ORDER, {
         method: "POST",
         headers: {
@@ -100,20 +108,28 @@ function AddOrder() {
         },
         body: formData,
       });
-      let data = await response.json();
-      console.log(data);
       if (response.ok) {
-        await GetLoaclOrders();
+        await GetLocalOrders();
+        toast.success("successfully Added", { id: loading });
+      } else {
+        toast.error("adding Failed", { id: loading });
       }
     } catch (err) {
+      toast.error("Can not connetct with sever", { id: loading });
       console.log(err);
     }
   }
 
   return createPortal(
     <div className="addordermain">
+      <Toaster />
       <div className="addordernav">
-        <BackIcon sx={{ color: "white", margin: "7px" }} />
+        <button
+          style={{ border: "none", outline: "none", background: "initial" }}
+          onClick={() => navigate("/posorder")}
+        >
+          <BackIcon sx={{ color: "white", margin: "7px" }} />
+        </button>
       </div>
       <div className="addorderbody">
         <h3 className="addordertitle">Create New Order</h3>
@@ -179,47 +195,63 @@ function AddOrder() {
                   );
                 })
               ) : (
-                <p>No data</p>
+                <p
+                  style={{ width: "100%", textAlign: "center", padding: "1em" }}
+                >
+                  No Product Choose Yet...
+                </p>
               )}
             </div>
           </div>
 
           <div className="orderprint">
-            <p className="orderprintheader">
-              <PaymentIcon sx={{ color: "red" }} />
-              Payment Details
-            </p>
-            <div className="ssx">
-              <label htmlFor="input">Payment Method</label>
-              <select ref={paymentref}>
-                <option value="kpay">Kpay</option>
-                <option value="wavepay">Wave pay</option>
-              </select>
-            </div>
-            <span className="paymentmain">
-              <label>Payment Details</label>
-              <div className="paymentwarper">
-                <span>
-                  <p>kpay name</p>
-                  <p>kpay number</p>
-                </span>
-                <span>
-                  <p>adminname</p>
-                  <p>09661234444</p>
-                </span>
+            <div className="orderprint1">
+              <p className="orderprintheader">
+                <PaymentIcon sx={{ color: "red" }} />
+                Payment Details
+              </p>
+              <div className="ssx">
+                <label htmlFor="input">Payment Method</label>
+                <select ref={paymentref}>
+                  <option value="kpay">Kpay</option>
+                  <option value="wavepay">Wave pay</option>
+                </select>
               </div>
-            </span>
-            <div
-              className="addorderreceipet"
-              onClick={() => imgref.current.click()}
-            >
-              {file && <img src={file} alt="paymentrecepit" />}
-              <input
-                type="file"
-                style={{ display: "none" }}
-                ref={imgref}
-                onChange={handleFileChange}
-              />
+              <span className="paymentmain">
+                <label style={{ padding: "5px" }}>Payment Details</label>
+                <div className="paymentwarper">
+                  <span>
+                    <p>kpay name</p>
+                    <p>adminname</p>
+                  </span>
+                  <span>
+                    <p>kpay number</p>
+                    <p>09661234444</p>
+                  </span>
+                </div>
+              </span>
+              <div
+                className="addorderreceipet"
+                onClick={() => imgref.current.click()}
+              >
+                {file ? (
+                  <img src={file} alt="paymentrecepit" className="receipet" />
+                ) : (
+                  <>
+                    <UploadFileIcon />
+                    <p>
+                      Click to Upload <br />
+                      receipet
+                    </p>
+                  </>
+                )}
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={imgref}
+                  onChange={handleFileChange}
+                />
+              </div>
             </div>
             <span className="addorderbtn">
               <button>cancel</button>
