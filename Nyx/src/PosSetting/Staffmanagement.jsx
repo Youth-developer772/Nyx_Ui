@@ -31,8 +31,7 @@ function StaffManagement() {
 
   function confirmAddpassword(e) {
     e.preventDefault();
-    openbox(Add_Staff);
-    setshow(false);
+    openbox(Add_Staff, setshow);
   }
 
   async function Add_Staff() {

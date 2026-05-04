@@ -7,13 +7,15 @@ import "./securitycheck.css";
 export function useSecurityCheck() {
   const [show, setshow] = useState(false);
   const [fun, setfun] = useState(null);
+  const [fun1, setfun1] = useState(null);
   const [wrong, setwrong] = useState(false);
 
   const passwordref = useRef();
 
-  const openbox = (callBackfun) => {
+  const openbox = (callBackfun, Fun) => {
     console.log("set show is true");
     setfun(() => callBackfun);
+    if (Fun) setfun1(() => Fun);
     setshow(true);
   };
 
@@ -28,6 +30,7 @@ export function useSecurityCheck() {
     if (adminpassword == "alpha123") {
       fun(e);
       closebox();
+      if (fun1) fun1(false);
     } else {
       setwrong(true);
       passwordref.current.value = "";

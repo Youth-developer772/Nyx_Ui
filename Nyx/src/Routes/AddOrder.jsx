@@ -13,6 +13,7 @@ import { createPortal } from "react-dom";
 import { FunnelChart } from "recharts";
 import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
+
 function AddOrder() {
   const [reciept, setreciept] = useState();
   const [amount, setamount] = useState(0);
@@ -22,13 +23,22 @@ function AddOrder() {
   const [childdata, setchilddata] = useState([]);
   const [file, setfile] = useState(null);
   const [filetosend, setfiletosend] = useState(null);
+  const [allow, setallow] = useState(true);
 
   const imgref = useRef();
   const paymentref = useRef();
   const { Token } = useContext(Context);
-  const { GetLocalOrders } = useGetCategory();
+  const { GetLocalOrders, Payment } = useGetCategory();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (childdata.length > 0 && filetosend) {
+      setallow(false);
+    } else {
+      setallow(true);
+    }
+  }, [childdata, filetosend]);
 
   // function to  radom recepit number
   function randomNum() {
@@ -213,8 +223,22 @@ function AddOrder() {
               <div className="ssx">
                 <label htmlFor="input">Payment Method</label>
                 <select ref={paymentref}>
-                  <option value="kpay">Kpay</option>
-                  <option value="wavepay">Wave pay</option>
+                  {Array.isArray(Payment.result) &&
+                  Payment.result.length > 0 ? (
+                    Payment.result.map((item, index) => {
+                      return (
+                        <>
+                          <option key={index} value={item.payment_method}>
+                            {item.payment_method}
+                          </option>
+                        </>
+                      );
+                    })
+                  ) : (
+                    <option value="no data" disabled>
+                      No Data....
+                    </option>
+                  )}
                 </select>
               </div>
               <span className="paymentmain">
@@ -257,6 +281,7 @@ function AddOrder() {
               <button>cancel</button>
               <button
                 style={{ background: "#0D1B2A", color: "white" }}
+                disabled={allow}
                 onClick={add_order}
               >
                 Create

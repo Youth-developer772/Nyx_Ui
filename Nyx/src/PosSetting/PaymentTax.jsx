@@ -8,6 +8,7 @@ import AddPaymentPopUp from "../Components/addpaymentpopup";
 
 function PosPaymentTax() {
   const [show, setshow] = useState(false);
+  const [items, setitems] = useState(null);
 
   const { Payment, GetPayment } = useGetCategory();
   const { ReturnJsx, openbox } = useSecurityCheck();
@@ -45,7 +46,14 @@ function PosPaymentTax() {
         {Array.isArray(Payment.result) && Payment.result.length > 0 ? (
           Payment.result.map((item, index) => {
             return (
-              <div className="poscurrency" key={index}>
+              <div
+                className="poscurrency"
+                key={index}
+                onClick={() => {
+                  setitems(item);
+                  setshow(true);
+                }}
+              >
                 <span className="poscurrecytext">
                   <p>{item.payment_method}</p>
                   <p>{item.payment_name}</p>
@@ -65,7 +73,13 @@ function PosPaymentTax() {
         </div>
       </div>
       {show && (
-        <AddPaymentPopUp data={setshow} updfun={GetPayment} FTS={openbox} />
+        <AddPaymentPopUp
+          data={setshow}
+          updfun={GetPayment}
+          FTS={openbox}
+          items={items}
+          setitems={setitems}
+        /> /*FTS stand for function to open Security check*/
       )}
     </div>
   );
