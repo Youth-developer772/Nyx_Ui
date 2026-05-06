@@ -3,6 +3,7 @@ import CloseIcon from "@mui/icons-material/CloseOutlined";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import { useGetCategory } from "../Hooks/CustomHooks";
 import { useEffect, useState } from "react";
+import PLO from "./PLO";
 
 function AddorderProduct({ data }) {
   const [fliterdata, setfliterdata] = useState();
@@ -97,7 +98,9 @@ function AddorderProduct({ data }) {
             })}
           </>
         ) : (
-          <span>Laoding..</span>
+          [...Array(5)].map((_, index) => {
+            return <p className="loadingp"></p>;
+          })
         )}
       </div>
       <div className="Adpproduct">
@@ -136,7 +139,7 @@ function AddorderProduct({ data }) {
             </h1>
           )
         ) : (
-          <p>Loading.....</p>
+          <PLO />
         )}
       </div>
       <div className="Adpfooter">

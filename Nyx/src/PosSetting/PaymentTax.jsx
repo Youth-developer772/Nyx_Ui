@@ -1,19 +1,22 @@
 import "../PosSettingCss/paymenttax.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../Hooks/context";
 import AddCircle from "@mui/icons-material/AddCircleOutlineTwoTone";
 import { useGetCategory } from "../Hooks/CustomHooks";
 import { useSecurityCheck } from "../Hooks/SecurityCheck";
 import AddPaymentPopUp from "../Components/addpaymentpopup";
+import toast, { Toaster } from "react-hot-toast";
 
 function PosPaymentTax() {
   const [show, setshow] = useState(false);
   const [items, setitems] = useState(null);
 
-  const { Payment, GetPayment } = useGetCategory();
-  const { ReturnJsx, openbox } = useSecurityCheck();
+  const taxref = useRef();
 
-  const { backcolor } = useContext(Context);
+  const { Payment, GetPayment, Tax, GetTax } = useGetCategory();
+  const { ReturnJsx, openbox } = useSecurityCheck();
+  const { backcolor, Token } = useContext(Context);
+  console.log(Payment);
   const Font_Color = Boolean(backcolor == "#1A1C1E");
   const FontStyle = {
     color: Font_Color ? "white" : "#0D1B2A",
@@ -22,6 +25,39 @@ function PosPaymentTax() {
     backgroundColor: backcolor ? "#FFFFFF" : "#0d1b2a21",
     color: backcolor ? "black" : "white",
   };
+
+  // tax update authorization
+  function update_confirm_tax(id) {
+    if (taxref.current.value == Tax.result[0].id)
+      return console.log("function return p");
+    openbox(() => update_tax(id));
+  }
+
+  async function update_tax(id) {
+    if (taxref.current.value == Tax.result[0].id)
+      return console.log("function return p");
+    const updating = toast.loading("Please wait...");
+    if (taxref.current.value == "") return console.log("data ma par par");
+    try {
+      let response = await fetch(`${import.meta.env.VITE_UPDATE_TAX}/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+        body: JSON.stringify({ tax: taxref.current.value }),
+      });
+      if (response.ok) {
+        await GetTax();
+        toast.success("successfully updated", { id: updating });
+      } else {
+        toast.error("update failed", { id: updating });
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Cannot connect with sever", { id: updating });
+    }
+  }
 
   return (
     <div
@@ -32,7 +68,21 @@ function PosPaymentTax() {
       <div className="pospaymentchild2">
         <div>
           <p style={FontStyle}>Tax Percentage( % )</p>
-          <input type="text" value={5} readOnly style={InputStyle} />
+          {Array.isArray(Tax.result) && Tax.result.length > 0 ? (
+            Tax.result.map((item, index) => {
+              return (
+                <input
+                  ref={taxref}
+                  type="text"
+                  key={index}
+                  defaultValue={item.tax}
+                  style={InputStyle}
+                />
+              );
+            })
+          ) : (
+            <input type="text" value="loading.." readOnly style={InputStyle} />
+          )}
         </div>
         <div>
           <p style={FontStyle}>Currency</p>
@@ -71,6 +121,17 @@ function PosPaymentTax() {
           <AddCircle style={{ width: "50px", height: "50px" }} />
           <p>Add Payment Method</p>
         </div>
+      </div>
+      <div className="pospaymentbutton">
+        <button>cancel</button>
+        <button
+          style={{ background: "#0D1B2A", color: "white" }}
+          onClick={() => {
+            update_confirm_tax(Tax.result[0].id || 1);
+          }}
+        >
+          Save Changes
+        </button>
       </div>
       {show && (
         <AddPaymentPopUp

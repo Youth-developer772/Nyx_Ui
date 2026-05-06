@@ -48,20 +48,34 @@
 .poscurrecytext {
   display: flex;
   flex-direction: column;
+  width: 110px;
   height: 95%;
   justify-content: space-between;
+  overflow: hidden;
 }
 .poscurrecytext :last-child {
   padding: 2px 5px;
+  width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .poscurrecytext :nth-child(2) {
   margin-top: auto;
   padding: 2px 5px;
+  width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .poscurrecytext :first-child {
   padding: 5px;
   font-weight: bold;
   font-family: Inter;
+  width: 110px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .poscurrency img {
   width: 70px;
@@ -95,10 +109,9 @@
   margin-top: 3em;
 }
 .pospaymentbutton button {
-  padding: 7px 1em;
-  border-radius: 5px;
+  padding: 10px 1em;
+  border-radius: 10px;
   font-weight: 500;
-  font-size: medium;
   outline: none;
   border: 1px solid #0d1b2a;
 }

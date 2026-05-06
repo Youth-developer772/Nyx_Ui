@@ -37,6 +37,9 @@
   padding: 7px 1em !important;
   border-radius: 10px;
   font-weight: bold;
+  border: 1px solid #0d1b2a;
+  outline: none;
+  padding: 5px 10px;
 }
 .orderheader h2 {
   display: flex;
@@ -57,9 +60,8 @@
   align-items: center;
   gap: 10px;
 }
-.ordertableheader h2{
+.ordertableheader h2 {
   font-family: Inter;
-
 }
 .ordersearch {
   display: flex;
@@ -84,7 +86,7 @@
   color: white;
   font-size: small;
 }
-.orderexportbtn{
+.orderexportbtn {
   display: flex;
   gap: 5px;
   align-items: center;
@@ -92,14 +94,14 @@
   border-radius: 7px;
   border: none;
   outline: none;
-  background-color: #0D1B2A;
+  background-color: #0d1b2a;
   color: white;
 }
-.addorderbutton a{
+.addorderbutton a {
   text-decoration: none;
   color: white;
 }
-.Orderswitch{
+.Orderswitch {
   display: flex;
   justify-content: space-around;
   border: 1px solid black;
@@ -107,22 +109,39 @@
   padding: 0;
   border-radius: 5px;
 }
-.Orderswitch a{
+.OrderswitchD {
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid rgb(255, 255, 255);
+  width: fit-content;
+  padding: 0;
+  border-radius: 5px;
+}
+.Orderswitch a {
   padding: 10px 15px;
   text-decoration: none;
   color: #000000;
 }
-.Orderswitch a.active{
-  background-color: #0D1B2A;
-  color: #FFFFFF;
+.Orderswitch a.active {
+  background-color: #0d1b2a;
+  color: #ffffff !important;
 }
-.posfooter{
+.OrderswitchD a {
+  padding: 10px 15px;
+  text-decoration: none;
+  color: white;
+  background-color: #ffffff70;
+}
+.OrderswitchD a.active {
+  background-color: #f0f5f9;
+  color: #0d1b2a !important;
+}
+.posfooter {
   height: 70vh;
   overflow-y: scroll;
   padding-top: 0;
   padding: 0;
 }
-
 
 /*for Mobile order and local order*/
 
@@ -130,12 +149,11 @@
   width: 100%;
   border-collapse: collapse;
 }
-.posordertable thead{
+.posordertable thead {
   position: sticky;
   top: 10%;
   z-index: 2;
   background-color: white;
-  
 }
 .posordertable th {
   font-family: Inter;
@@ -151,38 +169,58 @@
   padding: 0;
 }
 
-.posordertable .ordertablerow:hover td{
-    background-color: rgba(128, 128, 128, 0.411);
-    border-bottom: 1px solid rgba(128, 128, 128, 0.281);
+.posordertable .ordertablerow:hover td {
+  background-color: rgba(128, 128, 128, 0.411);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.281);
 }
-.posordertable .actioncolumn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.completedaction p {
-  background-color: #16f90e;
-  text-align: center;
-  padding: 3px;
-  border-radius: 10px;
-  width: 70%;
-}
-.pendingaction p {
-  background-color: #874bd3;
+.posordertable .actioncolumn p {
   text-align: center;
   width: 70%;
   padding: 3px;
   border-radius: 10px;
   line-height: 20px;
+  background-color: #16f90e49;
+  cursor: pointer;
 }
-.cancelaction p{
+#vss select option {
+  background-color: white;
+  border-radius: 5px;
+  margin: 3px;
+  border: 1px solid #0d1b2a;
+  padding: 5px 3px;
+}
+
+.completedaction select {
+  background-color: #16f90e;
+  text-align: center;
+  padding: 5px 3px;
+  border-radius: 10px;
+  width: 70%;
+  line-height: 20px;
+  border: none;
+  outline: none;
+}
+.pendingaction select {
+  /* background-color: #874bd3; */
+  background-color: rgb(236, 236, 57);
+  text-align: center;
+  width: 70%;
+  padding: 5px 3px;
+  border-radius: 10px;
+  line-height: 20px;
+  border: none;
+  outline: none;
+}
+.cancelaction select {
   background-color: #fa676785;
   text-align: center;
   width: 70%;
-  padding: 3px;
+  padding: 5px 3px;
   border-radius: 10px;
   line-height: 20px;
+  background-color: rgb(224, 39, 39);
+  border: none;
+  outline: none;
 }
 .Paymentimgcontaienr {
   width: 50px;
@@ -199,4 +237,3 @@
 
 /*for pop up*/
 /* overlay */
-

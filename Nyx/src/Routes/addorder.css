@@ -92,12 +92,14 @@
 .addorderchoiceheader2 {
   color: white;
   background-color: #0d1b2a;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
   font-family: Inter;
   font-size: small;
   font-weight: 400;
   cursor: pointer;
+  border: 1px solid #0d1b2a;
+  outline: none;
 }
 
 /*for fake table by display flex*/

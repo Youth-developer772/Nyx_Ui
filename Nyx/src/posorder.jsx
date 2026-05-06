@@ -25,16 +25,16 @@ function PosOrder() {
 
   const navigate = useNavigate();
 
-  const { Orders, GetOrders } = useGetCategory();
+  const { Orders, GetOrders, OrderHeader, GetOrderHeader } = useGetCategory();
   const { backcolor, Token } = useContext(Context);
 
   const Font_color = Boolean(backcolor == "#1A1C1E");
   const FontStyle = {
-    color: Font_color ? "#E1E1E1" : "#0D1B2A",
+    color: Font_color ? "#e1e1e1" : "#0D1B2A",
   };
   const ButtonStyle = {
     color: Font_color ? "#0d1b2a" : "white",
-    backgroundColor: Font_color ? "#E1E1E1" : "#0D1B2A",
+    backgroundColor: Font_color ? "#e1e1e1" : "#0D1B2A",
   };
 
   let data = [
@@ -69,7 +69,12 @@ function PosOrder() {
             onClick={() => navigate("posaddorder")}
             style={ButtonStyle}
           >
-            <NavLink to="posaddorder">+ Add Order</NavLink>
+            <NavLink
+              to="posaddorder"
+              style={{ color: Font_color ? "#0d1b2a" : "white" }}
+            >
+              + Add Order
+            </NavLink>
           </button>
         </div>
         <div className="orderbody">
@@ -83,88 +88,14 @@ function PosOrder() {
             );
           })}
         </div>
-        <div className="Orderswitch">
+        <div className={Font_color ? "OrderswitchD" : "Orderswitch"}>
           <NavLink to="mobileorder">Mobile Order</NavLink>
-          <NavLink to="localorder">Loacal Order</NavLink>
+          <NavLink to="localorder">Local Order</NavLink>
         </div>
 
         <div className="posfooter">
           <Outlet />
         </div>
-
-        {/*for the popup_______________________________________________________________________________________________*/}
-        {/* {
-            show && (
-                <div className="addorderpopupC">
-                    <form className="addorderpopup" onSubmit={add_order}>
-                                 
-                        <div className="addorderpopupheader">
-                            <h2>New Order</h2>
-                            <span onClick={()=>setshow(false)}><CloseIcon/></span>
-                        </div>
-                    
-                        <div className="addorderpopupbody">
-                            <div className="left">
-                                <div className="field">
-                                    <h4>Customer Name</h4>
-                                    <input type="text" ref={nameref}/>
-                                </div>
-
-                                
-                    
-                                <div className="field">
-                                    <h4>Amount</h4>
-                                    <input type="number" ref={amountref}/>
-                                </div>
-
-                                <div className="imageuploaddiv">
-                                    <h4>Upload Image</h4>
-                                    <div onClick={()=>recepitimg.current.click()}>
-                                        {
-                                            !(img) ?
-                                        <>
-                                        <UploadFileIcon/>
-                                        <p>Upload</p>
-                                        </>:
-                                        <><img src={img} alt='recepit' 
-                                        style={{width:'100%',height:'100%',borderRadius:'10px'}}/></>
-                                        }
-                                    </div>
-                                    <input type='file'accept='image/*' 
-                                    onChange={handleImageChange}
-                                    ref={recepitimg} style={{display:'none'}}/>
-                                </div>
-                    
-                            </div>
-                    
-                        <div className="right">
-                            <div className="field">
-                                <h4>Select Payment Method</h4>
-                                    <select className="payment" ref={paymentref}>
-                                        <option value="kpay">KBZ Pay</option>
-                                        <option value="wave">Wave Pay</option>
-                                        <option value="cash">Cash</option>
-                                    </select>
-                            </div>
-                            <div className="paymentinfo">
-                                <h4>Payment Info</h4>
-                                <p>Kpay name: Admin Name</p>
-                                <p>Kpay Number:09 xxx xxx xx</p>
-                            </div>
-                            <div className="addorderfooter">
-                                <button type="submit" className="createbtn">
-                                    Create
-                                </button>
-                                <button type="button" onClick={()=>setshow(false)} className="cancelbtn">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                        </div>
-                    </form>
-                </div>
-                )
-            } */}
       </div>
     </>
   );

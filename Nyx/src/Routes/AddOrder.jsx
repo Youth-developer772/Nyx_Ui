@@ -13,6 +13,7 @@ import { createPortal } from "react-dom";
 import { FunnelChart } from "recharts";
 import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
+import { useReceipt } from "../Components/Receipt";
 
 function AddOrder() {
   const [reciept, setreciept] = useState();
@@ -28,7 +29,8 @@ function AddOrder() {
   const imgref = useRef();
   const paymentref = useRef();
   const { Token } = useContext(Context);
-  const { GetLocalOrders, Payment } = useGetCategory();
+  const { GetLocalOrders, Payment, Products, Tax } = useGetCategory();
+  const { ReceipetJsx, open } = useReceipt();
 
   const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ function AddOrder() {
 
   // function to  radom recepit number
   function randomNum() {
-    let random = `${Math.trunc(Math.random() * 100)}${Date.now()}`;
+    let random = Date.now();
     setreciept(random);
   }
   useEffect(() => {
@@ -59,8 +61,6 @@ function AddOrder() {
     } else setamount(0);
   }, [childdata, cart]);
 
-  const { Products } = useGetCategory();
-
   function updateQty(id, amount) {
     setCart((prev) => {
       let curqty = prev[id] || 1;
@@ -72,6 +72,30 @@ function AddOrder() {
         return newqty;
       }
       return { ...prev, [id]: newqty };
+    });
+  }
+
+  //function to show receipet
+  function show_receipet() {
+    let TAX = Tax.result[0].tax || 1;
+    let curtax = (amount / 100) * Number(TAX);
+    let newchildData = childdata.map((item) => {
+      let qty = cart[item.id] !== undefined ? cart[item.id] : 1;
+      return {
+        ...item,
+        quantity: qty,
+      };
+    });
+
+    open({
+      order_no: reciept,
+      payment: paymentref.current.value,
+      items: newchildData,
+      item_Qty: childdata.length,
+      item_amount: Math.trunc(amount),
+      tax: Math.trunc(curtax),
+      dfee: 0,
+      total_amount: Math.trunc(amount + curtax),
     });
   }
 
@@ -104,23 +128,24 @@ function AddOrder() {
       formData.append("payment_image", filetosend);
     }
 
-    formData.append("total_amount", amount);
+    formData.append("reciept_no", reciept);
     formData.append("payment_method", paymentref.current.value);
     formData.append("items", JSON.stringify(delta));
-    console.log(Object.fromEntries(formData));
 
     try {
       const loading = toast.loading("Please Wait...");
       let response = await fetch(import.meta.env.VITE_ADD_ORDER, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
         body: formData,
       });
       if (response.ok) {
         await GetLocalOrders();
         toast.success("successfully Added", { id: loading });
+        show_receipet();
+        setchilddata([]);
+        setfiletosend(null);
+        setfile(null);
+        setCart({});
       } else {
         toast.error("adding Failed", { id: loading });
       }
@@ -133,6 +158,7 @@ function AddOrder() {
   return createPortal(
     <div className="addordermain">
       <Toaster />
+      {ReceipetJsx}
       <div className="addordernav">
         <button
           style={{ border: "none", outline: "none", background: "initial" }}
@@ -163,13 +189,12 @@ function AddOrder() {
                 <FoodIcon sx={{ color: "red", fontSize: "20px" }} />
                 Order items
               </p>
-              <p
+              <button
                 className="addorderchoiceheader2"
                 onClick={() => setshow(true)}
               >
-                {" "}
                 + select items form product
-              </p>
+              </button>
             </span>
 
             <div className="toorder">
@@ -178,13 +203,13 @@ function AddOrder() {
                 <p>Qty</p>
                 <p>Price</p>
               </div>
-              {childdata.length > 0 ? (
+              {childdata?.length > 0 ? (
                 childdata.map((item, index) => {
                   return (
                     <div className="toorderbody" key={index}>
                       <span className="toorderchild">
                         <div>
-                          <img src={item.images} alt={item.productName} />
+                          <img src={item.images} />
                         </div>
                         <p>{item.productName}</p>
                       </span>

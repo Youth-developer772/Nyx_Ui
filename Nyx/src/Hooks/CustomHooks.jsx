@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "./context";
 
 export const useGetCategory = () => {
   const [Categories, setCategories] = useState([]);
@@ -11,8 +12,11 @@ export const useGetCategory = () => {
   const [Staff, setStaff] = useState([]);
   const [General, setGeneral] = useState([]);
   const [Payment, setPayment] = useState([]);
+  const [Tax, setTax] = useState([]);
+  const [OrderHeader, setOrderHeader] = useState([]);
 
   const Token = localStorage.getItem("JWTToken");
+  const { Length, setLength } = useContext(Context);
 
   // for categories
   const GetCategories = async () => {
@@ -187,7 +191,7 @@ export const useGetCategory = () => {
     }
   }
 
-  //for tax
+  //for Payment
   async function GetPayment() {
     try {
       let response = await fetch(import.meta.env.VITE_GET_PAYMENT, {
@@ -199,7 +203,46 @@ export const useGetCategory = () => {
       });
       if (response.ok) {
         let data = await response.json();
+        setLength(data.result.length);
         setPayment(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //for Payment
+  async function GetTax() {
+    try {
+      let response = await fetch(import.meta.env.VITE_GET_TAX, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+      });
+      if (response.ok) {
+        let data = await response.json();
+        setTax(data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //for OrderHeader
+  async function GetOrderHeader() {
+    try {
+      let response = await fetch(import.meta.env.VITE_GET_ORDERHEADER, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Token}`,
+        },
+      });
+      if (response.ok) {
+        let data = await response.json();
+        setOrderHeader(data);
       }
     } catch (err) {
       console.log(err);
@@ -217,6 +260,8 @@ export const useGetCategory = () => {
     GetStaff();
     GetGenerals();
     GetPayment();
+    GetTax();
+    GetOrderHeader();
   }, []);
 
   return {
@@ -240,5 +285,9 @@ export const useGetCategory = () => {
     GetGenerals,
     Payment,
     GetPayment,
+    GetTax,
+    Tax,
+    OrderHeader,
+    GetOrderHeader,
   };
 };
