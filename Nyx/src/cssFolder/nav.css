@@ -1,269 +1,269 @@
+.navcontainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+.nav {
+  width: 230px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  flex-shrink: 0;
+}
+.dashboard {
+  flex-grow: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
 
-.navcontainer{
-    display: flex;
-    width: 100%;
-    height: 100vh;
+.navheader {
+  width: 100%;
+  margin-left: 20px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  margin-top: 20px;
+  color: white;
+  gap: 1em;
 }
-.nav{
-    width: 230px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    flex-shrink: 0;
+.nav .buttoncontainer a {
+  width: 170px;
+  padding: 7px;
+  text-decoration: none;
+  color: white;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid rgb(255, 255, 255);
+  text-align: center;
+  font-weight: 400;
+  font-family: inter;
+  text-transform: uppercase;
 }
-.dashboard{
-    flex-grow: 1;
-    min-width: 0;
-    overflow-x: auto;
+.nav .buttoncontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 70%;
 }
-
-.navheader{
-    width: 100%;
-    margin-left: 20px !important;
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    margin-top: 20px;
-    color: white;
-    gap: 1em;
+.buttoncontainer a:hover {
+  margin-top: 5px;
+  background-color: #898484;
+  transform: skewX(-20deg);
 }
-.nav .buttoncontainer a{
-    width: 170px;
-    padding: 7px;
-    text-decoration: none;
-    color: white;
-    font-size: 15px;
-    border-radius: 10px;
-    border: 1px solid rgb(255, 255, 255);
-    text-align: center;
-    font-weight: 400;
-    font-family: inter;
-    text-transform: uppercase;
-    
+.buttoncontainer a.active {
+  background-color: white;
+  color: black;
+  border: 1.5px solid rgb(1, 255, 200);
 }
-.nav .buttoncontainer{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    height: 70%;
+.logoutbutton {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 4px 7px;
+  padding-left: 10px;
+  width: 160px;
+  margin-top: auto;
+  font-weight: 400;
+  font-family: inter;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
 }
-.buttoncontainer a:hover{
-    margin-top: 5px;
-    background-color: #898484;
-    transform: skewX(-20deg);
-}
-.buttoncontainer a.active{
-    background-color: white;
-    color: black;
-    border: 1.5px solid rgb(1, 255, 200);
-}
-.logoutbutton{
-    display: flex;
-    align-items: center;
-    gap: 1em;
-    padding: 4px 7px;
-    padding-left: 10px;
-    width: 160px;
-    margin-top: auto;
-    font-weight: 400;
-    font-family: inter;
-    font-size: 15px;
-    border: none;
-    border-radius: 10px;
-}
-.logoutbutton:hover{
-    transform: skewX(20deg);
-    opacity: 0.9;
+.logoutbutton:hover {
+  transform: skewX(20deg);
+  opacity: 0.9;
 }
 
 /*For PosOverview*/
 
-
-.posoverviewmain{
-    padding: 1em 2em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+.posoverviewmain {
+  padding: 1em 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
-.posheader h1{
-    font-weight: bold;
-    font-family: Belanosima;
+.posheader h1 {
+  font-weight: bold;
+  font-family: Belanosima;
 }
-.posheader p{
-    font-weight: lighter;
+.posheader p {
+  font-weight: lighter;
 }
-.posbody{
-    display: flex;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 3;
-}
-
-.posbody .posbodyheader{
-    background-color: #F0F0F0;
-    padding: 5px 1em;
-    width: 250px;
-    height: 100px;
-    box-shadow: 0px 1px 2px 1px gray;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 7px;
-    align-items: flex-start;
-}
-.posbody .posbodyheader p{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 4px;
-    color: #898484;
-    padding: 2px 1px 3px 1px !important;
-}
-.posbody .posbodyheader h3{
-    color: #1B263B;
-    font-weight: lighter;
-}
-.posbody .posbodyheader h5{
-    color: #898484;
-    font-size: large;
-    font-weight: lighter;
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-.posbody .posbodyheader h5 span{
-    width: 35px;
-    height: auto;
-    padding: 1px 5px 1px 5px;
-    background-color: #16F90E;
-    border-radius: 10px;
+.posbody {
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 3;
 }
 
-.posbody2{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+.posbody .posbodyheader {
+  background-color: #f0f0f0;
+  padding: 5px 1em;
+  width: 250px;
+  height: 100px;
+  box-shadow: 0px 1px 2px 1px gray;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 7px;
+  align-items: flex-start;
 }
-.poschart{
-    width: 75%;
-    height: 300px;
-    background-color: #F0F0F0;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-   
+.posbody .posbodyheader p {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  color: #898484;
+  padding: 2px 1px 3px 1px !important;
 }
-.poschart h2{
-    margin-left: 1em;
-    font-weight: lighter;
+.posbody .posbodyheader h3 {
+  color: #1b263b;
+  font-weight: lighter;
+}
+.posbody .posbodyheader h5 {
+  color: #898484;
+  font-size: large;
+  font-weight: lighter;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.posbody .posbodyheader h5 span {
+  width: 35px;
+  height: auto;
+  padding: 1px 5px 1px 5px;
+  background-color: #16f90e;
+  border-radius: 10px;
+}
 
+.posbody2 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
-.topProduct{
-    width: 100%;
-    height: 48%;
-    gap: 10px;
-    border-radius: 10px;
-    box-shadow: 1px 3px 2px 2px gray;
+.poschart {
+  width: 75%;
+  height: 300px;
+  background-color: #f0f0f0;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.poschart h2 {
+  margin-left: 1em;
+  font-weight: lighter;
+}
+.topProduct {
+  width: 100%;
+  height: 48%;
+  gap: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 3px 2px 2px gray;
 }
 
-.top{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 20%;
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 20%;
 }
-.topProduct img{
-    width: 130px;
-    height: 90px;
-    box-shadow: 1px 2px 1px 1px gray;
-    border-radius: 5px;
+.topProduct img {
+  width: 130px;
+  height: 90px;
+  box-shadow: 1px 2px 1px 1px gray;
+  border-radius: 5px;
 }
-.top h2{
-    padding: 5px;
-    font-weight: lighter;
+.top h2 {
+  padding: 5px;
+  font-weight: lighter;
 }
-.top p{
-    font-size: large;
+.top p {
+  font-size: large;
 }
 /*for table*/
 .posfooter {
-    background-color: white;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    height: 40vh;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  height: 40vh;
 }
 
 .posfooter h2 {
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    color: #333;
-    padding-top: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 4;
-    background-color: white;
+  font-size: 1.2rem;
+  color: #333;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background-color: white;
 }
 
 .posfooter table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow-y: scroll;
-
+  width: 100%;
+  border-collapse: collapse;
+  overflow-y: scroll;
 }
 
 .posfooter th {
-    text-align: left;
-    padding: 12px 8px;
-    border-bottom: 2px solid #eee; 
-    color: #555;
-    font-family: Inter;
-    position: sticky;
-    top: 10%;
-    z-index: 4;
-    background-color: white;
+  text-align: left;
+  padding: 12px 8px;
+  border-bottom: 2px solid #eee;
+  color: #555;
+  font-family: Inter;
+  position: sticky;
+  top: 10%;
+  z-index: 4;
+  background-color: white;
+  font-size: small;
 }
 
 .posfooter td {
-    padding: 2px 8px;
-    border-bottom: 1px solid #eee; 
-    color: #444;
-    font-size: small;
+  padding: 2px 8px;
+  border-bottom: 1px solid #eee;
+  color: #444;
+  font-size: smaller;
+  text-align: left;
+}
+.customername {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100px;
 }
 
 .status-badge {
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    display: inline-block;
-    text-align: center;
-    min-width: 80px;
+  padding: 6px 15px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+  width: 100px;
 }
 
 .status-badge.pending {
-    background-color: #c4f9c4; 
-    color: #2e7d32;
+  background-color: #c4f9c4;
+  color: #2e7d32;
 }
 
 .status-badge.completed {
-    background-color: #e1d5f9; 
-    color: #673ab7;
+  background-color: #e1d5f9;
+  color: #673ab7;
 }
 
 .status-badge.cancel {
-    background-color: #ffcdd2; 
-    color: #c62828;
+  background-color: #ffcdd2;
+  color: #c62828;
 }
-
 
 /*For pos Order*/

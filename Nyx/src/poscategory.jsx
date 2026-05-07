@@ -1,5 +1,5 @@
 import "./cssFolder/poscategory.css";
-import CategoryIcon from "@mui/icons-material/Category";
+import CategoryIcon from "@mui/icons-material/CategoryOutlined";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import TagIcon from "@mui/icons-material/Inventory2Outlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
@@ -335,7 +335,7 @@ function PosCategory() {
       <div className="poscategorymain">
         <div className="Poscategoryheader">
           <h1 style={FontStyle}>
-            <CategoryIcon style={{ fontSize: "35px" }} />
+            <CategoryIcon />
             Category
           </h1>
           <button

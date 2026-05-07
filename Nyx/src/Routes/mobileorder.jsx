@@ -118,8 +118,9 @@ function MobileOrder() {
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(filterdata) && filterdata.length > 0
-            ? filterdata.map((item, index) => {
+          {Array.isArray(filterdata) ? (
+            filterdata.length > 0 ? (
+              filterdata.map((item, index) => {
                 return (
                   <tr key={index} className="ordertablerow">
                     <td>{item.order_id}</td>
@@ -155,9 +156,21 @@ function MobileOrder() {
                   </tr>
                 );
               })
-            : [...Array(12)].map((_, index) => (
-                <CustomerLoading key={index} times={9} />
-              ))}
+            ) : (
+              <tr>
+                <td
+                  colSpan="9"
+                  style={{ textAlign: "center", padding: "20px" }}
+                >
+                  No result found
+                </td>
+              </tr>
+            )
+          ) : (
+            [...Array(12)].map((_, index) => (
+              <CustomerLoading key={index} times={9} />
+            ))
+          )}
         </tbody>
       </table>
     </div>

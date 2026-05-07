@@ -164,7 +164,9 @@ function AddOrder() {
           style={{ border: "none", outline: "none", background: "initial" }}
           onClick={() => navigate("/posorder")}
         >
-          <BackIcon sx={{ color: "white", margin: "7px" }} />
+          <BackIcon
+            sx={{ color: "white", margin: "7px", marginLeft: "15px" }}
+          />
         </button>
       </div>
       <div className="addorderbody">

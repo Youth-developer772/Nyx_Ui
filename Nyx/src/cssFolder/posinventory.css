@@ -1,147 +1,155 @@
-.posinventorymain{
-    display: flex;
-    flex-direction: column;
-    padding: 1em 2em;
-    gap: 1em;
-    color: #0D1B2A; 
-    height: 100vh;
+.posinventorymain {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 2em;
+  gap: 1em;
+  color: #0d1b2a;
+  height: 100vh;
 }
-.Inventorytitle{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: Inter;
+.Inventorytitle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: Inter;
 }
-.inventoryIcon{
-    font-size: 35px;
-    border-radius: 5px;
-    padding: 2px;
-    font-weight: 100;
+.inventoryIcon {
+  font-size: 35px;
+  border-radius: 5px;
+  padding: 2px;
+  font-weight: 100;
+  border: 1px solid black;
 }
-.inventoryCondition{
-   display: grid;
-   grid-template-columns: repeat( 4, 1fr);
-   gap: 5px;
+.inventoryCondition {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+.inventoryCondition div {
+  font-family: Inter;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100px;
+  border-radius: 6px;
+}
+.inventoryCondition * {
+  padding: 5px;
+}
+.condition0 {
+  background-color: #becefd;
+}
+.condition1 {
+  background-color: #16f90e96;
+}
+.condition2 {
+  background-color: #ddc2ff;
+}
+.condition3 {
+  background-color: #fa6767c0;
+}
+.inventoryheader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.inventoryheader h2 {
+  font-family: Inter;
+}
+.inventoryheader select {
+  margin-left: auto;
+  background-color: #ffffff;
+  width: 180px;
+  outline: none;
+  height: 30px;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-family: Belanosima;
+}
+.inventoryheader div {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  height: 30px;
+  padding: 1px 5px;
+  border-radius: 10px;
+  border: 1px solid #0d1b2a;
+  background-color: #0d1b2a;
+  justify-content: space-between;
+}
+.inventoryheader div input {
+  border: none;
+  outline: none;
+  background-color: initial;
+  color: white;
+}
+.inventorytablecontainer {
+  width: 100%;
+  background-color: #ffffff;
+  height: 70vh;
+  overflow-y: scroll;
+}
+.inventorytable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 35px;
+}
+.inventorytable thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.inventorytable thead,
+.inventorytable tbody {
+  padding: 1px 5px;
+}
+.inventorytable th {
+  background-color: #a6c4ff;
+  font-family: Inter;
+  font-size: small;
+  color: #000000;
+  font-weight: 500;
+  font-size: small;
+  padding: 10px 5px;
+  padding-left: 10px;
+}
 
+.inventorytable td {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  font-family: Inter;
+  font-size: smaller;
+  text-align: left !important;
+  padding: 5px 5px;
+  padding-left: 10px;
 }
-.inventoryCondition div{
-    font-family: Inter;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    height: 90px;
-    border-radius: 6px;
+.inventorytable tr {
+  text-align: left;
 }
-.inventoryCondition *{
-    padding: 5px;
+.invbutcontainer {
+  border-right: 1px solid #dee2e6;
 }
-.condition0{
-    background-color: #BECEFD;
+.invbutcontainer div {
+  display: flex;
+  gap: 1em;
+  align-items: center;
 }
-.condition1{
-    background-color: #16f90e96;
+.Ibtn1 {
+  border: none;
+  outline: none;
+  background-color: #0d1b2a;
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 5px 10px;
+  font-size: smaller;
+  border: 1px solid #1b263b;
 }
-.condition2{
-    background-color: #DDC2FF;
-}
-.condition3{
-    background-color: #fa6767c0;
-}
-.inventoryheader{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.inventoryheader h2{
-    font-family: Inter;
-}
-.inventoryheader select{
-    margin-left: auto;
-    background-color: #FFFFFF;
-    width: 180px;
-    outline: none;
-    height: 30px;
-    padding: 1px 5px;
-    border-radius: 10px;
-    font-family: Belanosima;
-}
-.inventoryheader div{
-    display: flex;
-    align-items: center;
-    width: 200px;
-    height: 30px;
-    padding: 1px 5px;
-    border-radius: 10px;
-    border: 1px solid #0D1B2A;
-    background-color: #0D1B2A;
-    justify-content: space-between;
-}
-.inventoryheader div input{
-    border: none;
-    outline: none;
-    background-color: initial;
-    color: white;
-}
-.inventorytablecontainer{
-    width: 100%;
-    background-color: #FFFFFF;
-    height: 70vh;
-    overflow-y: scroll;
-}
-.inventorytable{
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 40px;
-}
-.inventorytable thead{
-    position: sticky;
-    top: 0;
-    z-index: 2;
-}
-.inventorytable thead , .inventorytable tbody{
-    padding: 1px 5px;
-}
-.inventorytable th{
-    background-color: #A6C4FF;
-    font-family: Inter;
-    font-size: small;
-    color: #000000;
-    font-weight: 500;
-    font-size: medium;
-    padding: 10px 5px;
-    padding-left: 10px;
-}
-
-.inventorytable td{
-    border-top: 1px solid #dee2e6;    
-    border-bottom: 1px solid #dee2e6;
-    font-family: Inter;
-    font-size: small;
-    text-align: left !important;
-    padding: 10px 5px;
-    padding-left: 10px;
-}
-.inventorytable tr{
-    text-align: left ;
-}
-.invbutcontainer div{
-    display: flex;
-    gap: 1em;
-    align-items: center;
-}
-.Ibtn1{
-    border: none;
-    outline: none;
-    background-color: #0D1B2A;
-    border-radius: 6px;
-    color: #FFFFFF;
-    padding: 5px 10px;
-}
-.Ibtn2{
-    outline: none;
-    border: 1px solid #1B263B;
-    background-color: initial;
-    border-radius: 6px;
-    padding: 5px 10px;
-    color: red;
+.Ibtn2 {
+  outline: none;
+  border: 1px solid #1b263b;
+  background-color: initial;
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: red;
+  font-size: smaller;
+  font-style: italic;
 }

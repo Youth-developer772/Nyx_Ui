@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import CheckIcon from "@mui/icons-material/CheckBox";
 import SaveIcon from "@mui/icons-material/SaveAlt";
 import html2canvas from "html2canvas";
+import { useReactToPrint } from "react-to-print";
 export const useReceipt = () => {
   const [show, setshow] = useState(false);
   const [info, setinfo] = useState(null);
@@ -18,6 +19,11 @@ export const useReceipt = () => {
     setshow(false);
     setinfo(null);
   };
+
+  const print = useReactToPrint({
+    contentRef: imgref,
+    documentTitle: `Receipt_${info?.order_no}` || `reciept${Date.now()}`,
+  });
 
   const download = async () => {
     if (imgref.current) {
@@ -107,10 +113,10 @@ export const useReceipt = () => {
               </div>
             </div>
             <div className="rc6">
-              <button onClick={download}>
+              <button onClick={() => download()} className="downloadbtn">
                 <SaveIcon />
-                Download
               </button>
+              <button onClick={() => print()}>Print</button>
               <button onClick={() => close()}>Cancel</button>
             </div>
           </div>

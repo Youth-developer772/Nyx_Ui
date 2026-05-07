@@ -13,6 +13,7 @@
 .addordertitle {
   font-family: Inter;
   font-size: x-large;
+  padding: 7px 10px;
 }
 .addordernav {
   background-color: #0d1b2a;

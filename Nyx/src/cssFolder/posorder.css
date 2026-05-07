@@ -167,6 +167,7 @@
   font-family: Inter;
   font-size: small;
   padding: 0;
+  text-align: left;
 }
 
 .posordertable .ordertablerow:hover td {
