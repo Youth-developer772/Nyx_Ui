@@ -54,32 +54,44 @@
 }
 .customertable th,
 td {
-  padding: 5px;
-  text-align: center;
+  text-align: left;
   font-family: inter;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px;
-  font-size: small;
+  font-size: 13px;
+  padding: 5px 5px !important;
+}
+.customertable td {
+  font-size: 12px;
 }
 .editbutton {
-  padding: 4px 10px;
-  border-radius: 10px;
-  margin: 4px;
+  padding: 3px 5px;
+  border-radius: 7px;
   background-color: #b2ce38d2;
   border: none;
   outline: none;
   color: black;
   font-weight: lighter;
+  font-size: 10px;
+  font-style: italic;
 }
 .deletebutton {
-  padding: 4px 10px;
-  border-radius: 10px;
-  margin: 4px;
+  padding: 3px 5px;
+  border-radius: 7px;
   background-color: #db0707ec;
   border: none;
   outline: none;
   color: #f0f0f0;
   font-weight: lighter;
+  font-size: 10px;
+  font-style: italic;
+}
+.customerbuttoncontainer {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
 }

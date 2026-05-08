@@ -11,13 +11,13 @@ import {
   useNavigate,
   useOutletContext,
 } from "react-router-dom";
-import { useGetCategory } from "./Hooks/CustomHooks";
 import CloseIcon from "@mui/icons-material/Close";
 import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 import uploader from "@zwehtetpaing55/uploader";
 import { Context } from "./Hooks/context";
 import UploadIcon from "@mui/icons-material/UploadFile";
+import { useGetCategory, useGetProducts } from "./Api_Call";
 
 function AddProduct() {
   const { info, setinfo, GetProducts } = useOutletContext();
@@ -28,9 +28,13 @@ function AddProduct() {
 
   const navigate = useNavigate();
 
-  const { Categories, GetCategories, Tags, GetTags, Products } =
-    useGetCategory();
-  const { Token } = useContext(Context);
+  const { Categories, GetCategories, Tags, GetTags } = useGetCategory();
+  const { Products } = useGetProducts();
+
+  useEffect(() => {
+    GetCategories();
+    GetTags();
+  }, []);
 
   const nameref = useRef();
   const brandref = useRef();
@@ -80,9 +84,6 @@ function AddProduct() {
 
       let reponse = await fetch(import.meta.env.VITE_ADD_PRODUCT, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
         body: formdata,
       });
 
@@ -148,7 +149,6 @@ function AddProduct() {
           {
             method: "DELETE",
             headers: {
-              Authorization: `Bearer ${Token}`,
               "Content-Type": "application/json",
             },
           },
@@ -195,9 +195,6 @@ function AddProduct() {
       const productUpdateLoading = toast.loading("Updating Product");
       let reponse = await fetch(import.meta.env.VITE_UPDATE_PRODUCT, {
         method: "PUT",
-        headers: {
-          Authorization: `Bearer ${Token}`,
-        },
         body: formdata,
       });
       if (reponse.ok) {

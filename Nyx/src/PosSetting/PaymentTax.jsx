@@ -2,10 +2,10 @@ import "../PosSettingCss/paymenttax.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../Hooks/context";
 import AddCircle from "@mui/icons-material/AddCircleOutlineTwoTone";
-import { useGetCategory } from "../Hooks/CustomHooks";
 import { useSecurityCheck } from "../Hooks/SecurityCheck";
 import AddPaymentPopUp from "../Components/addpaymentpopup";
 import toast, { Toaster } from "react-hot-toast";
+import { useGetPayment } from "../Api_Call";
 
 function PosPaymentTax() {
   const [show, setshow] = useState(false);
@@ -13,7 +13,7 @@ function PosPaymentTax() {
 
   const taxref = useRef();
 
-  const { Payment, GetPayment, Tax, GetTax } = useGetCategory();
+  const { Payment, GetPayment, Tax, GetTax } = useGetPayment();
   const { ReturnJsx, openbox } = useSecurityCheck();
   const { backcolor, Token } = useContext(Context);
   console.log(Payment);
@@ -25,6 +25,11 @@ function PosPaymentTax() {
     backgroundColor: backcolor ? "#FFFFFF" : "#0d1b2a21",
     color: backcolor ? "black" : "white",
   };
+
+  useEffect(() => {
+    GetPayment();
+    GetTax();
+  }, []);
 
   // tax update authorization
   function update_confirm_tax(id) {
@@ -73,7 +78,7 @@ function PosPaymentTax() {
               return (
                 <input
                   ref={taxref}
-                  type="text"
+                  type="number"
                   key={index}
                   defaultValue={item.tax}
                   style={InputStyle}

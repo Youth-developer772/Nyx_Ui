@@ -1,15 +1,15 @@
 import SearchIcon from "@mui/icons-material/SearchOutlined";
-import { useGetCategory } from "../Hooks/CustomHooks";
 import CustomerLoading from "../Components/loadingcustomer";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import useReceipt from "../Components/Receipt";
+import { useGetOrder } from "../Api_Call";
 
 function LocalOrder() {
   const [text, settext] = useState("");
   const [filterdata, setfilterdata] = useState(null);
 
-  const { LOrders, GetLocalOrders, GetOrders } = useGetCategory();
+  const { LOrders, GetLocalOrders } = useGetOrder();
   const { open, ReceipetJsx } = useReceipt();
   console.log(LOrders);
 
@@ -25,6 +25,10 @@ function LocalOrder() {
       setfilterdata(filtered);
     }
   }, [text, LOrders.data]);
+
+  useEffect(() => {
+    GetLocalOrders();
+  }, []);
 
   //function to show order preview
   function show_order(info) {

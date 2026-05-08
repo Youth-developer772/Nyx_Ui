@@ -3,7 +3,6 @@ import DeleteIcon from "@mui/icons-material/DeleteForeverOutlined";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import { useContext, useRef, useState } from "react";
 import "./cssFolder/posorder.css";
-import { useGetCategory } from "./Hooks/CustomHooks";
 import CloseIcon from "@mui/icons-material/Close";
 import { Context } from "./Hooks/context";
 import Swal from "sweetalert2";
@@ -13,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomerLoading from "./Components/loadingcustomer";
 import MobileOrder from "./Routes/mobileorder";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useGetOrder } from "./Api_Call";
 
 function PosOrder() {
   const [show, setshow] = useState(false);
@@ -25,7 +25,7 @@ function PosOrder() {
 
   const navigate = useNavigate();
 
-  const { Orders, GetOrders, OrderHeader, GetOrderHeader } = useGetCategory();
+  const { OrderHeader, GetOrderHeader } = useGetOrder();
   const { backcolor, Token } = useContext(Context);
 
   const Font_color = Boolean(backcolor == "#1A1C1E");

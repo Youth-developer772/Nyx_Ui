@@ -200,6 +200,7 @@
   line-height: 20px;
   border: none;
   outline: none;
+  font-size: 12px;
 }
 .pendingaction select {
   /* background-color: #874bd3; */
@@ -211,6 +212,7 @@
   line-height: 20px;
   border: none;
   outline: none;
+  font-size: 12px;
 }
 .cancelaction select {
   background-color: #fa676785;
@@ -222,6 +224,7 @@
   background-color: rgb(224, 39, 39);
   border: none;
   outline: none;
+  font-size: 12px;
 }
 .Paymentimgcontaienr {
   width: 50px;

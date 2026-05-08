@@ -53,9 +53,6 @@ function App() {
     localStorage.getItem("background") || "#F0F0F0",
   );
   const [Length, setLength] = useState(1);
-  const [token, settoken] = useState(localStorage.getItem("JWTToken") || false);
-
-  const Token = localStorage.getItem("JWTToken");
 
   return (
     <>
@@ -65,13 +62,11 @@ function App() {
           setcolor: setNavColor,
           backcolor: BackColor,
           setbackcolor: setBackColor,
-          Token: token,
-          setToken: settoken,
+
           Length: Length,
           setLength: setLength,
           childdata: childData,
           setchilddata: SetchildData,
-          Token,
         }}
       >
         <BrowserRouter>

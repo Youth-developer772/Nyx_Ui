@@ -3,8 +3,7 @@ import CategoryIcon from "@mui/icons-material/CategoryOutlined";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import TagIcon from "@mui/icons-material/Inventory2Outlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import { useContext, useRef, useState } from "react";
-import { useGetCategory } from "./Hooks/CustomHooks";
+import { useContext, useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import CloseIcon from "@mui/icons-material/Close";
 import Swal from "sweetalert2";
@@ -14,6 +13,7 @@ import LoaingTag from "./Components/loadingTag";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import BrandPopUp from "./Components/brandaddpopup";
 import UploadIcon from "@mui/icons-material/UploadFile";
+import { useGetCategory } from "./Api_Call";
 
 function PosCategory() {
   const [show, setshow] = useState(false);
@@ -38,6 +38,10 @@ function PosCategory() {
   const FontStyle = {
     color: Font_color ? "#E1E1E1" : "#0D1B2A",
   };
+
+  useEffect(() => {
+    (GetCategories(), GetTags());
+  });
 
   async function addCategory(e) {
     e.preventDefault();

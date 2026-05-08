@@ -1,5 +1,4 @@
 import CustomerLoading from "../Components/loadingcustomer";
-import { useGetCategory } from "../Hooks/CustomHooks";
 import BackIcon from "@mui/icons-material/ArrowCircleLeftRounded";
 import FoodIcon from "@mui/icons-material/LocalDiningRounded";
 import "./addorder.css";
@@ -14,6 +13,7 @@ import { FunnelChart } from "recharts";
 import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
 import { useReceipt } from "../Components/Receipt";
+import { useGetOrder, useGetPayment } from "../Api_Call";
 
 function AddOrder() {
   const [reciept, setreciept] = useState();
@@ -29,10 +29,16 @@ function AddOrder() {
   const imgref = useRef();
   const paymentref = useRef();
   const { Token } = useContext(Context);
-  const { GetLocalOrders, Payment, Products, Tax } = useGetCategory();
+  const { Payment, Products, GetPayment, Tax, GetTax } = useGetPayment();
+  const { GetLocalOrders } = useGetOrder();
   const { ReceipetJsx, open } = useReceipt();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    GetPayment();
+    GetTax();
+  }, []);
 
   useEffect(() => {
     if (childdata.length > 0 && filetosend) {

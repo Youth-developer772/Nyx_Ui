@@ -12,14 +12,15 @@ import DollarIcon from "@mui/icons-material/Paid";
 import ProductIcon from "@mui/icons-material/Widgets";
 import CustomerIcon from "@mui/icons-material/Groups";
 import Shoe from "./images/shoe.png";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "./Hooks/context";
-import { useGetCategory } from "./Hooks/CustomHooks";
 import CustomerLoading from "./Components/loadingcustomer";
 import Swal from "sweetalert2";
+import { useGetOrder } from "./Api_Call";
+
 function PosOverview() {
   const { backcolor } = useContext(Context);
-  const { MOrders } = useGetCategory();
+  const { MOrders, GetMobileOrders } = useGetOrder();
   const Font_color = Boolean(backcolor == "#1A1C1E");
   const FontStyle = {
     color: Font_color ? "#E1E1E1" : "#0D1B2A",
@@ -37,6 +38,10 @@ function PosOverview() {
       },
     });
   };
+
+  useEffect(() => {
+    GetMobileOrders();
+  }, []);
 
   let data = [
     { name: "Jan", sales: 3000 },
@@ -73,6 +78,7 @@ function PosOverview() {
       compare: "New Customers",
     },
   ];
+
   return (
     <>
       <div className="posoverviewmain">

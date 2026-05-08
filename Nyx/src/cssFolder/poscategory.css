@@ -227,9 +227,9 @@
 }
 
 .categorypopup .categoryupdate button {
-  border: 1px solid #0d1b2a;
   outline: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  border: none;
 }
 
 .categorypopup .categoryupdate div:focus {

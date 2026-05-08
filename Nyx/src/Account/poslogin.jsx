@@ -6,7 +6,6 @@ function PosLogin() {
   const navigate = useNavigate();
 
   const ContextData = useContext(Context);
-  const { token, setToken } = ContextData;
   const emailref = useRef();
   const passwordref = useRef();
 
@@ -26,12 +25,6 @@ function PosLogin() {
       });
       if (response.ok) {
         let data = await response.json();
-        console.log(data);
-        if (!(data.token == "Invalid email or password")) {
-          localStorage.setItem("JWTToken", data.token);
-          setToken(true);
-          navigate("/");
-        }
       }
     } catch (error) {
       console.log(error);

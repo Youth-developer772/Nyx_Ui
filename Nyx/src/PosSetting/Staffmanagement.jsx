@@ -1,12 +1,12 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../PosSettingCss/staffmanagement.css";
 import { Context } from "../Hooks/context";
 import CloseIcon from "@mui/icons-material/Close";
-import { useGetCategory } from "../Hooks/CustomHooks";
 import toast, { Toaster } from "react-hot-toast";
 import TableLoading from "../Components/tableloading";
 import CustomerLoading from "../Components/loadingcustomer";
 import { useSecurityCheck } from "../Hooks/SecurityCheck";
+import { useGetStaff } from "../Api_Call";
 
 function StaffManagement() {
   const nameref = useRef();
@@ -16,8 +16,8 @@ function StaffManagement() {
 
   const [show, setshow] = useState(false);
 
-  const { backcolor, Token } = useContext(Context);
-  const { Staff, GetStaff } = useGetCategory();
+  const { backcolor } = useContext(Context);
+  const { Staff, GetStaff } = useGetStaff();
   const { ReturnJsx, openbox } = useSecurityCheck();
 
   const Font_Color = Boolean(backcolor == "#1A1C1E");
@@ -28,6 +28,10 @@ function StaffManagement() {
     color: Font_Color && "#0D1B2A",
     background: Font_Color ? "white" : "#0D1B2A",
   };
+
+  useEffect(() => {
+    GetStaff();
+  }, []);
 
   function confirmAddpassword(e) {
     e.preventDefault();
@@ -46,7 +50,6 @@ function StaffManagement() {
       let response = await fetch(import.meta.env.VITE_ADD_NEWSTAFF, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${Token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
@@ -75,7 +78,6 @@ function StaffManagement() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Token}`,
         },
       });
       if (response.ok) {

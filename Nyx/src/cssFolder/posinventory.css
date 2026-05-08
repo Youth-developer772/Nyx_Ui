@@ -91,7 +91,7 @@
 .inventorytable {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 35px;
+  border-spacing: 0 20px;
 }
 .inventorytable thead {
   position: sticky;
@@ -113,43 +113,23 @@
   padding-left: 10px;
 }
 
-.inventorytable td {
+.inventorytable .test td {
   border-top: 1px solid #dee2e6;
   border-bottom: 1px solid #dee2e6;
   font-family: Inter;
-  font-size: smaller;
+  font-size: x-small !important;
   text-align: left !important;
   padding: 5px 5px;
   padding-left: 10px;
+  color: #0f0e0e;
+  background-color: rgba(43, 243, 43, 0.205);
 }
 .inventorytable tr {
   text-align: left;
 }
-.invbutcontainer {
-  border-right: 1px solid #dee2e6;
-}
-.invbutcontainer div {
-  display: flex;
-  gap: 1em;
-  align-items: center;
-}
-.Ibtn1 {
-  border: none;
-  outline: none;
-  background-color: #0d1b2a;
-  border-radius: 6px;
-  color: #ffffff;
-  padding: 5px 10px;
-  font-size: smaller;
-  border: 1px solid #1b263b;
-}
-.Ibtn2 {
-  outline: none;
-  border: 1px solid #1b263b;
-  background-color: initial;
-  border-radius: 6px;
-  padding: 5px 10px;
-  color: red;
-  font-size: smaller;
-  font-style: italic;
+.productname {
+  width: 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }

@@ -1,9 +1,9 @@
 import "./addorderproduct.css";
 import CloseIcon from "@mui/icons-material/CloseOutlined";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
-import { useGetCategory } from "../Hooks/CustomHooks";
 import { useEffect, useState } from "react";
 import PLO from "./PLO";
+import { useGetCategory, useGetProducts } from "../Api_Call";
 
 function AddorderProduct({ data }) {
   const [fliterdata, setfliterdata] = useState();
@@ -11,8 +11,14 @@ function AddorderProduct({ data }) {
   const [category, setcategory] = useState("All");
   const [state, setstate] = useState({});
 
-  const { Categories, Products } = useGetCategory();
+  const { Categories, GetCategories } = useGetCategory();
+  const { Products, GetProducts } = useGetProducts();
   const { fun1, fun2, amount } = data;
+
+  useEffect(() => {
+    GetCategories();
+    GetProducts();
+  });
 
   var purifiedData;
   if (Array.isArray(Products.data) && Products.data.length > 0) {

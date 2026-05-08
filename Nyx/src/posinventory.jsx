@@ -1,14 +1,15 @@
 import InventoryIcon from "@mui/icons-material/DensityMediumOutlined";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import "./cssFolder/posinventory.css";
-import { useGetCategory } from "./Hooks/CustomHooks";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "./Hooks/context";
 import TableLoading from "./Components/tableloading";
 import CustomerLoading from "./Components/loadingcustomer";
+import { useGetCategory, useGetInventroy } from "./Api_Call";
 
 function PosInventory() {
-  const { Categories, Inventory, GetInventory } = useGetCategory();
+  const { Categories, GetCategories } = useGetCategory();
+  const { Inventory, GetInventory } = useGetInventroy();
   const { backcolor } = useContext(Context);
 
   let Condition = [
@@ -25,6 +26,10 @@ function PosInventory() {
   const InputStyle = {
     backgroundColor: Font_color ? "#E1E1E1" : "#0D1B2A",
   };
+
+  useEffect(() => {
+    (GetInventory(), GetCategories());
+  }, []);
 
   async function DeleteInventoryData(item) {
     try {
@@ -101,7 +106,6 @@ function PosInventory() {
                 <th>Date</th>
                 <th>Stocks</th>
                 <th>Status</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -109,27 +113,25 @@ function PosInventory() {
                 ? Inventory.data.map((item, index) => {
                     return (
                       <tr key={index} className="test">
-                        <td style={{ borderLeft: "1px solid #dee2e6" }}>
+                        <td
+                          style={{
+                            borderLeft: "1px solid #dee2e6",
+                            width: "90px",
+                          }}
+                        >
                           {item.ProductID}
                         </td>
-                        <td>{item.productName}</td>
+                        <td className="productname">{item.productName}</td>
                         <td>{item.category}</td>
                         <td>{item.tags}</td>
                         <td>{item.Date}</td>
                         <td>{item.current_stock}</td>
-                        <td>{item.status}</td>
-                        <td className="invbutcontainer">
-                          <div>
-                            <button className="Ibtn1">View</button>
-                            <button
-                              className="Ibtn2"
-                              onClick={() => {
-                                DeleteInventoryData(item.ProductID);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </div>
+                        <td
+                          style={{
+                            color: item.current_stock > 0 ? "#0f0e0e" : "red",
+                          }}
+                        >
+                          {item.status}
                         </td>
                       </tr>
                     );

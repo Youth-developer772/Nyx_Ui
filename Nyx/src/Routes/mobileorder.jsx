@@ -1,17 +1,17 @@
 import SearchIcon from "@mui/icons-material/SearchOutlined";
-import { useGetCategory } from "../Hooks/CustomHooks";
 import CustomerLoading from "../Components/loadingcustomer";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import useReceipt from "../Components/Receipt";
+import { useGetOrder } from "../Api_Call";
 
 function MobileOrder() {
   const [text, settext] = useState("");
   const [filterdata, setfilterdata] = useState(null);
 
-  const { MOrders, GetMobileOrders } = useGetCategory();
   const { open, ReceipetJsx } = useReceipt();
+  const { MOrders, GetMobileOrders } = useGetOrder();
   useEffect(() => {
     if (!MOrders.data) return;
     if (text === "") {
@@ -23,6 +23,10 @@ function MobileOrder() {
       setfilterdata(filtered);
     }
   }, [text, MOrders.data]);
+
+  useEffect(() => {
+    GetMobileOrders();
+  }, []);
 
   //for searchevent.target.value;
   const changetext = (event) => {
