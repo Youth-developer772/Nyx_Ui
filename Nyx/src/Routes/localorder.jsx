@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import useReceipt from "../Components/Receipt";
 import { useGetOrder } from "../Api_Call";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import * as XLSX from "xlsx";
 
 function LocalOrder() {
   const [text, settext] = useState("");
@@ -71,6 +73,23 @@ function LocalOrder() {
     });
   };
 
+  async function ExportTable() {
+    if (!filterdata) return;
+    let formattedData = filterdata.map((item) => ({
+      "Order Id": item.order_id,
+      Reciept: item.reciept_no,
+      Amount: item.Total,
+      Date: item.Date,
+      Time: item.Time,
+      Payment: item.payment_method,
+      "Order Status": item.order_status,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Report");
+    XLSX.writeFile(workbook, "sales-report.xlsx");
+  }
+
   return (
     <div style={{ padding: "10px", paddingTop: "0" }}>
       {ReceipetJsx}
@@ -85,6 +104,10 @@ function LocalOrder() {
           />
           <SearchIcon />
         </div>
+        <button className="orderexportbtn" onClick={ExportTable}>
+          <SaveAltIcon />
+          Export
+        </button>
       </div>
       <table className="posordertable">
         <thead>

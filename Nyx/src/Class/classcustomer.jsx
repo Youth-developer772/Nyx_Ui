@@ -1,7 +1,7 @@
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/Search";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import "../classCss/ClassCustomer.css";
+import "../classCss/classcustomer.css";
 
 function ClassCustomer() {
   const customerData = [

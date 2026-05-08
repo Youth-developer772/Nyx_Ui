@@ -45,7 +45,8 @@
   display: flex;
   gap: 5px;
   align-items: center;
-  font-size: xx-large;
+  font-size: x-large;
+  font-weight: 600;
 }
 .ordertableheader {
   display: flex;

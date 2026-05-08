@@ -62,7 +62,6 @@ function App() {
           setcolor: setNavColor,
           backcolor: BackColor,
           setbackcolor: setBackColor,
-
           Length: Length,
           setLength: setLength,
           childdata: childData,

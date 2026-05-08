@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../PosSettingCss/GeneralSetting.css";
 import ShopLogo from "../images/shoplogo.png";
 import { Context } from "../Hooks/context";
@@ -6,6 +6,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { useGetGeneralSetting } from "../Api_Call";
 
 function PosGeneralSetting() {
+  const [file, setfile] = useState(null);
+  const [filepath, setfilepath] = useState(null);
+
   const { General, GetGenerals } = useGetGeneralSetting();
 
   useEffect(() => {
@@ -30,7 +33,7 @@ function PosGeneralSetting() {
         }
       : {
           key: 2,
-          url: { ShopLogo },
+          url: ShopLogo,
           name: "Loading...",
           phNo: "Loading...",
           address: "Loading...",
@@ -94,6 +97,19 @@ function PosGeneralSetting() {
     contactref.current.value = shop_info.phNo;
     addressref.current.value = shop_info.address;
     linkref.current.value = shop_info.social_link;
+    setfile(null);
+    setfilepath(null);
+  }
+
+  //show img preview
+  function show_img(event) {
+    let img = event.target.files[0];
+    console.log("function work");
+    setfile(img);
+    if (img) {
+      let url = URL.createObjectURL(img);
+      setfilepath(url);
+    }
   }
 
   return (
@@ -105,11 +121,20 @@ function PosGeneralSetting() {
       <Toaster />
       <div className="posgeneralsettingbody1">
         <div className="zoom_img">
-          <img src={shop_info.url} alt="Shop Logo" />
+          {file ? (
+            <img src={filepath} alt="shop logo" />
+          ) : (
+            <img src={shop_info.url} alt="Shop Logo" />
+          )}
         </div>
         <label className="changelogo">
           Change Logo
-          <input type="file" ref={fileref} style={{ display: "none" }} />
+          <input
+            type="file"
+            ref={fileref}
+            onChange={show_img}
+            style={{ display: "none" }}
+          />
         </label>
       </div>
       <div className="posgeneralsettingbody2">
