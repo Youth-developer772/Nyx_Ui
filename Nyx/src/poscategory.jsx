@@ -291,9 +291,7 @@ function PosCategory() {
         );
 
         if (reponse.ok) {
-          setTimeout(async () => {
-            await GetCategories();
-          }, 500);
+          await GetCategories();
 
           setshow(false);
           setselecttoDel(null);
@@ -333,7 +331,7 @@ function PosCategory() {
           top: "50%",
           left: "50%",
           transform: "translate(-50%,-50%)",
-          zIndex: 100,
+          zIndex: 1000,
         }}
       />
       <div className="poscategorymain">

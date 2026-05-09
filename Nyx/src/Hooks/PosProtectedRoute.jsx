@@ -5,9 +5,9 @@ import { useLocation, Navigate } from "react-router-dom";
 const PosProtectedRoute = ({ children }) => {
   const location = useLocation();
   const ContextData = useContext(Context);
-  const { Token, Length } = ContextData;
+  const { Token, Length, islogin } = ContextData;
 
-  if (false) {
+  if (!islogin) {
     return <Navigate to="/login/poslogin" replace />;
   }
   if (Length <= 0 && location.pathname !== "/possetting/paymenttax") {

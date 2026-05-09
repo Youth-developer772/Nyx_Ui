@@ -78,10 +78,12 @@
   list-style: none;
   align-self: center;
   margin-bottom: 10px;
+  font-size: medium;
 }
 .SMB3 ul li {
   padding: 5px;
   font-family: Inter;
+  font-size: small;
 }
 
 /* for new staff pop up*/

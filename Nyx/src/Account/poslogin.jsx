@@ -1,13 +1,15 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import "./login.css";
 import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
 function PosLogin() {
   const navigate = useNavigate();
 
-  const ContextData = useContext(Context);
+  const { setislogin } = useContext(Context);
   const emailref = useRef();
   const passwordref = useRef();
+  const validemail = useRef();
+  const validpassword = useRef();
 
   async function adminLogin(e) {
     e.preventDefault();
@@ -25,6 +27,33 @@ function PosLogin() {
       });
       if (response.ok) {
         let data = await response.json();
+        console.log(data);
+        if (data.token == "User not found") {
+          validemail.current.style.visibility = "visible";
+          emailref.current.style.border = "1px solid red";
+          emailref.current.style.color = "red";
+          emailref.current.focus();
+          setTimeout(() => {
+            validemail.current.style.visibility = "hidden";
+            emailref.current.style.border = "1px solid black";
+            emailref.current.style.color = "#0d1b2a";
+          }, 10000);
+        } else if (data.token == "Incorrect Password") {
+          validpassword.current.style.visibility = "visible";
+          passwordref.current.style.border = "1px solid red";
+          passwordref.current.style.color = "red";
+          passwordref.current.focus();
+          passwordref.current.select();
+          setTimeout(() => {
+            validpassword.current.style.visibility = "hidden";
+            passwordref.current.style.border = "1px solid black";
+            passwordref.current.style.color = "initial";
+          }, 10000);
+        } else if (data.token) {
+          navigate("/");
+          localStorage.setItem("islogin", "true");
+          setislogin(true);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -43,6 +72,9 @@ function PosLogin() {
           required
           ref={emailref}
         />
+        <p className="faillogin" ref={validemail}>
+          *invalid username
+        </p>
       </span>
 
       <span>
@@ -55,7 +87,10 @@ function PosLogin() {
           required
           ref={passwordref}
         />
-        <p>Forgot Password ?</p>
+        <p className="faillogin" ref={validpassword}>
+          *invalid password
+        </p>
+        <p className="forgot">Forgot Password ?</p>
       </span>
 
       <button>Login</button>

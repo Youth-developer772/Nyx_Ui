@@ -53,6 +53,9 @@ function App() {
     localStorage.getItem("background") || "#F0F0F0",
   );
   const [Length, setLength] = useState(1);
+  const [islogin, setislogin] = useState(
+    localStorage.getItem("islogin") || false,
+  );
 
   return (
     <>
@@ -66,6 +69,8 @@ function App() {
           setLength: setLength,
           childdata: childData,
           setchilddata: SetchildData,
+          islogin: islogin,
+          setislogin: setislogin,
         }}
       >
         <BrowserRouter>

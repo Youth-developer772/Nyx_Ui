@@ -95,6 +95,7 @@ function StaffManagement() {
   return (
     <div className="staffmanagementmain">
       {ReturnJsx}
+      <Toaster />
       <div className="SMB1">
         <h3 style={FontStyle}>Staff Management</h3>
         <button style={ButtonStyle} onClick={() => setshow(true)}>

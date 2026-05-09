@@ -300,7 +300,7 @@ function PosReport() {
                         colSpan="9"
                         style={{ textAlign: "center", padding: "20px" }}
                       >
-                        No result found
+                        No data
                       </td>
                     </tr>
                   )
