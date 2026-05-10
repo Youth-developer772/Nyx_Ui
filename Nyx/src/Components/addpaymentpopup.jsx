@@ -91,7 +91,6 @@ function AddPaymentPopUp({ data, updfun, FTS, items, setitems }) {
           },
         },
       );
-      console.log(response);
       if (response.ok) {
         await updfun();
         toast.success("Successfully Deleted", { id: deleting });
@@ -225,6 +224,7 @@ function AddPaymentPopUp({ data, updfun, FTS, items, setitems }) {
               required={allow}
               ref={imgref}
               disabled={allow && items}
+              style={{ zIndex: -1 }}
             />
             {file ? (
               <img src={filepath} />

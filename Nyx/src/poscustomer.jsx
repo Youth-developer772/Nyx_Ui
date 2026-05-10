@@ -1,11 +1,14 @@
 import PersonIcon from "@mui/icons-material/Person";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import "./cssFolder/PosCustomer.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "./Hooks/context";
 import CustomerLoading from "./Components/loadingcustomer";
 import { useGetCustomer } from "./Api_Call";
 function PosCustomer() {
+  const [text, settext] = useState("");
+  const [filteredData, setfilteredData] = useState(null);
+
   const { backcolor, Token } = useContext(Context);
   const { GetCustomer, Customers } = useGetCustomer();
   const Font_color = Boolean(backcolor == "#1A1C1E");
@@ -15,6 +18,30 @@ function PosCustomer() {
   const InputStyle = {
     backgroundColor: Font_color ? "#E1E1E1" : "#0D1B2A",
   };
+
+  const textchange = (event) => {
+    settext(event.target.value);
+  };
+
+  useEffect(() => {
+    if (
+      Array.isArray(Customers.showCustomerData) &&
+      Customers.showCustomerData.length > 0
+    ) {
+      setfilteredData(Customers.showCustomerData);
+      if (!(text == "")) {
+        let purifieddata = Customers.showCustomerData.filter((item) => {
+          return (
+            item.name
+              .toLocaleLowerCase()
+              .includes(text.toLocaleLowerCase().trim()) ||
+            item.address.toLocaleLowerCase().includes(text.toLocaleLowerCase())
+          );
+        });
+        setfilteredData(purifieddata);
+      } else return;
+    }
+  }, [text, Customers.showCustomerData]);
 
   useEffect(() => {
     GetCustomer();
@@ -46,14 +73,15 @@ function PosCustomer() {
       <div className="Poscustomermain">
         <div className="Poscustomerheader">
           <h1 style={FontStyle}>
-            <PersonIcon style={{ fontSize: "35px" }} />
+            <PersonIcon style={{ fontSize: "28px" }} />
             Customers
           </h1>
           <div style={InputStyle}>
             <input
               type="search"
+              onChange={textchange}
               placeholder="Search..."
-              style={{ color: !backcolor ? "white" : "#0D1B2A" }}
+              style={{ color: !Font_color ? "white" : "#0D1B2A" }}
             />
             <SearchIcon />
           </div>
@@ -72,9 +100,9 @@ function PosCustomer() {
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(Customers.showCustomerData) &&
-              Customers.showCustomerData.length > 0
-                ? Customers.showCustomerData.map((item, index) => {
+              {Array.isArray(filteredData) ? (
+                filteredData.length > 0 ? (
+                  filteredData.map((item, index) => {
                     return (
                       <tr key={index}>
                         <td>{item.id}</td>
@@ -95,9 +123,21 @@ function PosCustomer() {
                       </tr>
                     );
                   })
-                : [...Array(10)].map((_, index) => (
-                    <CustomerLoading key={index} times={7} />
-                  ))}
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="7"
+                      style={{ textAlign: "center", padding: "20px" }}
+                    >
+                      No data
+                    </td>
+                  </tr>
+                )
+              ) : (
+                [...Array(10)].map((_, index) => (
+                  <CustomerLoading key={index} times={7} />
+                ))
+              )}
             </tbody>
           </table>
         </div>

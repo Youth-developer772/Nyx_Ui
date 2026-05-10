@@ -83,8 +83,8 @@ function PosProduct() {
         {/*for Add Product*/}
 
         <div className="productbody">
-          {Array.isArray(Products.data) && Products.data.length > 0 ? (
-            Array.isArray(fliterdata) && fliterdata.length > 0 ? (
+          {Array.isArray(fliterdata) ? (
+            fliterdata.length > 0 ? (
               fliterdata.map((item, index) => {
                 return (
                   <div
@@ -116,17 +116,15 @@ function PosProduct() {
                 );
               })
             ) : (
-              <h1
+              <div
                 style={{
-                  fontWeight: "lighter",
-                  textWrap: "nowrap",
-                  gridColumn: "1 / -1",
-                  justifySelf: "center",
-                  color: Font_color ? "#E1E1E1" : "#0D1B2A",
+                  border: "1px solid black",
+                  borderRadius: "5px",
+                  padding: "10px",
                 }}
               >
-                No Result Found....
-              </h1>
+                <p>No Product.....</p>
+              </div>
             )
           ) : (
             [...Array(15)].map((_, index) => <LoadingProduct key={index} />)

@@ -16,19 +16,22 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: x-large;
 }
 .Poscustomerheader div {
   display: flex;
   align-items: center;
-  width: 200px;
+  width: 220px;
   height: 30px;
   border-radius: 9px;
   padding: 1px 7px;
+  justify-content: space-between;
 }
 .Poscustomerheader div input {
   border: none;
   outline: none;
   background-color: initial;
+  padding: 5px;
 }
 .customertableContainer {
   width: 100%;

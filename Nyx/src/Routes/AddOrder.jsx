@@ -260,11 +260,9 @@ function AddOrder() {
                   Payment.result.length > 0 ? (
                     Payment.result.map((item, index) => {
                       return (
-                        <>
-                          <option key={index} value={item.payment_method}>
-                            {item.payment_method}
-                          </option>
-                        </>
+                        <option key={index} value={item.payment_method}>
+                          {item.payment_method}
+                        </option>
                       );
                     })
                   ) : (

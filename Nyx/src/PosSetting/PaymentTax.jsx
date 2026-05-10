@@ -16,7 +16,6 @@ function PosPaymentTax() {
   const { Payment, GetPayment, Tax, GetTax } = useGetPayment();
   const { ReturnJsx, openbox } = useSecurityCheck();
   const { backcolor, Token } = useContext(Context);
-  console.log(Payment);
   const Font_Color = Boolean(backcolor == "#1A1C1E");
   const FontStyle = {
     color: Font_Color ? "white" : "#0D1B2A",
@@ -69,6 +68,7 @@ function PosPaymentTax() {
       className="pospaymentwarper"
       style={{ border: Font_Color && "1px solid white" }}
     >
+      <Toaster />
       {ReturnJsx}
       <div className="pospaymentchild2">
         <div>

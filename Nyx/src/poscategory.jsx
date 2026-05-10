@@ -41,7 +41,7 @@ function PosCategory() {
 
   useEffect(() => {
     (GetCategories(), GetTags());
-  });
+  }, []);
 
   async function addCategory(e) {
     e.preventDefault();
@@ -69,12 +69,12 @@ function PosCategory() {
       }
     } catch (err) {
       console.log(err);
-      toast.error("upload Fialed", { id: loadingtoast });
+      toast.error("Connection error", { id: loadingtoast });
     }
   }
   async function AddTags(e) {
     e.preventDefault();
-    const laodingtag = toast.loading("Uploading...");
+    const addingtag = toast.loading("Uploading...");
     let data = { name: Tagsref.current.value };
     try {
       let reponse = await fetch(import.meta.env.VITE_ADD_TAGS, {
@@ -86,17 +86,16 @@ function PosCategory() {
         body: JSON.stringify(data),
       });
       if (reponse.ok) {
-        console.log("Tags added succefully");
         GetTags();
-        toast.success("Successfully Uploaded", { id: laodingtag });
+        toast.success("Successfully Uploaded", { id: addingtag });
         setshow1(false);
       } else {
-        toast.error("Upload Fail", { id: laodingtag });
+        toast.error("Upload Fail", { id: addingtag });
         setshow1(false);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Upload Fail", { id: laodingtag });
+      toast.error("Connection error", { id: addingtag });
     }
   }
 
@@ -157,7 +156,7 @@ function PosCategory() {
       }
     } catch (err) {
       console.log(err);
-      toast.error("Upload Fail", { id: laodingtag });
+      toast.error("Connecting error", { id: laodingtag });
       setselecttoDel(null);
       setallow(false);
       setshow(false);
@@ -175,6 +174,7 @@ function PosCategory() {
       setisallow(false);
       return;
     }
+    const updatingtag = toast.loading("Please Wait");
     try {
       let response = await fetch(import.meta.env.VITE_UPDATE_TAGS, {
         method: "PUT",
@@ -190,15 +190,18 @@ function PosCategory() {
         seteditdata(null);
         setisallow(false);
         setfile(null);
+        toast.success("Successfully updated", { id: updatingtag });
       } else {
         setshow1(false);
         seteditdata(null);
         setisallow(false);
         toast.error("Failed to update Tags");
         setfile(null);
+        toast.error("Failed to delete", { id: updatingtag });
       }
     } catch (err) {
       console.log(err);
+      toast.error("Connection error", { id: updatingtag });
     }
   }
 
@@ -223,7 +226,7 @@ function PosCategory() {
       buttonsStyling: false,
     });
     if (result.isConfirmed) {
-      let tagdelete = toast.loading("Deleting Tags...");
+      const tagdelete = toast.loading("Deleting Tags...");
       try {
         let reponse = await fetch(
           `${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,
@@ -279,34 +282,31 @@ function PosCategory() {
       buttonsStyling: false,
     });
     if (result.isConfirmed) {
+      const deleting = toast.loading("Please wait");
       try {
         let reponse = await fetch(
           `${import.meta.env.VITE_DELETE_CATEGORY}${data}`,
           {
             method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${Token}`,
-            },
           },
         );
-
         if (reponse.ok) {
           await GetCategories();
-
           setshow(false);
           setselecttoDel(null);
-          toast.success("Category Deleted");
+          toast.success("Category Deleted", { id: deleting });
           setfile(null);
         } else {
           setshow(false);
           setselecttoDel(null);
-          toast.error("Failed to delete Category");
+          toast.error("Failed to delete Category", { id: deleting });
           setfile(null);
         }
       } catch (err) {
         console.log(err);
         setshow(false);
         setselecttoDel(null);
+        toast.error("Cannot connect with sever", { id: deleting });
       }
     }
   }
@@ -353,8 +353,9 @@ function PosCategory() {
         </div>
 
         <div className="poscategorybody">
-          {Array.isArray(Categories.data) && Categories.data.length > 0
-            ? Categories.data.map((item, index) => {
+          {Array.isArray(Categories.data) ? (
+            Categories.data.length > 0 ? (
+              Categories.data.map((item, index) => {
                 return (
                   <div
                     key={index}
@@ -366,7 +367,14 @@ function PosCategory() {
                   </div>
                 );
               })
-            : [...Array(7)].map((_, index) => <Loading key={index} />)}
+            ) : (
+              <div className="singlecategory" onClick={() => setshow(true)}>
+                <p>No Category Yet</p>
+              </div>
+            )
+          ) : (
+            [...Array(7)].map((_, index) => <Loading key={index} />)
+          )}
         </div>
 
         <hr
@@ -406,10 +414,9 @@ function PosCategory() {
                 );
               })
             ) : (
-              <div>
-                <p>There is no tags</p>
-                <h1 onClick={() => setshow1(true)}>Add New Tags</h1>
-              </div>
+              <h3 style={{ color: "red" }} onClick={() => setshow1(true)}>
+                There is no tags
+              </h3>
             )
           ) : (
             [...Array(4)].map((_, index) => <LoaingTag key={index} />)
@@ -542,9 +549,6 @@ function PosCategory() {
                   key={editdata ? 3 : ""}
                   readOnly={isallow}
                 />
-                {/* <label htmlFor="statuscheck"> <input type='checkbox' 
-                                className='checkstatus' 
-                                />Avaliable</label> */}
 
                 {editdata ? (
                   <div className="tagupdatebtn">

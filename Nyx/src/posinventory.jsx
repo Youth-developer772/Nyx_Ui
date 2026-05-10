@@ -1,13 +1,17 @@
 import InventoryIcon from "@mui/icons-material/DensityMediumOutlined";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import "./cssFolder/posinventory.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "./Hooks/context";
 import TableLoading from "./Components/tableloading";
 import CustomerLoading from "./Components/loadingcustomer";
 import { useGetCategory, useGetInventroy } from "./Api_Call";
 
 function PosInventory() {
+  const [text, settext] = useState("");
+  const [value, setvalue] = useState("All");
+  const [filteredData, setfiltered] = useState(null);
+
   const { Categories, GetCategories } = useGetCategory();
   const { Inventory, GetInventory } = useGetInventroy();
   const { backcolor } = useContext(Context);
@@ -31,6 +35,37 @@ function PosInventory() {
     (GetInventory(), GetCategories());
   }, []);
 
+  //for option
+  function changevalue(event) {
+    setvalue(event.target.value);
+  }
+
+  // for search box
+  function changetext(event) {
+    settext(event.target.value);
+  }
+
+  useEffect(() => {
+    if (!Array.isArray(Inventory.data)) return;
+    setfiltered(Inventory.data);
+    if (!Inventory.data.length > 0) return;
+    let result = Inventory.data;
+    if (value != "All") {
+      result = result.filter((item) => {
+        return item.category.toLowerCase().includes(value.toLowerCase());
+      });
+    }
+    if (text.trim() !== "") {
+      result = result.filter((item) => {
+        return (
+          item.productName.toLowerCase().includes(text.trim().toLowerCase()) ||
+          item.tags.toLowerCase().includes(text.trim().toLowerCase())
+        );
+      });
+    }
+    setfiltered(result);
+  }, [text, value, Inventory.data]);
+
   async function DeleteInventoryData(item) {
     try {
       let reponse = await fetch(
@@ -46,14 +81,13 @@ function PosInventory() {
       console.log(error);
     }
   }
-
   return (
     <>
       <div className="posinventorymain">
         <h1 className="Inventorytitle" style={FontStyle}>
           <InventoryIcon
             className="inventoryIcon"
-            sx={{ border: !backcolor ? "1px solid white" : "1px solid black" }}
+            sx={{ border: !Font_color ? "1px solid white" : "1px solid black" }}
           />
           Inventory
         </h1>
@@ -73,7 +107,8 @@ function PosInventory() {
         </div>
         <div className="inventoryheader">
           <h2 style={FontStyle}>Product Stocks Overview</h2>
-          <select>
+          <select onChange={changevalue}>
+            <option value="All">All</option>
             {Array.isArray(Categories.data) && Categories.data.length > 0 ? (
               Categories.data.map((item, index) => {
                 return (
@@ -90,7 +125,8 @@ function PosInventory() {
             <input
               type="search"
               placeholder="Search.."
-              style={{ color: !backcolor ? "white" : "#0D1B2A" }}
+              style={{ color: !Font_color ? "white" : "#0D1B2A" }}
+              onChange={changetext}
             />
             <SearchIcon style={{ color: !backcolor ? "white" : "#0D1B2A" }} />
           </div>
@@ -109,8 +145,9 @@ function PosInventory() {
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(Inventory.data) && Inventory.data.length > 0
-                ? Inventory.data.map((item, index) => {
+              {Array.isArray(filteredData) ? (
+                filteredData.length > 0 ? (
+                  filteredData.map((item, index) => {
                     return (
                       <tr key={index} className="test">
                         <td
@@ -136,9 +173,27 @@ function PosInventory() {
                       </tr>
                     );
                   })
-                : [...Array(8)].map((_, index) => (
-                    <CustomerLoading key={index} times={8} />
-                  ))}
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="7"
+                      style={{
+                        textAlign: "center",
+                        padding: "20px",
+                        borderTop: "1px solid #0f0e0e4f",
+                        borderBottom: "1px solid #0f0e0e4f",
+                        margin: 0,
+                      }}
+                    >
+                      No data
+                    </td>
+                  </tr>
+                )
+              ) : (
+                [...Array(8)].map((_, index) => (
+                  <CustomerLoading key={index} times={7} />
+                ))
+              )}
             </tbody>
           </table>
         </div>

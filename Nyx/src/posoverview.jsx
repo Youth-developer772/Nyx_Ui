@@ -176,66 +176,75 @@ function PosOverview() {
         </div>
         <div className="posfooter">
           <h2>Recent Order</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Payment</th>
-                <th>Payment Proof</th>
-                <th>Order Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(MOrders.data) ? (
-                MOrders.data.length > 0 ? (
-                  MOrders.data.map((item, index) => {
-                    return (
-                      <tr key={index} className="posoverviewtr">
-                        <td>{item.order_id}</td>
-                        <td className="customername">{item.customer_name}</td>
-                        <td>{item.Total}</td>
-                        <td style={{ color: "#6a7d95" }}>{item.Date}</td>
-                        <td>{item.Time}</td>
-                        <td>{item.payment_method}</td>
-                        <td className="imgcontainer">
-                          <img
-                            src={item.payment_proof}
-                            className="posorderimg"
-                            onClick={() => showImagePreview(item.payment_proof)}
-                          />
-                        </td>
-                        <td>
-                          <span
-                            className={`status-badge ${item.order_status.toLowerCase()}`}
-                          >
-                            {item.order_status}
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })
+          <div className="postablewarper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Payment</th>
+                  <th>Payment Proof</th>
+                  <th>Order Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(MOrders.data) ? (
+                  MOrders.data.length > 0 ? (
+                    MOrders.data.map((item, index) => {
+                      return (
+                        <tr key={index} className="posoverviewtr">
+                          <td>{item.order_id}</td>
+                          <td className="customername">{item.customer_name}</td>
+                          <td>{item.Total}</td>
+                          <td style={{ color: "#6a7d95" }}>{item.Date}</td>
+                          <td>{item.Time}</td>
+                          <td>{item.payment_method}</td>
+                          <td className="imgcontainer">
+                            <img
+                              src={item.payment_proof}
+                              className="posorderimg"
+                              onClick={() =>
+                                showImagePreview(item.payment_proof)
+                              }
+                            />
+                          </td>
+                          <td>
+                            <span
+                              className={`status-badge ${item.order_status.toLowerCase()}`}
+                            >
+                              {item.order_status}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="7"
+                        style={{
+                          textAlign: "center",
+                          padding: "20px",
+                          borderTop: "1px solid #0f0e0e4f",
+                          borderBottom: "1px solid #0f0e0e4f",
+                          marginTop: "3px",
+                        }}
+                      >
+                        No data
+                      </td>
+                    </tr>
+                  )
                 ) : (
-                  <tr>
-                    <td>The</td>
-                    <td>Orders</td>
-                    <td>appear</td>
-                    <td>when</td>
-                    <td>user</td>
-                    <td>add</td>
-                    <td>order</td>
-                  </tr>
-                )
-              ) : (
-                [...Array(10)].map((_, index) => {
-                  return <CustomerLoading times={8} />;
-                })
-              )}
-            </tbody>
-          </table>
+                  [...Array(10)].map((_, index) => {
+                    return <CustomerLoading times={8} />;
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

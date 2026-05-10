@@ -24,7 +24,6 @@ function AddProduct() {
   const [allowupdate, setallowupdate] = useState(info ? true : false);
   const [file, setfile] = useState(null);
   const [filepath, setfilepath] = useState(null);
-  console.log(info);
 
   const navigate = useNavigate();
 
@@ -120,6 +119,7 @@ function AddProduct() {
   }
 
   async function deleteProduct(id) {
+    console.log(id);
     const result = await Swal.fire({
       title: "Are you sure to delete this product?",
       text: "You can't undo this action!",
