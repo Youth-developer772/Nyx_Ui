@@ -26,6 +26,10 @@ function AddOrder() {
   const [filetosend, setfiletosend] = useState(null);
   const [allow, setallow] = useState(true);
 
+  const [payment, setpayment] = useState("Cash");
+  const [name, setname] = useState("-------");
+  const [number, setnumber] = useState("-------");
+
   const imgref = useRef();
   const paymentref = useRef();
   const { Token } = useContext(Context);
@@ -66,6 +70,16 @@ function AddOrder() {
       setamount(totalprice);
     } else setamount(0);
   }, [childdata, cart]);
+
+  useEffect(() => {
+    if (Array.isArray(Payment.result) && Payment.result.length > 0) {
+      let result = Payment.result.find((a) => a.payment_method == payment);
+      if (result) {
+        setname(result.payment_name || "-----");
+        setnumber(result.payment_number || "------");
+      }
+    }
+  }, [Payment.result, payment]);
 
   function updateQty(id, amount) {
     setCart((prev) => {
@@ -159,6 +173,11 @@ function AddOrder() {
       toast.error("Can not connetct with sever", { id: loading });
       console.log(err);
     }
+  }
+
+  //payment change
+  function paymentchange(event) {
+    setpayment(event.target.value);
   }
 
   return createPortal(
@@ -255,7 +274,7 @@ function AddOrder() {
               </p>
               <div className="ssx">
                 <label htmlFor="input">Payment Method</label>
-                <select ref={paymentref}>
+                <select ref={paymentref} onChange={paymentchange}>
                   {Array.isArray(Payment.result) &&
                   Payment.result.length > 0 ? (
                     Payment.result.map((item, index) => {
@@ -276,12 +295,14 @@ function AddOrder() {
                 <label style={{ padding: "5px" }}>Payment Details</label>
                 <div className="paymentwarper">
                   <span>
-                    <p>kpay name</p>
-                    <p>adminname</p>
+                    <p>{payment == "Cash" ? "--------" : `${payment} name`}</p>
+                    <p>{name}</p>
                   </span>
                   <span>
-                    <p>kpay number</p>
-                    <p>09661234444</p>
+                    <p>
+                      {payment == "Cash" ? "---------" : `${payment} number`}
+                    </p>
+                    <p>{number}</p>
                   </span>
                 </div>
               </span>

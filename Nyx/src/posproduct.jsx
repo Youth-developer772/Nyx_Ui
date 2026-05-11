@@ -99,8 +99,13 @@ function PosProduct() {
                     </div>
                     <div className="producttext">
                       <h3>{item.productName}</h3>
-                      <h4 style={{ fontFamily: "Inter", fontWeight: 300 }}>
-                        {item.price}mmk
+                      <h4
+                        style={{
+                          fontFamily: "Inter",
+                          fontWeight: 300,
+                        }}
+                      >
+                        {item.price} MMK
                       </h4>
                       {item.status == "isAvailable" ? (
                         <p style={{ backgroundColor: "#16F90E" }}>Avaliable</p>

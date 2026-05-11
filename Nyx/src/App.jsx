@@ -28,21 +28,18 @@ import AcademicLogin from "./Account/academiclogin";
 import PosProtectedRoute from "./Hooks/PosProtectedRoute";
 import ClassNav from "./Class/classnav";
 import ClassOverview from "./Class/classoverview";
-import ClassSchedule from "./Class/classschedule";
-import ClassList from "./Class/classlist";
 import ClassStudent from "./Class/classstudent";
-import ClassCourt from "./Class/classcourt";
-import ClassMember from "./Class/classmember";
-import ClassEquipment from "./Class/classequipment";
 import ClassOrder from "./Class/classorder";
-import ClassProduct from "./Class/classproduct";
-import ClassCustomer from "./Class/classcustomer";
-import ClassReport from "./Class/classreport";
-import ClassInventory from "./Class/classinventory";
+import ClassMenu from "./Class/classmenu";
 import ClassSetting from "./Class/classsetting";
 import MobileOrder from "./Routes/mobileorder";
 import LocalOrder from "./Routes/localorder";
 import AddOrder from "./Routes/AddOrder";
+import CourseManagement from "./Class/coursemanagement";
+import BookingSchedule from "./Class/classbookingschedule";
+import BookingList from "./Class/classbookinglist";
+import MenuManagement from "./Class/classmenumanagement";
+import ClassMember from "./Class/classmember";
 
 function App() {
   const [childData, SetchildData] = useState({});
@@ -119,17 +116,20 @@ function App() {
             <Route path="/class" element={<ClassNav />}>
               <Route index element={<Navigate to="classoverview" replace />} />
               <Route path="classoverview" element={<ClassOverview />} />
-              <Route path="classschedule" element={<ClassSchedule />} />
-              <Route path="classlist" element={<ClassList />} />
+              <Route
+                path="classcoursemanagement"
+                element={<CourseManagement />}
+              />
               <Route path="classstudent" element={<ClassStudent />} />
-              <Route path="classcourt" element={<ClassCourt />} />
-              <Route path="classmembers" element={<ClassMember />} />
-              <Route path="classequipment" element={<ClassEquipment />} />
+              <Route
+                path="classbookingschedule"
+                element={<BookingSchedule />}
+              />
+              <Route path="classbookinglist" element={<BookingList />} />
+              <Route path="classmenumanagement" element={<MenuManagement />} />
+              <Route path="classmember" element={<ClassMember />} />
               <Route path="classorder" element={<ClassOrder />} />
-              <Route path="classproduct" element={<ClassProduct />} />
-              <Route path="classcustomer" element={<ClassCustomer />} />
-              <Route path="classinventory" element={<ClassInventory />} />
-              <Route path="classreport" element={<ClassReport />} />
+              <Route path="classmenu" element={<ClassMenu />} />
               <Route path="classsetting" element={<ClassSetting />} />
             </Route>
 

@@ -62,11 +62,8 @@ function ClassNav() {
 
               {show1 && (
                 <span className="dropdownwarper">
-                  <NavLink className="dropdownlist" to="classschedule">
-                    class schedule
-                  </NavLink>
-                  <NavLink className="dropdownlist" to="classlist">
-                    class lists
+                  <NavLink className="dropdownlist" to="classcoursemanagement">
+                    Course Management
                   </NavLink>
                   <NavLink className="dropdownlist" to="classstudent">
                     students
@@ -92,14 +89,17 @@ function ClassNav() {
 
               {show2 && (
                 <span className="dropdownwarper">
-                  <NavLink className="dropdownlist" to="classcourt">
-                    court schedule
+                  <NavLink className="dropdownlist" to="classbookingschedule">
+                    BOOKING SCHEDULE
                   </NavLink>
-                  <NavLink className="dropdownlist" to="classmembers">
-                    members
+                  <NavLink className="dropdownlist" to="classbookinglist">
+                    BOOKING LIST
                   </NavLink>
-                  <NavLink className="dropdownlist" to="classequipment">
-                    equipment rental
+                  <NavLink className="dropdownlist" to="classmenumanagement">
+                    MENU MANAGEMENT
+                  </NavLink>
+                  <NavLink className="dropdownlist" to="classmember">
+                    MEMBERs
                   </NavLink>
                 </span>
               )}
@@ -125,10 +125,10 @@ function ClassNav() {
                   <NavLink className="dropdownlist" to="classorder">
                     order
                   </NavLink>
-                  <NavLink className="dropdownlist" to="classproduct">
-                    product
+                  <NavLink className="dropdownlist" to="classmenu">
+                    MENUS
                   </NavLink>
-                  <NavLink className="dropdownlist" to="classcustomer">
+                  {/* <NavLink className="dropdownlist" to="classcustomer">
                     customer
                   </NavLink>
                   <NavLink className="dropdownlist" to="classinventory">
@@ -136,7 +136,7 @@ function ClassNav() {
                   </NavLink>
                   <NavLink className="dropdownlist" to="classreport">
                     report
-                  </NavLink>
+                  </NavLink> */}
                 </span>
               )}
             </div>

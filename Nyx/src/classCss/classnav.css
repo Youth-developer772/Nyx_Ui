@@ -17,6 +17,7 @@
   flex-grow: 1;
   min-width: 0;
   overflow-x: auto;
+  background-color: #f0f0f0;
 }
 
 .classnavheader {
@@ -30,7 +31,7 @@
   font-family: Belanosima;
 }
 .classnav .classbutton a {
-  width: 170px;
+  width: 200px;
   padding: 7px;
   text-decoration: none;
   color: white;
@@ -90,6 +91,8 @@
   background-color: initial;
   border: none !important;
   outline: none;
+  white-space: nowrap;
+  width: 200px;
 }
 .dropdownlist:hover {
   background-color: white !important;
@@ -111,7 +114,7 @@
   padding: 0;
 }
 .dropdownbutton {
-  width: 170px;
+  width: 200px;
   border: none;
   outline: none;
   background-color: initial;

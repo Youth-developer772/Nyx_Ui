@@ -239,7 +239,7 @@ function PosOverview() {
                   )
                 ) : (
                   [...Array(10)].map((_, index) => {
-                    return <CustomerLoading times={8} />;
+                    return <CustomerLoading times={8} key={index} />;
                   })
                 )}
               </tbody>
