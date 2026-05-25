@@ -8,8 +8,8 @@
 }
 .classorderbody1 {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
+  width: 100% !important;
+  justify-content: space-between !important;
   align-items: center;
   height: 5vh;
 }

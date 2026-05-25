@@ -1,11 +1,11 @@
-import "./addorderproduct.css";
+import "./classequipmentorder.css";
 import CloseIcon from "@mui/icons-material/CloseOutlined";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import { useEffect, useState } from "react";
-import PLO from "./PLO";
+import PLO from "../Components/PLO.jsx";
 import { useGetCategory, useGetProducts } from "../Api_Call";
 
-function AddorderProduct({ data }) {
+function ClassEquipmentOrder({ data }) {
   const [fliterdata, setfliterdata] = useState();
   const [text, settext] = useState();
   const [category, setcategory] = useState("All");
@@ -158,4 +158,4 @@ function AddorderProduct({ data }) {
     </div>
   );
 }
-export default AddorderProduct;
+export default ClassEquipmentOrder;

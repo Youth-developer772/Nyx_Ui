@@ -3,7 +3,10 @@ import "../classCss/classOrder.css";
 import { classOrdertable, headerdata } from "../DataExport";
 import SearchIcon from "@mui/icons-material/SearchSharp";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import { Outlet, useNavigate } from "react-router-dom";
 function ClassOrder() {
+  const navigate = useNavigate();
+
   return (
     <div className="classordermain">
       <div className="classorderbody1">
@@ -11,7 +14,9 @@ function ClassOrder() {
           <OrderIcon />
           Order
         </h2>
-        <button>+ Add Order</button>
+        <button onClick={() => navigate("classorderaddmenu")}>
+          + Add Order
+        </button>
       </div>
       <div className="classorderbody2">
         {headerdata.map((item, index) => {
@@ -67,6 +72,7 @@ function ClassOrder() {
           </table>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 }

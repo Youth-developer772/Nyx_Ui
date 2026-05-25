@@ -11,25 +11,32 @@
   overflow-y: hidden;
 }
 .addordertitle {
-  font-family: Inter;
+  font-family: Belanosima;
   font-size: x-large;
-  padding: 7px 10px;
+  padding: 7px 15px;
+  font-weight: 600;
+  height: 6vh;
 }
 .addordernav {
   background-color: #0d1b2a;
-  width: 100%;
   display: flex;
   align-items: center;
+  height: 30px;
 }
-.addorderbody {
+.addclassorderbody {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: calc(95vh - 40px);
+}
+
+.addclassorderbody1 {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-}
-.addorderbody1 {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 1em;
+  padding: 5px 10px;
+  width: 60%;
+  gap: 10px;
+  height: calc(95vh - 45px);
 }
 .addorderreciept {
   display: flex;
@@ -37,10 +44,15 @@
   border: 1px solid #0d1b2a;
   justify-content: space-evenly;
   border-radius: 10px;
-  width: 60%;
+  width: 100%;
   background-color: #ffffff;
-  padding: 0 10px;
-  height: 90px;
+  padding: 10px 10px;
+  padding-bottom: 15px;
+}
+.addorderreciept p {
+  font-family: Inter;
+  font-size: smaller;
+  padding: 3px;
 }
 .addorderreciept span {
   padding: 7px 8px;
@@ -49,29 +61,16 @@
   border-radius: 5px;
   border: 1px solid rgba(128, 128, 128, 0.397);
 }
-.addorderamount {
+
+.addclassorderbody2 {
   display: flex;
-  flex-direction: column;
-  width: 38%;
-  padding: 0 10px;
-  border: 1px solid #0d1b2a;
-  border-radius: 10px;
-  background-color: #ffffff;
-  justify-content: space-evenly;
-  font-family: Inter;
-}
-.addorderamount h2 {
-  position: initial;
-}
-.addorderbody2 {
-  display: flex;
-  width: 100%;
+  width: 40%;
   justify-content: space-between;
-  padding: 5px 1em;
-  height: 70vh;
+  padding: 5px 10px;
+  height: calc(95vh - 45px);
 }
-.addorderchoice {
-  width: 60%;
+.addclassorderchoice {
+  width: 100%;
   background-color: #ffffff;
   padding: 1em;
   display: flex;
@@ -79,7 +78,7 @@
   gap: 10px;
   border-radius: 10px;
   border: 1px solid #0d1b2a;
-  height: 100%;
+  flex-grow: 1;
 }
 .addorderchoiceheader {
   display: flex;
@@ -90,6 +89,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  font-weight: 600;
 }
 .addorderchoiceheader2 {
   color: white;
@@ -109,7 +109,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 60vh;
+  height: 30vh;
   overflow-y: scroll;
 }
 .toorderheader {
@@ -195,7 +195,7 @@
 .orderprint {
   display: flex;
   flex-direction: column;
-  width: 38%;
+  width: 100%;
   gap: 10px;
   border-radius: 10px;
   justify-content: space-between;
@@ -278,4 +278,75 @@
 }
 .addorderbtn button:disabled {
   opacity: 0.4;
+}
+/*________________*/
+/* new added ui*/
+.addorderselect {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1em;
+  border-radius: 10px;
+  border: 1px solid #1b263b;
+  gap: 10px;
+  background-color: #ffffff;
+}
+.aos1 {
+  display: flex;
+  gap: 5px;
+}
+.aos1 h3 {
+  font-family: Work Sans;
+  padding: 0;
+  font-size: medium;
+}
+.aos2 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.aos2 span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 30%;
+}
+.aos2 h5,
+.timeslottitle {
+  font-family: Work Sans;
+  font-size: x-small;
+  color: #5e5e5e;
+  padding: 4px 2px;
+}
+.aos2 select {
+  border: 1px solid #c4c7c7;
+  width: 100%;
+  outline-color: blueviolet;
+  padding: 5px;
+  background-color: initial;
+  border-radius: 3px;
+  font-family: Work Sans;
+}
+.aos2 input {
+  border: 1px solid #c4c7c7;
+  width: 100%;
+  padding: 5px;
+  background-color: initial;
+  border-radius: 3px;
+}
+.aos3 {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  gap: 7px;
+}
+.aos3 p {
+  padding: 7px 15px;
+  border: 1px solid #c4c7c7;
+  border-radius: 3px;
+  font-family: Work Sans;
+  font-size: small;
+  background-color: #fafafa;
+  white-space: nowrap;
 }

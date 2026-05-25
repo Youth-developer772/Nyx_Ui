@@ -1,9 +1,8 @@
 import CustomerLoading from "../Components/loadingcustomer";
 import BackIcon from "@mui/icons-material/ArrowCircleLeftRounded";
 import FoodIcon from "@mui/icons-material/LocalDiningRounded";
-import "./addorder.css";
+import "../Routes/addorder.css";
 import { useContext, useEffect, useRef, useState } from "react";
-import AddorderProduct from "../Components/addorderproudct";
 import PaymentIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import RemoveIcon from "@mui/icons-material/RemoveShoppingCartRounded";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -13,8 +12,9 @@ import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
 import { useReceipt } from "../Components/Receipt";
 import { useGetOrder, useGetPayment } from "../Api_Call";
+import AddOrderMenu from "./addmenuorder";
 
-function AddOrder() {
+function AddMenu() {
   const [reciept, setreciept] = useState();
   const [amount, setamount] = useState(0);
   const [cart, setCart] = useState({});
@@ -203,7 +203,14 @@ function AddOrder() {
           <div className="addorderamount">
             <p>Total amount</p>
             <hr style={{ color: "black" }} />
-            <h2 style={{ margin: "0", paddingTop: "0" }}>
+            <h2
+              style={{
+                margin: "0",
+                paddingTop: "0",
+                fontSize: "large",
+                fontFamily: "Inter",
+              }}
+            >
               {amount} <label htmlFor="h2">ks</label>
             </h2>
           </div>
@@ -219,7 +226,7 @@ function AddOrder() {
                 className="addorderchoiceheader2"
                 onClick={() => setshow(true)}
               >
-                + select items form product
+                + select items form menu
               </button>
             </span>
 
@@ -235,7 +242,7 @@ function AddOrder() {
                     <div className="toorderbody" key={index}>
                       <span className="toorderchild">
                         <div>
-                          <img src={item.images} />
+                          <img src={item.image_url} />
                         </div>
                         <p>{item.productName}</p>
                       </span>
@@ -247,7 +254,7 @@ function AddOrder() {
                         <button onClick={() => updateQty(item.id, 1)}>+</button>
                       </span>
                       <p className="toorderchild2">
-                        {item.price}
+                        {item.price} Ks
                         <button onClick={() => remove_item(item.id)}>
                           <RemoveIcon sx={{ fontSize: "20px" }} />
                         </button>
@@ -342,7 +349,7 @@ function AddOrder() {
         </div>
       </div>
       {show && (
-        <AddorderProduct
+        <AddOrderMenu
           data={{ fun1: setchilddata, fun2: setshow, amount: amount }}
         />
       )}
@@ -350,4 +357,4 @@ function AddOrder() {
     document.body,
   );
 }
-export default AddOrder;
+export default AddMenu;

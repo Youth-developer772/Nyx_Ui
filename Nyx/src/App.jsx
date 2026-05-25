@@ -38,8 +38,11 @@ import AddOrder from "./Routes/AddOrder";
 import CourseManagement from "./Class/coursemanagement";
 import BookingSchedule from "./Class/classbookingschedule";
 import BookingList from "./Class/classbookinglist";
-import MenuManagement from "./Class/classmenumanagement";
-import ClassMember from "./Class/classmember";
+import VenueManagement from "./Class/classvenuemanagement";
+import ClassMember from "./Class/classcustomer";
+import AddMenu from "./ClassComponent/Addmenu";
+import ClassCourtDetail from "./ClassComponent/classcourtadd";
+import ClassAddCourt from "./ClassComponent/classaddcourt";
 
 function App() {
   const [childData, SetchildData] = useState({});
@@ -126,9 +129,14 @@ function App() {
                 element={<BookingSchedule />}
               />
               <Route path="classbookinglist" element={<BookingList />} />
-              <Route path="classmenumanagement" element={<MenuManagement />} />
+              <Route path="classvenuemanagement" element={<VenueManagement />}>
+                <Route path="classcourtdetail" element={<ClassCourtDetail />} />
+                <Route path="classaddcourt" element={<ClassAddCourt />} />
+              </Route>
               <Route path="classmember" element={<ClassMember />} />
-              <Route path="classorder" element={<ClassOrder />} />
+              <Route path="classorder" element={<ClassOrder />}>
+                <Route path="classorderaddmenu" element={<AddMenu />} />
+              </Route>
               <Route path="classmenu" element={<ClassMenu />} />
               <Route path="classsetting" element={<ClassSetting />} />
             </Route>

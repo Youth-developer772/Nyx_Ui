@@ -1,10 +1,11 @@
 import CustomerLoading from "../Components/loadingcustomer";
 import BackIcon from "@mui/icons-material/ArrowCircleLeftRounded";
 import FoodIcon from "@mui/icons-material/LocalDiningRounded";
-import "./addorder.css";
+import "./classcreatenewbooking.css";
 import { useContext, useEffect, useRef, useState } from "react";
 import AddorderProduct from "../Components/addorderproudct";
 import PaymentIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import RentalIcon from "@mui/icons-material/Inventory2Outlined";
 import RemoveIcon from "@mui/icons-material/RemoveShoppingCartRounded";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import toast, { Toaster } from "react-hot-toast";
@@ -13,8 +14,12 @@ import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
 import { useReceipt } from "../Components/Receipt";
 import { useGetOrder, useGetPayment } from "../Api_Call";
+import StadiumIcon from "@mui/icons-material/StadiumOutlined";
+import { useGetClassVenue } from "../ClassApi";
+import { useNoti } from "../Hooks/alert";
+import ClassEquipmentOrder from "./classequipmentorder";
 
-function AddOrder() {
+function ClassCreateBooking() {
   const [reciept, setreciept] = useState();
   const [amount, setamount] = useState(0);
   const [cart, setCart] = useState({});
@@ -29,15 +34,24 @@ function AddOrder() {
   const [name, setname] = useState("-------");
   const [number, setnumber] = useState("-------");
 
+  //for select box
+  const [index, setindex] = useState(0);
+
   const imgref = useRef();
   const paymentref = useRef();
   const { Token } = useContext(Context);
   const { Payment, Products, GetPayment, Tax, GetTax } = useGetPayment();
+  const { GetVenue, Venue, Courts, GetCourts } = useGetClassVenue();
+  const { Loading, openerror, openloading, opensuccess, close } = useNoti();
   const { GetLocalOrders } = useGetOrder();
   const { ReceipetJsx, open } = useReceipt();
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    GetVenue();
+  }, []);
+  console.log(Venue);
+  console.log(Courts);
   useEffect(() => {
     GetPayment();
     GetTax();
@@ -179,6 +193,22 @@ function AddOrder() {
     setpayment(event.target.value);
   }
 
+  //index change
+  function timeslotchange(event) {
+    setindex(event.target.value);
+  }
+
+  //court change
+  async function courtchange(event) {
+    openloading();
+    try {
+      await GetCourts(event.target.value);
+      close();
+    } catch (err) {
+      close();
+      console.log(err);
+    }
+  }
   return createPortal(
     <div className="addordermain">
       <Toaster />
@@ -193,33 +223,96 @@ function AddOrder() {
           />
         </button>
       </div>
-      <div className="addorderbody">
-        <h3 className="addordertitle">Create New Order</h3>
-        <div className="addorderbody1">
+      <h3 className="addordertitle">Create New Booking</h3>
+
+      <div className="addclassorderbody">
+        <div className="addclassorderbody1">
           <div className="addorderreciept">
             <p>Receipt No</p>
             <span>{reciept}</span>
           </div>
-          <div className="addorderamount">
-            <p>Total amount</p>
-            <hr style={{ color: "black" }} />
-            <h2 style={{ margin: "0", paddingTop: "0" }}>
-              {amount} <label htmlFor="h2">ks</label>
-            </h2>
+          <div className="addorderselect">
+            <span className="aos1">
+              <StadiumIcon sx={{ fontSize: "20px" }} />
+              <h3>Select Venue/Court</h3>
+            </span>
+            <div className="aos2">
+              <span>
+                <h5>SPORT TYPE</h5>
+                <select name="sport" onChange={courtchange}>
+                  {Array.isArray(Venue.data) ? (
+                    Venue.data.length > 0 ? (
+                      Venue.data.map((item, index) => {
+                        return (
+                          <option value={item.id} key={index}>
+                            {item.venue_name}
+                          </option>
+                        );
+                      })
+                    ) : (
+                      <option disabled>no data</option>
+                    )
+                  ) : (
+                    <option disabled>Loading..</option>
+                  )}
+                </select>
+              </span>
+              <span>
+                <h5>COURT NAME</h5>
+                <select name="court" onChange={timeslotchange}>
+                  {Array.isArray(Courts.data) ? (
+                    Courts.data.length > 0 ? (
+                      Courts.data.map((item, index) => {
+                        return (
+                          <option value={index} key={index}>
+                            {item.court_name}
+                          </option>
+                        );
+                      })
+                    ) : (
+                      <option disabled>no data</option>
+                    )
+                  ) : (
+                    <option disabled>Loading...</option>
+                  )}
+                </select>
+              </span>
+              <span>
+                <h5>DATE</h5>
+                <input type="date" />
+              </span>
+            </div>
+            <h5 className="timeslottitle">TIME SLOT</h5>
+            <div className="aos3">
+              {Array.isArray(Courts.data?.[index]?.time_slots) ? (
+                Courts.data?.[index].time_slots.length > 0 ? (
+                  Courts.data[index].time_slots.map((item, index) => {
+                    return (
+                      <p key={index}>
+                        {item.start_time.slice(0, 5)} -{" "}
+                        {item.end_time.slice(0, 5)}
+                      </p>
+                    );
+                  })
+                ) : (
+                  <p disabled>no data</p>
+                )
+              ) : (
+                <p disabled>Loading...</p>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="addorderbody2">
-          <div className="addorderchoice">
+          <div className="addclassorderchoice">
             <span className="addorderchoiceheader">
               <p className="addorderchoiceheader1">
-                <FoodIcon sx={{ color: "red", fontSize: "20px" }} />
-                Order items
+                <RentalIcon sx={{ strokeWidth: 1, fontSize: "20px" }} />
+                Rental Items
               </p>
               <button
                 className="addorderchoiceheader2"
                 onClick={() => setshow(true)}
               >
-                + select items form product
+                + select items form Equipment
               </button>
             </span>
 
@@ -264,7 +357,8 @@ function AddOrder() {
               )}
             </div>
           </div>
-
+        </div>
+        <div className="addclassorderbody2">
           <div className="orderprint">
             <div className="orderprint1">
               <p className="orderprintheader">
@@ -342,7 +436,7 @@ function AddOrder() {
         </div>
       </div>
       {show && (
-        <AddorderProduct
+        <ClassEquipmentOrder
           data={{ fun1: setchilddata, fun2: setshow, amount: amount }}
         />
       )}
@@ -350,4 +444,4 @@ function AddOrder() {
     document.body,
   );
 }
-export default AddOrder;
+export default ClassCreateBooking;

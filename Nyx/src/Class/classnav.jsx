@@ -95,8 +95,8 @@ function ClassNav() {
                   <NavLink className="dropdownlist" to="classbookinglist">
                     BOOKING LIST
                   </NavLink>
-                  <NavLink className="dropdownlist" to="classmenumanagement">
-                    MENU MANAGEMENT
+                  <NavLink className="dropdownlist" to="classvenuemanagement">
+                    Venue MANAGEMENT
                   </NavLink>
                   <NavLink className="dropdownlist" to="classmember">
                     MEMBERs
@@ -128,15 +128,6 @@ function ClassNav() {
                   <NavLink className="dropdownlist" to="classmenu">
                     MENUS
                   </NavLink>
-                  {/* <NavLink className="dropdownlist" to="classcustomer">
-                    customer
-                  </NavLink>
-                  <NavLink className="dropdownlist" to="classinventory">
-                    inventory
-                  </NavLink>
-                  <NavLink className="dropdownlist" to="classreport">
-                    report
-                  </NavLink> */}
                 </span>
               )}
             </div>
