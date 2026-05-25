@@ -178,7 +178,68 @@ function ClassCourtDetail({ data }) {
         <h1>Court Details</h1>
         <div className="addcourtbody">
           <div className="addcourtleft">
-            <div className="addcourtleft1"></div>
+            <div className="addcourtleft1">
+              <h3 className="addcourtleft1header">Court Gallery</h3>
+              <div className="addcourtleft11">
+                {Array.isArray(Courts.data?.[index]?.gallery) ? (
+                  Courts.data?.[index]?.gallery.length > 0 ? (
+                    Courts.data?.[index]?.gallery.map((item, index) => {
+                      return (
+                        <div className="addcourtleft111" key={index}>
+                          <img src={item.court_image_url} />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="addcourtleft111">
+                      <p>no image yet</p>
+                    </div>
+                  )
+                ) : (
+                  <div className="addcourtleft111">
+                    <p>Loading...</p>
+                  </div>
+                )}
+              </div>
+              <div className="addcourtleft12">
+                {Array.isArray(Courts.data) ? (
+                  Courts.data?.length > 0 ? (
+                    <>
+                      <span>
+                        <p>Court Name</p>
+                        <p>{Courts.data?.[index].court_name}</p>
+                      </span>
+                      <span>
+                        <p>Hourly Price</p>
+                        <p>{Courts.data?.[index].hourly_price}</p>
+                      </span>
+                    </>
+                  ) : (
+                    <span>
+                      <p>no data</p>
+                    </span>
+                  )
+                ) : (
+                  <span>
+                    <p>Loading...</p>
+                  </span>
+                )}
+              </div>
+              <div className="addcourtleft13">
+                <h4>About Court</h4>
+                {Array.isArray(Courts.data) ? (
+                  Courts.data?.length > 0 ? (
+                    <p>{Courts.data?.[index].about_court}</p>
+                  ) : (
+                    <p>no details</p>
+                  )
+                ) : (
+                  <>
+                    <p>Loading...</p>
+                  </>
+                )}
+              </div>
+            </div>
             <div className="addcourtleft2">
               <div className="acl1">
                 <h3>Rental Equipment</h3>

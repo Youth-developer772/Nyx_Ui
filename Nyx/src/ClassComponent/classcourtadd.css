@@ -68,11 +68,28 @@
 }
 .addcourtleft1 {
   height: 57%;
-  background-color: green;
   width: 100%;
+  padding: 10px;
+  border: 1px solid #c3c6d6;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+.addcourtleft1header {
+  font-family: Work Sans;
+  font-weight: 500;
+  font-size: medium;
+}
+.addcourtleft11 {
+  display: flex;
+  flex-basis: auto;
+  height: 50%;
+}
+.addcourtleft111 img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 }
 .acl1 {
   display: flex;

@@ -43,6 +43,8 @@ import ClassMember from "./Class/classcustomer";
 import AddMenu from "./ClassComponent/Addmenu";
 import ClassCourtDetail from "./ClassComponent/classcourtadd";
 import ClassAddCourt from "./ClassComponent/classaddcourt";
+import CreateCourseModal from "./ClassComponent/createcoursemodal";
+import NextProgramDetails from "./ClassComponent/classnextprogramdetails";
 
 function App() {
   const [childData, SetchildData] = useState({});
@@ -122,7 +124,16 @@ function App() {
               <Route
                 path="classcoursemanagement"
                 element={<CourseManagement />}
-              />
+              >
+                <Route
+                  path="classcoursemanagementnewcourt1"
+                  element={<CreateCourseModal />}
+                />
+                <Route
+                  path="classcoursemanagementnewcourt2"
+                  element={<NextProgramDetails />}
+                />
+              </Route>
               <Route path="classstudent" element={<ClassStudent />} />
               <Route
                 path="classbookingschedule"
