@@ -11,40 +11,22 @@ function ClassEquipmentOrder({ data }) {
   const [category, setcategory] = useState("All");
   const [state, setstate] = useState({});
 
-  const { Categories, GetCategories } = useGetCategory();
-  const { Products, GetProducts } = useGetProducts();
-  const { fun1, fun2, amount } = data;
+  const { fun1, fun2, amount, equipment } = data;
 
   useEffect(() => {
-    GetCategories();
-    GetProducts();
-  }, []);
-
-  var purifiedData;
-  if (Array.isArray(Products.data) && Products.data.length > 0) {
-    purifiedData = Products.data.filter((item) => {
-      return item.total_stock > 0;
-    });
-  }
-
-  useEffect(() => {
-    if (Array.isArray(purifiedData)) {
+    if (Array.isArray(equipment)) {
+      let purifiedData = equipment.filter((item) => {
+        return item.qty_total > 0;
+      });
       let result = purifiedData;
-      if (category !== "All") {
+      if (text && text != undefined) {
         result = purifiedData.filter((item) => {
-          return item.category == category;
-        });
-      }
-      if (text && text.trim() != "") {
-        result = result.filter((item) => {
-          return item.productName
-            .toLowerCase()
-            .includes(text.toLowerCase().trim());
+          return item.product_name.toLowerCase().includes(text.toLowerCase());
         });
       }
       setfliterdata(result);
     }
-  }, [Products.data, text, category]);
+  }, [text, equipment]);
 
   function searchHandler(e) {
     let textvalue = e.target.value;
@@ -58,11 +40,6 @@ function ClassEquipmentOrder({ data }) {
 
   //function to clickable once
   function click_once(id) {
-    // setstate((prev) => {
-    //   let newbtn = prev, [id] || false;
-    //   if (prev[0]) return prev;
-    //   return { ...prev, [id]: true };
-    // });
     setstate((prev) => ({ ...prev, [id]: true }));
   }
 
@@ -82,44 +59,16 @@ function ClassEquipmentOrder({ data }) {
           <SearchIcon sx={{ color: "white" }} />
         </span>
       </div>
-      <div className="Adpcategories">
-        {Array.isArray(Categories.data) && Categories.data.length > 0 ? (
-          <>
-            <p
-              onClick={() => setcategory("All")}
-              className={category == "All" ? "active" : ""}
-            >
-              All
-            </p>
-            {Categories.data.map((item, index) => {
-              return (
-                <p
-                  key={index}
-                  onClick={() => setcategory(item.name)}
-                  className={category == item.name ? "active" : ""}
-                >
-                  {item.name}
-                </p>
-              );
-            })}
-          </>
-        ) : (
-          [...Array(5)].map((_, index) => {
-            return <p className="loadingp"></p>;
-          })
-        )}
-      </div>
+
       <div className="Adpproduct">
-        {Array.isArray(purifiedData) && purifiedData.length > 0 ? (
-          Array.isArray(fliterdata) && fliterdata.length > 0 ? (
-            fliterdata.map((item, index) => {
-              return (
-                <div className="Adpsingleproduct" key={index}>
-                  <img src={item.images} alt={item.productName} />
-                  <span>
-                    <p style={{ textAlign: "left" }}>{item.productName}</p>
-                    <p>{item.price}ks</p>
-                  </span>
+        {Array.isArray(fliterdata) && fliterdata.length > 0 ? (
+          fliterdata.map((item, index) => {
+            return (
+              <div className="addequipment" key={index}>
+                <p>Available</p>
+                <h3>{item.product_name}</h3>
+                <span>
+                  <h4>{item.rental_price} Ks/hr</h4>
                   <button
                     disabled={state[item.id]}
                     onClick={() => {
@@ -127,25 +76,14 @@ function ClassEquipmentOrder({ data }) {
                       click_once(item.id);
                     }}
                   >
-                    + Add Order
+                    + Add
                   </button>
-                </div>
-              );
-            })
-          ) : (
-            <h1
-              style={{
-                fontWeight: "lighter",
-                textWrap: "nowrap",
-                gridColumn: "1 / -1",
-                justifySelf: "center",
-              }}
-            >
-              No Result Found....
-            </h1>
-          )
+                </span>
+              </div>
+            );
+          })
         ) : (
-          <PLO />
+          <h1>No Product</h1>
         )}
       </div>
       <div className="Adpfooter">

@@ -74,7 +74,8 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 5px;
+  background-color: #ffffff;
 }
 .addcourtleft1header {
   font-family: Work Sans;
@@ -83,13 +84,98 @@
 }
 .addcourtleft11 {
   display: flex;
-  flex-basis: auto;
   height: 50%;
+  gap: 5px;
+}
+.addcourtleft11 div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px dashed #c3c6d6;
+  flex-grow: 1;
+  flex-basis: 100;
+  flex: 1;
+  gap: 3px;
+  position: relative;
+}
+.addcourtleft11 h3 {
+  font-family: Work Sans;
+  color: #737685;
+  font-weight: 500;
+  font-size: 13px;
 }
 .addcourtleft111 img {
   width: 100%;
   height: 100%;
   border-radius: 10px;
+}
+.addcourtleft111 button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 10;
+  border: none;
+  background-color: initial;
+  outline: none;
+}
+.hiddenimgfile {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+.addcourtleft12 {
+  height: 15%;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+.addcourtleft12 span {
+  width: 45%;
+}
+.addcourtleft12 span :first-child {
+  font-family: Work Sans;
+  font-size: x-small;
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 1px;
+  padding-left: 2px;
+}
+.addcourtleft12 span :nth-child(2) {
+  font-family: Work Sans;
+  font-size: smaller;
+  padding: 10px 5px;
+  background-color: #fafafa;
+  border-radius: 5px;
+  border: 1px solid #e4e4e7;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.addcourtleft13 h4 {
+  font-family: Work Sans;
+  font-size: small;
+  margin-bottom: 1px;
+  padding-left: 2px;
+}
+.addcourtleft13 {
+  width: 100%;
+  height: 30%;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.addcourtleft13 p {
+  width: 100%;
+  background-color: #fafafa;
+  border-radius: 5px;
+  border: 1px solid #e4e4e7;
+  font-size: smaller;
+  height: 80%;
+  padding: 10px;
+  overflow-y: scroll;
+  line-break: anywhere;
 }
 .acl1 {
   display: flex;

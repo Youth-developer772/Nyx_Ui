@@ -1,4 +1,4 @@
-.addordermain {
+.createordermain {
   position: absolute;
   width: calc(100% - 230px);
   height: 100vh;
@@ -10,27 +10,27 @@
   gap: 5px;
   overflow-y: hidden;
 }
-.addordertitle {
+.createordermain .createordertitle {
   font-family: Belanosima;
   font-size: x-large;
   padding: 7px 15px;
   font-weight: 600;
   height: 6vh;
 }
-.addordernav {
+.createordermain .createordernav {
   background-color: #0d1b2a;
   display: flex;
   align-items: center;
   height: 30px;
 }
-.addclassorderbody {
+.createordermain .addclassorderbody {
   display: flex;
   flex-direction: row;
   width: 100%;
   height: calc(95vh - 40px);
 }
 
-.addclassorderbody1 {
+.createordermain .addclassorderbody1 {
   display: flex;
   flex-direction: column;
   padding: 5px 10px;
@@ -38,7 +38,7 @@
   gap: 10px;
   height: calc(95vh - 45px);
 }
-.addorderreciept {
+.createordermain .createorderreciept {
   display: flex;
   flex-direction: column;
   border: 1px solid #0d1b2a;
@@ -49,12 +49,12 @@
   padding: 10px 10px;
   padding-bottom: 15px;
 }
-.addorderreciept p {
+.createordermain .createorderreciept p {
   font-family: Inter;
   font-size: smaller;
   padding: 3px;
 }
-.addorderreciept span {
+.createordermain .createorderreciept span {
   padding: 7px 8px;
   width: 100%;
   color: gray;
@@ -62,14 +62,17 @@
   border: 1px solid rgba(128, 128, 128, 0.397);
 }
 
-.addclassorderbody2 {
+.createordermain .addclassorderbody2 {
   display: flex;
   width: 40%;
   justify-content: space-between;
   padding: 5px 10px;
   height: calc(95vh - 45px);
+  flex-direction: column;
+  gap: 10px;
+  overflow: scroll;
 }
-.addclassorderchoice {
+.createordermain .addclassorderchoice {
   width: 100%;
   background-color: #ffffff;
   padding: 1em;
@@ -80,18 +83,18 @@
   border: 1px solid #0d1b2a;
   flex-grow: 1;
 }
-.addorderchoiceheader {
+.createordermain .createorderchoiceheader {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-.addorderchoiceheader1 {
+.createordermain .createorderchoiceheader1 {
   display: flex;
   align-items: center;
   gap: 5px;
   font-weight: 600;
 }
-.addorderchoiceheader2 {
+.createordermain .createorderchoiceheader2 {
   color: white;
   background-color: #0d1b2a;
   padding: 5px 10px;
@@ -105,34 +108,34 @@
 }
 
 /*for fake table by display flex*/
-.toorder {
+.createordermain .toorder {
   width: 100%;
   display: flex;
   flex-direction: column;
   height: 30vh;
   overflow-y: scroll;
 }
-.toorderheader {
+.createordermain .toorderheader {
   width: 100%;
   display: flex;
   justify-content: space-between;
   background-color: #e5e7eb;
   padding: 10px;
 }
-.toorderheader :first-child {
+.createordermain .toorderheader :first-child {
   text-align: left;
   width: 40%;
 }
-.toorderheader :nth-child(2) {
+.createordermain .toorderheader :nth-child(2) {
   text-align: center;
   width: 30%;
 }
-.toorderheader :last-child {
+.createordermain .toorderheader :last-child {
   text-align: right;
   width: 30%;
   padding-right: 24px;
 }
-.toorderbody {
+.createordermain .toorderbody {
   width: 100%;
   display: flex;
   align-items: center;
@@ -140,25 +143,18 @@
   padding: 5px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.281);
 }
-.toorderchild {
+.createordermain .toorderchild {
   width: 40%;
   text-align: left;
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.toorderbody .toorderchild div {
-  width: 40px;
-  height: 30px;
+.createordermain .toorderbody p {
+  font-family: Work Sans;
+  font-size: small;
 }
-.toorderbody .toorderchild div img {
-  width: 100%;
-  border-radius: 4px;
-  height: 100%;
-  object-fit: cover;
-  background-color: #44474c88;
-}
-.toorderchild1 {
+.createordermain .toorderchild1 {
   width: 30%;
   text-align: center;
   display: flex;
@@ -166,18 +162,18 @@
   align-items: center;
   justify-content: center;
 }
-.toorderchild1 * {
+.createordermain .toorderchild1 * {
   outline: none;
   padding: 1px 7px;
 }
-.toorderchild1 button {
+.createordermain .toorderchild1 button {
   height: 20px;
   display: flex;
   align-items: center;
   border: 1px solid #0d1b2a4b;
   border-radius: 4px;
 }
-.toorderchild2 {
+.createordermain .toorderchild2 {
   width: 30%;
   text-align: right;
   display: flex;
@@ -187,20 +183,21 @@
   font-size: small;
   padding-right: 5px;
 }
-.toorderchild2 button {
+.createordermain .toorderchild2 button {
   outline: none;
   border: none;
   background-color: initial;
 }
-.orderprint {
+.createordermain .orderprint {
   display: flex;
   flex-direction: column;
   width: 100%;
   gap: 10px;
   border-radius: 10px;
   justify-content: space-between;
+  height: 80%;
 }
-.orderprint1 {
+.createordermain .orderprint1 {
   width: 100%;
   border: 1px solid #0d1b2a;
   border-radius: 10px;
@@ -211,51 +208,52 @@
   flex-direction: column;
   gap: 10px;
 }
-.orderprintheader {
+.createordermain .orderprintheader {
   display: flex;
   width: 100%;
   align-items: center;
 }
-.ssx {
+.createordermain .ssx {
   display: flex;
   flex-direction: column;
   gap: 5px;
   width: 100%;
 }
-.ssx select {
+.createordermain .ssx select {
   width: 100%;
   padding: 7px 10px;
   border-radius: 5px;
   outline: none;
   border: 1px solid rgba(128, 128, 128, 0.548);
+  font-family: Work Sans;
 }
-.receipet {
+.createordermain .receipet {
   width: 100%;
   height: 100%;
   border-radius: 10px;
 }
-.paymentmain {
+.createordermain .paymentmain {
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
 }
-.paymentwarper {
+.createordermain .paymentwarper {
   border: 1px solid rgba(128, 128, 128, 0.548);
   padding: 7px;
   border-radius: 10px;
 }
-.paymentwarper span {
+.createordermain .paymentwarper span {
   display: flex;
   width: 100%;
   justify-content: space-between;
 }
-.paymentwarper span p {
+.createordermain .paymentwarper span p {
   padding: 5px;
   font-size: small;
   font-family: Inter;
 }
-.addorderreceipet {
+.createorderreceipet {
   width: 100%;
   height: 44%;
   border-radius: 10px;
@@ -265,23 +263,23 @@
   justify-content: center;
   align-items: center;
 }
-.addorderbtn {
+.createorderbtn {
   display: flex;
   gap: 10px;
   align-self: flex-end;
 }
-.addorderbtn button {
+.createorderbtn button {
   padding: 10px 2em;
   border-radius: 5px;
   border: 1px solid #0d1b2a;
   outline: none;
 }
-.addorderbtn button:disabled {
+.createorderbtn button:disabled {
   opacity: 0.4;
 }
 /*________________*/
 /* new added ui*/
-.addorderselect {
+.createorderselect {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -291,14 +289,14 @@
   gap: 10px;
   background-color: #ffffff;
 }
+
 .aos1 {
   display: flex;
   gap: 5px;
-}
-.aos1 h3 {
   font-family: Work Sans;
   padding: 0;
   font-size: medium;
+  align-items: center;
 }
 .aos2 {
   width: 100%;
@@ -318,21 +316,12 @@
   color: #5e5e5e;
   padding: 4px 2px;
 }
-.aos2 select {
-  border: 1px solid #c4c7c7;
-  width: 100%;
-  outline-color: blueviolet;
-  padding: 5px;
-  background-color: initial;
-  border-radius: 3px;
+.ccnb {
   font-family: Work Sans;
-}
-.aos2 input {
-  border: 1px solid #c4c7c7;
-  width: 100%;
-  padding: 5px;
-  background-color: initial;
+  padding: 7px;
   border-radius: 3px;
+  font-size: smaller;
+  border: 1px solid #c4c7c7;
 }
 .aos3 {
   width: 100%;
@@ -342,11 +331,51 @@
   gap: 7px;
 }
 .aos3 p {
-  padding: 7px 15px;
+  padding: 10px 15px;
   border: 1px solid #c4c7c7;
-  border-radius: 3px;
+  border-radius: 5px;
   font-family: Work Sans;
   font-size: small;
   background-color: #fafafa;
   white-space: nowrap;
+}
+
+/* for show amount*/
+.orderamount {
+  display: flex;
+  flex-direction: column;
+  background-color: #fdf8f8;
+  border-radius: 10px;
+  border-left: 5px solid #0d1b2a;
+  padding: 10px;
+  gap: 4px;
+}
+.orderamount h3 {
+  font-family: Work Sans;
+  color: #1b263b;
+  font-size: medium;
+}
+.orderamount span {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.orderamount > :nth-child(2) {
+  border-top: 1px solid #f1edec;
+  padding-top: 10px;
+}
+.orderamount > :nth-child(3) {
+  border-bottom: 1px solid #1b263bcb;
+  padding-bottom: 15px;
+}
+.orderamount span p {
+  font-family: Work Sans;
+  color: #5e5e5e;
+  font-size: small;
+}
+.orderamount h2 {
+  font-family: Work Sans;
+  color: #5e5e5e;
+  font-size: large;
+  align-self: flex-end;
 }

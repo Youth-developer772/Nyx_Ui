@@ -27,7 +27,6 @@ function PosLogin() {
       });
       if (response.ok) {
         let data = await response.json();
-        console.log(data);
         if (data.token == "User not found") {
           validemail.current.style.visibility = "visible";
           emailref.current.style.border = "1px solid red";

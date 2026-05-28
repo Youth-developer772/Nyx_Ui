@@ -9,10 +9,11 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import toast, { Toaster } from "react-hot-toast";
 import { createPortal } from "react-dom";
 import { Context } from "../Hooks/context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useReceipt } from "../Components/Receipt";
 import { useGetOrder, useGetPayment } from "../Api_Call";
 import AddOrderMenu from "./addmenuorder";
+import { useNoti } from "../Hooks/alert";
 
 function AddMenu() {
   const [reciept, setreciept] = useState();
@@ -33,8 +34,11 @@ function AddMenu() {
   const paymentref = useRef();
   const { Token } = useContext(Context);
   const { Payment, Products, GetPayment, Tax, GetTax } = useGetPayment();
+  const { Loading, openloading, openerror, opensuccess, close } = useNoti();
   const { GetLocalOrders } = useGetOrder();
   const { ReceipetJsx, open } = useReceipt();
+
+  const { GetOrder } = useOutletContext();
 
   const navigate = useNavigate();
 
@@ -44,12 +48,12 @@ function AddMenu() {
   }, []);
 
   useEffect(() => {
-    if (childdata.length > 0 && filetosend) {
+    if (childdata.length > 0) {
       setallow(false);
     } else {
       setallow(true);
     }
-  }, [childdata, filetosend]);
+  }, [childdata]);
 
   // function to  radom recepit number
   function randomNum() {
@@ -102,6 +106,7 @@ function AddMenu() {
       let qty = cart[item.id] !== undefined ? cart[item.id] : 1;
       return {
         ...item,
+        productName: item.name,
         quantity: qty,
       };
     });
@@ -136,7 +141,8 @@ function AddMenu() {
 
   //function to add order
   async function add_order() {
-    let delta = childdata.map((item) => {
+    console.log(childdata);
+    let delta = childdata?.map((item) => {
       let qty = cart[item.id] !== undefined ? cart[item.id] : 1;
       return { product_id: item.id, quantity: qty };
     });
@@ -151,25 +157,27 @@ function AddMenu() {
     formData.append("payment_method", paymentref.current.value);
     formData.append("items", JSON.stringify(delta));
 
+    console.log(Object.fromEntries(formData));
+
     try {
-      const loading = toast.loading("Please Wait...");
-      let response = await fetch(import.meta.env.VITE_ADD_ORDER, {
+      openloading();
+      let response = await fetch(import.meta.env.VITE_CLASS_ADD_CANTEEN_ORDER, {
         method: "POST",
         body: formData,
       });
       if (response.ok) {
-        await GetLocalOrders();
-        toast.success("successfully Added", { id: loading });
+        await GetOrder();
+        close();
         show_receipet();
         setchilddata([]);
         setfiletosend(null);
         setfile(null);
         setCart({});
       } else {
-        toast.error("adding Failed", { id: loading });
+        openerror("Somethig went wrong");
       }
     } catch (err) {
-      toast.error("Can not connetct with sever", { id: loading });
+      openerror("Cannot connect with sever");
       console.log(err);
     }
   }
@@ -183,10 +191,11 @@ function AddMenu() {
     <div className="addordermain">
       <Toaster />
       {ReceipetJsx}
+      {Loading}
       <div className="addordernav">
         <button
           style={{ border: "none", outline: "none", background: "initial" }}
-          onClick={() => navigate("/posorder")}
+          onClick={() => navigate(-1)}
         >
           <BackIcon
             sx={{ color: "white", margin: "7px", marginLeft: "15px" }}

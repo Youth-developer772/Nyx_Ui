@@ -105,9 +105,45 @@ function ClassVenueAdd({ data }) {
     }
   }
 
+  //update venue
+  async function update_venue(e) {
+    let id = info?.id;
+    if (!id) return;
+
+    e.preventDefault();
+    let formData = new FormData();
+    if (fileref.current.files[0]) {
+      formData.append("venue_image", fileref.current.files[0]);
+    }
+    formData.append("venue_name", nameref.current.value);
+    formData.append("price", priceref.current.value);
+    formData.append("available", checkboxref.current.checked);
+
+    openloading();
+    try {
+      let response = await fetch(
+        `${import.meta.env.VITE_CLASS_UPDATE_VENUE}/${id}`,
+        {
+          method: "PUT",
+          body: formData,
+        },
+      );
+      if (response.ok) {
+        await GetVenue();
+        setshow(false);
+        opensuccess("Action Successful", "Venue Update Successfully");
+      } else {
+        openerror("Something went wrong");
+      }
+    } catch (err) {
+      console.log(err);
+      openerror("Cannot connect with sever");
+    }
+  }
+
   return createPortal(
     <div className="cvawarper">
-      <form className="cvamain" onSubmit={info ? "" : add_venue}>
+      <form className="cvamain" onSubmit={info ? update_venue : add_venue}>
         <div className="cvabody1">
           <h3>{info ? "Venue Details" : "New Details"}</h3>
           <button type="button" onClick={close}>
@@ -180,7 +216,7 @@ function ClassVenueAdd({ data }) {
             >
               Edit
             </button>
-            <button disabled>Update</button>
+            <button disabled={info && allow}>Update</button>
           </div>
         ) : (
           <div className="cvabody6">

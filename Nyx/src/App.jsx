@@ -39,12 +39,15 @@ import CourseManagement from "./Class/coursemanagement";
 import BookingSchedule from "./Class/classbookingschedule";
 import BookingList from "./Class/classbookinglist";
 import VenueManagement from "./Class/classvenuemanagement";
-import ClassMember from "./Class/classcustomer";
 import AddMenu from "./ClassComponent/Addmenu";
 import ClassCourtDetail from "./ClassComponent/classcourtadd";
 import ClassAddCourt from "./ClassComponent/classaddcourt";
 import CreateCourseModal from "./ClassComponent/createcoursemodal";
 import NextProgramDetails from "./ClassComponent/classnextprogramdetails";
+import ClassCustomer from "./Class/classcustomer";
+import ClassMobileBooking from "./ClassComponent/classmobilebooking";
+import ClassLoaclBooking from "./ClassComponent/classlocalbooking";
+import ClassProtectedRoute from "./Hooks/ClassProtectedRouted";
 
 function App() {
   const [childData, SetchildData] = useState({});
@@ -57,6 +60,9 @@ function App() {
   const [Length, setLength] = useState(1);
   const [islogin, setislogin] = useState(
     localStorage.getItem("islogin") || false,
+  );
+  const [isClassLogin, setisClassLogin] = useState(
+    localStorage.getItem("isClassLogin") || false,
   );
 
   return (
@@ -73,6 +79,8 @@ function App() {
           setchilddata: SetchildData,
           islogin: islogin,
           setislogin: setislogin,
+          isClassLogin: isClassLogin,
+          setisClassLogin: setisClassLogin,
         }}
       >
         <BrowserRouter>
@@ -118,7 +126,14 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="/class" element={<ClassNav />}>
+            <Route
+              path="/class"
+              element={
+                <ClassProtectedRoute>
+                  <ClassNav />
+                </ClassProtectedRoute>
+              }
+            >
               <Route index element={<Navigate to="classoverview" replace />} />
               <Route path="classoverview" element={<ClassOverview />} />
               <Route
@@ -139,17 +154,39 @@ function App() {
                 path="classbookingschedule"
                 element={<BookingSchedule />}
               />
-              <Route path="classbookinglist" element={<BookingList />} />
+              <Route path="classbookinglist" element={<BookingList />}>
+                <Route
+                  index
+                  element={<Navigate to="classmobilebooking" replace />}
+                />
+                <Route
+                  path="classmobilebooking"
+                  element={<ClassMobileBooking />}
+                />
+                <Route
+                  path="classlocalbooking"
+                  element={<ClassLoaclBooking />}
+                />
+              </Route>
               <Route path="classvenuemanagement" element={<VenueManagement />}>
                 <Route path="classcourtdetail" element={<ClassCourtDetail />} />
                 <Route path="classaddcourt" element={<ClassAddCourt />} />
               </Route>
-              <Route path="classmember" element={<ClassMember />} />
+              <Route path="classmember" element={<ClassCustomer />} />
               <Route path="classorder" element={<ClassOrder />}>
                 <Route path="classorderaddmenu" element={<AddMenu />} />
               </Route>
               <Route path="classmenu" element={<ClassMenu />} />
-              <Route path="classsetting" element={<ClassSetting />} />
+              <Route path="classsetting" element={<ClassSetting />}>
+                <Route
+                  index
+                  element={<Navigate to="generalsetting" replace />}
+                />
+                <Route path="generalsetting" element={<PosGeneralSetting />} />
+                <Route path="staffmanagement" element={<StaffManagement />} />
+                <Route path="paymenttax" element={<PosPaymentTax />} />
+                <Route path="apperance" element={<PosApperance />} />
+              </Route>
             </Route>
 
             <Route path="login" element={<Login />}>

@@ -12,16 +12,17 @@ import toast, { Toaster } from "react-hot-toast";
 import { createPortal } from "react-dom";
 import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
-import { useReceipt } from "../Components/Receipt";
 import { useGetOrder, useGetPayment } from "../Api_Call";
 import StadiumIcon from "@mui/icons-material/StadiumOutlined";
 import { useGetClassVenue } from "../ClassApi";
 import { useNoti } from "../Hooks/alert";
 import ClassEquipmentOrder from "./classequipmentorder";
+import { useClassReceipt } from "./ClassReceipt";
 
-function ClassCreateBooking() {
+function ClassCreateBooking({ data }) {
   const [reciept, setreciept] = useState();
   const [amount, setamount] = useState(0);
+  const [total, settotal] = useState(0);
   const [cart, setCart] = useState({});
 
   const [show, setshow] = useState(false);
@@ -41,21 +42,37 @@ function ClassCreateBooking() {
   const paymentref = useRef();
   const { Token } = useContext(Context);
   const { Payment, Products, GetPayment, Tax, GetTax } = useGetPayment();
-  const { GetVenue, Venue, Courts, GetCourts } = useGetClassVenue();
+  const { GetVenue, Venue, GetCourts } = useGetClassVenue();
   const { Loading, openerror, openloading, opensuccess, close } = useNoti();
   const { GetLocalOrders } = useGetOrder();
-  const { ReceipetJsx, open } = useReceipt();
-
+  const { open, ClassReceipetJsx } = useClassReceipt();
   const navigate = useNavigate();
+
+  const {
+    venue_name,
+    info,
+    date,
+    remainbooking,
+    targettime,
+    settargettime,
+    Courts,
+    venue_id,
+    targettimeid,
+    settargettimeid,
+    setshowCreate,
+    GetRemainBooking,
+  } = data;
+
   useEffect(() => {
     GetVenue();
-  }, []);
-  console.log(Venue);
-  console.log(Courts);
-  useEffect(() => {
     GetPayment();
     GetTax();
   }, []);
+
+  useEffect(() => {
+    let totalamout = Number(amount) + Number(info?.hourly_price);
+    settotal(totalamout);
+  }, [amount, info]);
 
   useEffect(() => {
     if (childdata.length > 0 && filetosend) {
@@ -65,7 +82,7 @@ function ClassCreateBooking() {
     }
   }, [childdata, filetosend]);
 
-  // function to  radom recepit number
+  // function to get radom recepit number
   function randomNum() {
     let random = Date.now();
     setreciept(random);
@@ -78,7 +95,7 @@ function ClassCreateBooking() {
     if (childdata.length > 0) {
       let totalprice = childdata.reduce((total, item) => {
         let qty = cart[item.id] !== undefined ? cart[item.id] : 1;
-        return total + item.price * qty;
+        return total + item.rental_price * qty;
       }, 0);
       setamount(totalprice);
     } else setamount(0);
@@ -123,12 +140,11 @@ function ClassCreateBooking() {
     open({
       order_no: reciept,
       payment: paymentref.current.value,
-      items: newchildData,
-      item_Qty: childdata.length,
-      item_amount: Math.trunc(amount),
-      tax: Math.trunc(curtax),
-      dfee: 0,
-      total_amount: Math.trunc(amount + curtax),
+      Date: new Date().toLocaleDateString(),
+      Time: new Date().toLocaleTimeString(),
+      court_fee: info?.hourly_price,
+      rental_fee: amount,
+      total_amount: total,
     });
   }
 
@@ -152,7 +168,7 @@ function ClassCreateBooking() {
   async function add_order() {
     let delta = childdata.map((item) => {
       let qty = cart[item.id] !== undefined ? cart[item.id] : 1;
-      return { product_id: item.id, quantity: qty };
+      return { equipment_id: item.id, quantity: qty };
     });
 
     let formData = new FormData();
@@ -160,30 +176,41 @@ function ClassCreateBooking() {
     if (filetosend) {
       formData.append("payment_image", filetosend);
     }
+    if (payment != "Cash") {
+      formData.append("payment_method", payment);
+    }
+    formData.append("venue_id", venue_id);
+    formData.append("court_id", info?.id);
 
+    formData.append("date", date);
+    formData.append("court_time_slot_ids", JSON.stringify([targettimeid]));
     formData.append("reciept_no", reciept);
-    formData.append("payment_method", paymentref.current.value);
-    formData.append("items", JSON.stringify(delta));
-
+    formData.append("department", "equipment");
+    if (childdata.length > 0) {
+      formData.append("items", JSON.stringify(delta));
+    }
+    console.log(Object.fromEntries(formData));
     try {
-      const loading = toast.loading("Please Wait...");
-      let response = await fetch(import.meta.env.VITE_ADD_ORDER, {
+      openloading();
+      let response = await fetch(import.meta.env.VITE_CLASS_ADD_LOCAL_BOOKING, {
         method: "POST",
         body: formData,
       });
       if (response.ok) {
         await GetLocalOrders();
-        toast.success("successfully Added", { id: loading });
+        opensuccess("Action Successful", "Booking added successfully");
+        GetRemainBooking(info?.id, date);
+        settargettime(null);
         show_receipet();
         setchilddata([]);
         setfiletosend(null);
         setfile(null);
         setCart({});
       } else {
-        toast.error("adding Failed", { id: loading });
+        openerror("Something went wrong");
       }
     } catch (err) {
-      toast.error("Can not connetct with sever", { id: loading });
+      openerror("Cannot connect with sever");
       console.log(err);
     }
   }
@@ -210,85 +237,75 @@ function ClassCreateBooking() {
     }
   }
   return createPortal(
-    <div className="addordermain">
-      <Toaster />
-      {ReceipetJsx}
-      <div className="addordernav">
+    <div className="createordermain">
+      {Loading}
+      {ClassReceipetJsx}
+      <div className="createordernav">
         <button
           style={{ border: "none", outline: "none", background: "initial" }}
-          onClick={() => navigate("/posorder")}
+          onClick={() => setshowCreate(false)}
         >
           <BackIcon
             sx={{ color: "white", margin: "7px", marginLeft: "15px" }}
           />
         </button>
       </div>
-      <h3 className="addordertitle">Create New Booking</h3>
+      <h3 className="createordertitle">Create New Booking</h3>
 
       <div className="addclassorderbody">
         <div className="addclassorderbody1">
-          <div className="addorderreciept">
+          <div className="createorderreciept">
             <p>Receipt No</p>
             <span>{reciept}</span>
           </div>
-          <div className="addorderselect">
-            <span className="aos1">
+          <div className="createorderselect">
+            <h3 className="aos1">
+              {" "}
               <StadiumIcon sx={{ fontSize: "20px" }} />
-              <h3>Select Venue/Court</h3>
-            </span>
+              Select Venue/Court
+            </h3>
+
             <div className="aos2">
               <span>
                 <h5>SPORT TYPE</h5>
-                <select name="sport" onChange={courtchange}>
-                  {Array.isArray(Venue.data) ? (
-                    Venue.data.length > 0 ? (
-                      Venue.data.map((item, index) => {
-                        return (
-                          <option value={item.id} key={index}>
-                            {item.venue_name}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option disabled>no data</option>
-                    )
-                  ) : (
-                    <option disabled>Loading..</option>
-                  )}
-                </select>
+                <p className="ccnb">{venue_name}</p>
               </span>
               <span>
                 <h5>COURT NAME</h5>
-                <select name="court" onChange={timeslotchange}>
-                  {Array.isArray(Courts.data) ? (
-                    Courts.data.length > 0 ? (
-                      Courts.data.map((item, index) => {
-                        return (
-                          <option value={index} key={index}>
-                            {item.court_name}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option disabled>no data</option>
-                    )
-                  ) : (
-                    <option disabled>Loading...</option>
-                  )}
-                </select>
+                <p className="ccnb">{info?.court_name}</p>
               </span>
               <span>
                 <h5>DATE</h5>
-                <input type="date" />
+                <p className="ccnb">{date}</p>
               </span>
             </div>
             <h5 className="timeslottitle">TIME SLOT</h5>
             <div className="aos3">
-              {Array.isArray(Courts.data?.[index]?.time_slots) ? (
-                Courts.data?.[index].time_slots.length > 0 ? (
-                  Courts.data[index].time_slots.map((item, index) => {
+              {Array.isArray(remainbooking.data) ? (
+                remainbooking.data.length > 0 ? (
+                  remainbooking.data.map((item, index) => {
                     return (
-                      <p key={index}>
+                      <p
+                        key={index}
+                        style={{
+                          background:
+                            targettime ==
+                            `${item.start_time.slice(0, 5)}-${item.end_time.slice(0, 5)}`
+                              ? "#1B263B"
+                              : " initial",
+                          color:
+                            targettime ==
+                            `${item.start_time.slice(0, 5)}-${item.end_time.slice(0, 5)}`
+                              ? "white"
+                              : "initial",
+                        }}
+                        onClick={() => {
+                          settargettimeid(item.id);
+                          settargettime(
+                            `${item.start_time.slice(0, 5)}-${item.end_time.slice(0, 5)}`,
+                          );
+                        }}
+                      >
                         {item.start_time.slice(0, 5)} -{" "}
                         {item.end_time.slice(0, 5)}
                       </p>
@@ -303,13 +320,13 @@ function ClassCreateBooking() {
             </div>
           </div>
           <div className="addclassorderchoice">
-            <span className="addorderchoiceheader">
-              <p className="addorderchoiceheader1">
+            <span className="createorderchoiceheader">
+              <p className="createorderchoiceheader1">
                 <RentalIcon sx={{ strokeWidth: 1, fontSize: "20px" }} />
                 Rental Items
               </p>
               <button
-                className="addorderchoiceheader2"
+                className="createorderchoiceheader2"
                 onClick={() => setshow(true)}
               >
                 + select items form Equipment
@@ -327,10 +344,7 @@ function ClassCreateBooking() {
                   return (
                     <div className="toorderbody" key={index}>
                       <span className="toorderchild">
-                        <div>
-                          <img src={item.images} />
-                        </div>
-                        <p>{item.productName}</p>
+                        <p>{item.product_name}</p>
                       </span>
                       <span className="toorderchild1">
                         <button onClick={() => updateQty(item.id, -1)}>
@@ -340,7 +354,7 @@ function ClassCreateBooking() {
                         <button onClick={() => updateQty(item.id, 1)}>+</button>
                       </span>
                       <p className="toorderchild2">
-                        {item.price}
+                        {item.rental_price} Ks
                         <button onClick={() => remove_item(item.id)}>
                           <RemoveIcon sx={{ fontSize: "20px" }} />
                         </button>
@@ -359,6 +373,18 @@ function ClassCreateBooking() {
           </div>
         </div>
         <div className="addclassorderbody2">
+          <div className="orderamount">
+            <h3>TOTAL AMOUNT</h3>
+            <span>
+              <p>Court Fee(1 hour)</p>
+              <p>{info?.hourly_price}-KS</p>
+            </span>
+            <span>
+              <p>Rental Fees</p>
+              <p>{amount}-KS</p>
+            </span>
+            <h2>{total}-KS</h2>
+          </div>
           <div className="orderprint">
             <div className="orderprint1">
               <p className="orderprintheader">
@@ -368,6 +394,7 @@ function ClassCreateBooking() {
               <div className="ssx">
                 <label htmlFor="input">Payment Method</label>
                 <select ref={paymentref} onChange={paymentchange}>
+                  <option value="Cash">Cash</option>
                   {Array.isArray(Payment.result) &&
                   Payment.result.length > 0 ? (
                     Payment.result.map((item, index) => {
@@ -389,18 +416,18 @@ function ClassCreateBooking() {
                 <div className="paymentwarper">
                   <span>
                     <p>{payment == "Cash" ? "--------" : `${payment} name`}</p>
-                    <p>{name}</p>
+                    <p>{payment == "Cash" ? "----------" : name}</p>
                   </span>
                   <span>
                     <p>
                       {payment == "Cash" ? "---------" : `${payment} number`}
                     </p>
-                    <p>{number}</p>
+                    <p>{payment == "Cash" ? "----------" : number}</p>
                   </span>
                 </div>
               </span>
               <div
-                className="addorderreceipet"
+                className="createorderreceipet"
                 onClick={() => imgref.current.click()}
               >
                 {file ? (
@@ -419,15 +446,16 @@ function ClassCreateBooking() {
                   style={{ display: "none" }}
                   ref={imgref}
                   onChange={handleFileChange}
+                  disabled={payment == "Cash"}
                 />
               </div>
             </div>
-            <span className="addorderbtn">
-              <button>cancel</button>
+            <span className="createorderbtn">
+              <button onClick={() => setshowCreate(false)}>cancel</button>
               <button
                 style={{ background: "#0D1B2A", color: "white" }}
-                disabled={allow}
                 onClick={add_order}
+                disabled={targettime == null}
               >
                 Create
               </button>
@@ -437,7 +465,12 @@ function ClassCreateBooking() {
       </div>
       {show && (
         <ClassEquipmentOrder
-          data={{ fun1: setchilddata, fun2: setshow, amount: amount }}
+          data={{
+            fun1: setchilddata,
+            fun2: setshow,
+            amount: amount,
+            equipment: Courts.data?.[0]?.equipment,
+          }}
         />
       )}
     </div>,

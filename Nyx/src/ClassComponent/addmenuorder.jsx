@@ -65,7 +65,7 @@ function AddOrderMenu({ data }) {
     <div className="addordermenumain">
       <div className="addordermenuheader">
         <h3>Select Menu Item</h3>
-        <button>
+        <button onClick={() => fun2(false)}>
           <CloseIcon />
         </button>
       </div>

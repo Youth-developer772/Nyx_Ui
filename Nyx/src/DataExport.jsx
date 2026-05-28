@@ -65,3 +65,10 @@ export const orderheadingdata = [
   { title: "Out of Stock", icon: OutIcon, amount: "345" },
   { title: "New Arrival Menus", icon: NewIcon, amount: "Pasta and Noodles" },
 ];
+
+export const classbookingheading = [
+  { title: "Today bookings", icon: 1, info: 21 },
+  { title: "Today bookings", icon: 2, info: 21 },
+  { title: "Today bookings", icon: 3, info: 21 },
+  { title: "Today bookings", icon: 4, info: 21 },
+];

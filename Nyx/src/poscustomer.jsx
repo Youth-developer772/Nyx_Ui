@@ -35,7 +35,7 @@ function PosCustomer() {
             item.name
               .toLocaleLowerCase()
               .includes(text.toLocaleLowerCase().trim()) ||
-            item.address.toLocaleLowerCase().includes(text.toLocaleLowerCase())
+            item.address?.toLocaleLowerCase().includes(text.toLocaleLowerCase())
           );
         });
         setfilteredData(purifieddata);

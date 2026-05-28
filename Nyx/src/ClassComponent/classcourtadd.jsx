@@ -3,6 +3,7 @@ import "./classcourtadd.css";
 import BackIcon from "@mui/icons-material/ArrowBackIosNew";
 import EditIcon from "@mui/icons-material/ModeEditOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CameraIcon from "@mui/icons-material/AddAPhotoOutlined";
 import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
 import ClockIcon from "@mui/icons-material/QueryBuilderOutlined";
@@ -11,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import ClassCourtPopUp from "./classaddcourtpopup";
 import { useNoti } from "../Hooks/alert";
 import ClassEquipmentPopup from "./classequipmentpopup";
+import RemoveIcon from "@mui/icons-material/HighlightOffOutlined";
 
 function ClassCourtDetail({ data }) {
   const [show, setshow] = useState(false);
@@ -25,6 +27,7 @@ function ClassCourtDetail({ data }) {
 
   const start_time = useRef();
   const end_time = useRef();
+  const fileref = useRef();
 
   const navigate = useNavigate();
 
@@ -110,22 +113,32 @@ function ClassCourtDetail({ data }) {
   }
 
   //delete con
-  async function delete_con() {
-    if (!court_id) return;
-    console.log(court_id);
+  async function delete_data(id, target) {
+    if (!id) return;
+    let url = [
+      import.meta.env.VITE_CLASS_DELETE_CON, //0 for con
+      import.meta.env.VITE_CLASS_DELETE_PRO, //1 fro pro
+      import.meta.env.VITE_CLASS_DELETE_RULE, //2 for ruel
+      import.meta.env.VITE_CLASS_DELETE_SERVICE, //3 for service
+      import.meta.env.VITE_CLASS_DELETE_TIMESLOT, //4 for timeslot
+    ];
+    let api = url[target];
+    if (!api) return;
+
     let isconfirm = await openconfirm();
     if (!isconfirm) return;
+
     openloading();
     try {
-      let response = await fetch(
-        `${import.meta.env.VITE_CLASS_DELETE_CON}/${court_id}}`,
-        {
-          method: "DELETE",
-          "Content-Type": "application/json",
-        },
-      );
+      let response = await fetch(`${api}/${id}`, {
+        method: "DELETE",
+        "Content-Type": "application/json",
+      });
       if (response.ok) {
-        opensuccess("Action Sucessful", "Con has been removed Successfully");
+        opensuccess(
+          "Action Sucessful",
+          "Court data has been removed Successfully",
+        );
         await GetCourts(venue_id);
       } else {
         openerror("Something went wrong");
@@ -133,6 +146,36 @@ function ClassCourtDetail({ data }) {
     } catch (err) {
       console.log(err);
       openerror("Cannot connect with sever");
+    }
+  }
+
+  //add gallery
+  async function add_gallery(event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    let formData = new FormData();
+    formData.append("court_id", court_id);
+    formData.append("court_gallery", file);
+
+    openloading();
+    try {
+      let response = await fetch(import.meta.env.VITE_CLASS_ADD_COURT_GALLERY, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        opensuccess(
+          "Action Successful",
+          "New Court gallery added successfully",
+        );
+        await GetCourts(venue_id);
+      } else {
+        openerror("Something went wrong");
+      }
+    } catch (err) {
+      openerror("Cannot connect with sever");
+      console.log(err);
     }
   }
 
@@ -187,6 +230,14 @@ function ClassCourtDetail({ data }) {
                       return (
                         <div className="addcourtleft111" key={index}>
                           <img src={item.court_image_url} />
+                          <button>
+                            <RemoveIcon
+                              sx={{
+                                color: "rgb(117, 104, 78)",
+                                fontSize: "20px",
+                              }}
+                            />
+                          </button>
                         </div>
                       );
                     })
@@ -200,6 +251,19 @@ function ClassCourtDetail({ data }) {
                     <p>Loading...</p>
                   </div>
                 )}
+                <div
+                  className="courtaddphoto"
+                  onClick={() => fileref.current.click()}
+                >
+                  <input
+                    type="file"
+                    className="hiddenimgfile"
+                    ref={fileref}
+                    onChange={add_gallery}
+                  />
+                  <CameraIcon sx={{ color: "#737685" }} />
+                  <h3>+ Add Photo</h3>
+                </div>
               </div>
               <div className="addcourtleft12">
                 {Array.isArray(Courts.data) ? (
@@ -351,7 +415,10 @@ function ClassCourtDetail({ data }) {
                             {item.start_time.slice(0, 5)} -{" "}
                             {item.end_time.slice(0, 5)}
                           </p>
-                          <button className="acrcloseicon">
+                          <button
+                            className="acrcloseicon"
+                            onClick={() => delete_data(item.id, 4)}
+                          >
                             <CloseIcon sx={{ fontSize: "15px" }} />
                           </button>
                         </span>
@@ -399,6 +466,7 @@ function ClassCourtDetail({ data }) {
                                 outline: "none",
                                 background: "initial",
                               }}
+                              onClick={() => delete_data(item.id, 1)}
                             >
                               <CloseIcon sx={{ fontSize: "15px" }} />
                             </button>
@@ -437,7 +505,7 @@ function ClassCourtDetail({ data }) {
                             <h3>{item.name}</h3>
                             <CloseIcon
                               sx={{ fontSize: "15px" }}
-                              onClick={() => delete_con()}
+                              onClick={() => delete_data(item.id, 0)}
                             />
                           </span>
                         );
@@ -478,7 +546,7 @@ function ClassCourtDetail({ data }) {
                           return (
                             <span key={index}>
                               <p>{item.name}</p>
-                              <button>
+                              <button onClick={() => delete_data(item.id, 3)}>
                                 <CloseIcon sx={{ fontSize: "17px" }} />
                               </button>
                             </span>
@@ -517,7 +585,7 @@ function ClassCourtDetail({ data }) {
                                 <h3>{item.name}</h3>
                                 <p>{item.detail}</p>
                               </span>
-                              <button>
+                              <button onClick={() => delete_data(item.id, 2)}>
                                 <CloseIcon />
                               </button>
                             </div>

@@ -21,7 +21,7 @@ function VenueManagement() {
   const [info, setinfo] = useState(null);
 
   const { GetVenue, Venue, GetCourts, Courts } = useGetClassVenue();
-  const { Loading, openerror, openloading, opensuccess, openconfirm } =
+  const { Loading, openerror, openloading, opensuccess, openconfirm, close } =
     useNoti();
 
   const navigate = useNavigate();
@@ -44,10 +44,47 @@ function VenueManagement() {
   console.log(Courts);
   console.log(Venue);
 
-  const changeBox = (e) => {
+  // const changeBox = (e) => {
+  //   e.stopPropagation();
+  //   setChecked(e.target.checked);
+
+  // };
+  async function changeBox(e, item) {
     e.stopPropagation();
-    setChecked(e.target.checked);
-  };
+    openloading();
+    try {
+      let response = await fetch(
+        `${import.meta.env.VITE_CLASS_COURT_UPDATE_AVAILABLE}/${item.id}/${!item.court_active}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (response.ok) {
+        await GetCourts(venue_id);
+        opensuccess(
+          "Action Successful",
+          `The Court is successfully ${item.available == true ? "Closed" : "Opened"}`,
+        );
+      } else {
+        openerror("Something went wrong");
+      }
+    } catch (err) {
+      openerror("Cannot connect with sever");
+      console.log(err);
+    }
+  }
+
+  //venue change
+  async function venue_change(id) {
+    console.log("function work p");
+    setvenue_id(id);
+    openloading();
+    await GetCourts(id);
+    close();
+  }
 
   return (
     <div className="venuemain">
@@ -84,8 +121,7 @@ function VenueManagement() {
                     className="venuecourt"
                     key={index}
                     onClick={() => {
-                      setvenue_id(item.id);
-                      GetCourts(item.id);
+                      venue_change(item.id);
                     }}
                     style={{
                       borderBottom:
@@ -181,8 +217,8 @@ function VenueManagement() {
                         >
                           <input
                             type="checkbox"
-                            checked={item.court_active}
-                            onChange={(e) => changeBox(e)}
+                            defaultChecked={item.court_active}
+                            onChange={(e) => changeBox(e, item)}
                           />
                           <span className="slider"></span>
                         </label>

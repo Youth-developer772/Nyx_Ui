@@ -1,21 +1,3 @@
-// // import CustomerLoading from "../Components/loadingcustomer";
-// // import BackIcon from "@mui/icons-material/ArrowCircleLeftRounded";
-// // import FoodIcon from "@mui/icons-material/LocalDiningRounded";
-// import "../classCss/classbookingschedule.css";
-// import { useContext, useEffect, useRef, useState } from "react";
-// import AddorderProduct from "../Components/addorderproudct";
-// import PaymentIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-// import RemoveIcon from "@mui/icons-material/RemoveShoppingCartRounded";
-// import UploadFileIcon from "@mui/icons-material/UploadFile";
-// import toast, { Toaster } from "react-hot-toast";
-// import { createPortal } from "react-dom";
-// import { Context } from "../Hooks/context";
-// import { useNavigate } from "react-router-dom";
-// import { useReceipt } from "../Components/Receipt";
-// import { useGetOrder, useGetPayment } from "../Api_Call";
-// import StadiumIcon from "@mui/icons-material/StadiumOutlined";
-// import { useGetClassVenue } from "../ClassApi";
-// import { useNoti } from "../Hooks/alert";
 import BookingIcon from "@mui/icons-material/EventAvailable";
 import LockIcon from "@mui/icons-material/LockOutlineRounded";
 import "../classCss/classbookingschedule.css";
@@ -49,16 +31,24 @@ function BookingSchedule() {
 
   //for create booking
   const [showCreate, setshowCreate] = useState(false);
+  const [venue_name, setvenue_name] = useState(null);
+  const [targettime, settargettime] = useState(null);
+  const [targettimeid, settargettimeid] = useState(null);
 
   useEffect(() => {
     GetVenue();
   }, []);
 
   useEffect(() => {
-    if (!info) return console.log("return lite p");
+    if (!info) return;
     let datetosend = format_change(date);
-    GetRemainBooking(info?.id, datetosend);
-  }, [date]);
+
+    (async () => {
+      openloading();
+      await GetRemainBooking(info?.id, datetosend);
+      close();
+    })();
+  }, [date, info?.id]);
 
   useEffect(() => {
     console.log("data change lo a lote lote");
@@ -90,11 +80,11 @@ function BookingSchedule() {
 
   useEffect(() => {
     if (Venue?.data?.length > 0 && !active) {
-      console.log(Venue.data[0].id);
-      setactive(Venue.data[0].id);
+      console.log(Venue.data[0]?.id);
+      setvenue_name(Venue.data[0]?.venue_name);
+      setactive(Venue.data[0]?.id);
     }
   }, [Venue.data]);
-  console.log(info);
 
   async function changecourt(id) {
     if (!id) return;
@@ -155,13 +145,34 @@ function BookingSchedule() {
   };
 
   //add booking
-  function add_new_booking() {
+  function add_new_booking(item) {
+    settargettimeid(item.id);
+    settargettime(
+      `${item.start_time.slice(0, 5)}-${item.end_time.slice(0, 5)}`,
+    );
     setshowCreate(true);
   }
 
   return (
     <div className="cbsmain">
-      {showCreate && <ClassCreateBooking />}
+      {showCreate && (
+        <ClassCreateBooking
+          data={{
+            venue_name: venue_name,
+            info: info,
+            date: format_change(date),
+            remainbooking: remainbooking,
+            targettime: targettime,
+            settargettime: settargettime,
+            targettimeid: targettimeid,
+            settargettimeid: settargettimeid,
+            Courts: Courts,
+            venue_id: active,
+            setshowCreate: setshowCreate,
+            GetRemainBooking,
+          }}
+        />
+      )}
       {Loading}
       <header className="cbsheader">
         <BookingIcon />
@@ -177,6 +188,7 @@ function BookingSchedule() {
                     <h3
                       key={index}
                       onClick={() => {
+                        setvenue_name(item.venue_name);
                         changecourt(item.id);
                       }}
                       className={item.id == active ? "activevenue" : ""}
@@ -233,7 +245,7 @@ function BookingSchedule() {
           <aside className="cbsside">
             <span className="cbssideheader">
               <h3>Court {info?.id} Schedule</h3>
-              <button>
+              <button onClick={() => setshow(false)}>
                 <CloseIcon sx={{ fontSize: "20px" }} />
               </button>
             </span>
@@ -267,7 +279,7 @@ function BookingSchedule() {
                         {item.available ? (
                           <button
                             className="ordernowbtn"
-                            onClick={add_new_booking}
+                            onClick={() => add_new_booking(item)}
                           >
                             BOOK NOW
                           </button>

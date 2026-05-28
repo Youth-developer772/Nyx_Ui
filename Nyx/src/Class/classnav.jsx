@@ -11,8 +11,8 @@ function ClassNav() {
   const [show1, setshow1] = useState(false); //for training
   const [show2, setshow2] = useState(false); //for renatal
   const [show3, setshow3] = useState(false); //for canteen
-  const ContextData = useContext(Context);
-  //   const {color,setcolor,backcolor,setbackcolor,setToken}=ContextData;
+  const { setisClassLogin } = useContext(Context);
+
   const nagivate = useNavigate();
 
   function handleTraining() {
@@ -99,7 +99,7 @@ function ClassNav() {
                     Venue MANAGEMENT
                   </NavLink>
                   <NavLink className="dropdownlist" to="classmember">
-                    MEMBERs
+                    CUSTOMERS
                   </NavLink>
                 </span>
               )}
@@ -136,7 +136,7 @@ function ClassNav() {
 
             <button
               className="logoutbutton"
-              onClick={() => nagivate("/login/poslogin")}
+              onClick={() => setisClassLogin(false)}
             >
               <LogoutIcon />
               LOGOUT

@@ -4,8 +4,38 @@ import { classOrdertable, headerdata } from "../DataExport";
 import SearchIcon from "@mui/icons-material/SearchSharp";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useGetClassOrder } from "../ClassApi";
+import { useEffect, useState } from "react";
 function ClassOrder() {
+  const [text, settext] = useState("");
+  const [filtered, setfiltered] = useState(null);
+
   const navigate = useNavigate();
+
+  const { GetOrder, ClassOrders } = useGetClassOrder();
+
+  useEffect(() => {
+    GetOrder();
+  }, []);
+
+  console.log(ClassOrders);
+
+  useEffect(() => {
+    let result = ClassOrders.data;
+    if (Array.isArray(result) && result.length > 0) {
+      result = result.filter((item) => {
+        return (
+          item?.payment_method?.toLowerCase().includes(text.toLowerCase()) ||
+          item?.Total?.toString().includes(text.toLowerCase())
+        );
+      });
+    }
+    setfiltered(result);
+  }, [text, ClassOrders.data]);
+
+  const textchange = (e) => {
+    settext(e.target.value);
+  };
 
   return (
     <div className="classordermain">
@@ -33,7 +63,11 @@ function ClassOrder() {
         <div className="classorderfooter1">
           <h2>Top Orders</h2>
           <div className="classordersearch">
-            <input type="search" placeholder="Search Order No..." />
+            <input
+              type="search"
+              placeholder="Search Order No..."
+              onChange={textchange}
+            />
             <SearchIcon sx={{ color: "white" }} />
           </div>
           <button>
@@ -46,7 +80,6 @@ function ClassOrder() {
             <thead>
               <tr>
                 <th>Order No</th>
-                <th>Order Items</th>
                 <th>Amount</th>
                 <th>Payment</th>
                 <th>Payment Proof</th>
@@ -54,25 +87,44 @@ function ClassOrder() {
               </tr>
             </thead>
             <tbody>
-              {classOrdertable.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>#{item.order_id}</td>
-                    <td>{item.order_item}</td>
-                    <td>{item.amount} ks</td>
-                    <td>{item.payment}</td>
-                    <td>{item.payment_proof}</td>
-                    <td>
-                      <p>view</p>
+              {Array.isArray(filtered) ? (
+                filtered.length > 0 ? (
+                  filtered.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{item.reciept_no}</td>
+                        <td>{item.Total} ks</td>
+                        <td>{item.payment_method}</td>
+                        <td className="imgrowmain">
+                          <div className="imgrow">
+                            <img src={item.payment_image} />
+                          </div>
+                        </td>
+                        <td className="classordertdbtn">
+                          <button>View</button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: "center" }}>
+                      no result found...
                     </td>
                   </tr>
-                );
-              })}
+                )
+              ) : (
+                <tr>
+                  <td colSpan={5} style={{ textAlign: "center" }}>
+                    Loading...
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
-      <Outlet />
+      <Outlet context={{ GetOrder: GetOrder }} />
     </div>
   );
 }
