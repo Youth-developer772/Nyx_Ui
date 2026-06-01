@@ -24,6 +24,7 @@ function AddMenuPopUp({ data }) {
     openloading,
     opensuccess,
     openerror,
+    openconfirm,
   } = data;
 
   //function to addmenu
@@ -92,11 +93,11 @@ function AddMenuPopUp({ data }) {
       );
       if (response.ok) {
         await updateFun();
-        close();
         opensuccess(
           "Menu Updated to List",
           "Your menu is now avaliable for ordering",
         );
+        close();
       } else {
         openerror("Error Occurs while Updating");
       }
@@ -108,26 +109,11 @@ function AddMenuPopUp({ data }) {
   //function to delete menu
   async function delete_menu() {
     let id = info.id;
-    const result = await Swal.fire({
-      title: "Are you sure To Delete?",
-      text: "You will not be able to recover this Category",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        popup: "modern-swal-popup",
-        title: "modern-swal-title",
-        htmlContainer: "modern-swal-text",
-        confirmButton: "modern-swal-confirm",
-        cancelButton: "modern-swal-cancel",
-        icon: "modern-swal-icon",
-      },
-      buttonsStyling: false,
-    });
+    console.log(id);
+    if (!id) return;
+    let isconfirm = await openconfirm();
 
-    if (result.isConfirmed) {
+    if (isconfirm) {
       openloading();
       try {
         let response = await fetch(

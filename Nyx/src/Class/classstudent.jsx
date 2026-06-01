@@ -1,134 +1,310 @@
-import { useState } from "react";
-import "../classCss/ClassAddStudent.css";
-import PersonIcon from "@mui/icons-material/Person";
+import { useEffect, useState } from "react";
+import "../classCss/classAddStudent.css";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import PersonIcon from "@mui/icons-material/Person";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 function ClassStudent() {
   const [students, setStudents] = useState([]);
   const [show, setShow] = useState(false);
-  const [category, setCategory] = useState("Badminton");
+  const [message, setMessage] = useState("");
+  const [category, setCategory] = useState("");
+  const [courses, setCourses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [courseDetail, setCourseDetail] = useState(null);
 
   const [form, setForm] = useState({
+    id: null,
     name: "",
     gender: "",
     age: "",
     phone: "",
-    emergencyPhone: "",
     email: "",
     courseName: "",
     trainingLevel: "",
     timeSlot: "",
+    trainingDay: "",
   });
-
-  const [message, setMessage] = useState("");
 
   // ================= FORM CHANGE =================
   function handleChange(e) {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  // ================= CREATE STUDENT =================
-  function createStudent() {
+  // ================= FETCH STUDENTS =================
+  async function fetchStudents() {
+    try {
+      const res = await fetch(
+        "http://38.60.216.25:5000/api/coursestudent/showtrainingstudentall",
+      );
+
+      const data = await res.json();
+
+      setStudents(data?.data?.[0]?.students ?? []);
+    } catch (err) {
+      console.log(err);
+      setStudents([]);
+    }
+  }
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
+  // ================= COURSE DETAIL API =================
+  async function fetchCourseDetail(id) {
+    try {
+      const res = await fetch(
+        `http://38.60.216.25:5000/api/course/showtraining/${id}`,
+      );
+
+      if (!res.ok) throw new Error("Failed");
+
+      const data = await res.json();
+
+      setCourseDetail(data?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // ================= COURSE CHANGE =================
+  function handleCourseChange(e) {
+    const id = e.target.value;
+
+    setForm({
+      ...form,
+      courseName: id,
+      trainingLevel: "",
+      timeSlot: "",
+      trainingDay: "",
+    });
+
+    fetchCourseDetail(id);
+  }
+
+  // ================= FETCH COURSES =================
+  async function fetchCourses() {
+    try {
+      const res = await fetch(
+        "http://38.60.216.25:5000/api/course/showtraining",
+      );
+      const data = await res.json();
+      setCourses(data?.data ?? []);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    fetchStudents();
+    fetchCourses();
+  }, []);
+
+  // ================== Filter ===================== //
+  const filteredStudents = students.filter((s) => {
+    // course filter
+    const matchCourse = category
+      ? String(s.training_program_id) === String(category)
+      : true;
+
+    // global search (ALL fields)
+    const keyword = search.toLowerCase();
+
+    const matchSearch =
+      s.name?.toLowerCase().includes(keyword) ||
+      s.email?.toLowerCase().includes(keyword) ||
+      s.phone?.includes(keyword) ||
+      s.gender?.toLowerCase().includes(keyword) ||
+      String(s.age).includes(keyword) ||
+      String(s.training_program_id).includes(keyword);
+
+    return matchCourse && matchSearch;
+  });
+
+  // =========================== Loading =============================== //
+  async function fetchStudents() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(
+        "http://38.60.216.25:5000/api/coursestudent/showtrainingstudentall",
+      );
+
+      const data = await res.json();
+
+      setStudents(data?.data?.[0]?.students ?? []);
+    } catch (err) {
+      console.log(err);
+      setError("Connection Error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // ================= CREATE =================
+  async function createStudent() {
+    const {
+      name,
+      gender,
+      age,
+      phone,
+      email,
+      courseName,
+      trainingLevel,
+      timeSlot,
+      trainingDay,
+    } = form;
+
     if (
-      !form.name ||
-      !form.gender ||
-      !form.age ||
-      !form.phone ||
-      !form.emergencyPhone ||
-      !form.email ||
-      !form.courseName ||
-      !form.trainingLevel ||
-      !form.timeSlot
+      !name ||
+      !gender ||
+      !age ||
+      !phone ||
+      !email ||
+      !courseName ||
+      !trainingLevel ||
+      !timeSlot ||
+      !trainingDay
     ) {
-      setMessage(" Please fill all field");
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
+      setMessage("Please fill all fields");
+      setTimeout(() => setMessage(""), 3000);
       return;
     }
 
-    const newStudent = {
-      id: Date.now(),
-      ...form,
-    };
+    try {
+      const res = await fetch(
+        "http://38.60.216.25:5000/api/coursestudent/addtrainingstudent",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            gender,
+            age: Number(age),
+            phone,
+            email,
+            training_program_id: Number(courseName),
+            training_level_id: Number(trainingLevel),
+            time_slot: Number(timeSlot),
+            training_day_id: Number(trainingDay),
+          }),
+        },
+      );
 
-    setStudents([...students, newStudent]);
+      if (!res.ok) throw new Error("Create failed");
 
-    setMessage("✅ Student Added Successfully");
+      setMessage("Student Added Successfully");
 
-    setTimeout(() => {
-      setMessage("");
+      fetchStudents();
       setShow(false);
-    }, 5000);
 
-    setShow(false);
+      setForm({
+        id: null,
+        name: "",
+        gender: "",
+        age: "",
+        phone: "",
+        email: "",
+        courseName: "",
+        trainingLevel: "",
+        timeSlot: "",
+        trainingDay: "",
+      });
 
-    setForm({
-      name: "",
-      gender: "",
-      age: "",
-      phone: "",
-      emergencyPhone: "",
-      email: "",
-      courseName: "",
-      trainingLevel: "",
-      timeSlot: "",
-    });
+      setTimeout(() => setMessage(""), 3000);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  // =========== Cancel ======= //
+  // ==================== Delete ======================= //
+  async function deleteStudent(id) {
+    const ok = window.confirm("Delete this students?");
+    if (!ok) return;
+
+    await fetch(
+      `http://38.60.216.25:5000/api/course/deletetrainingstudent/${id}`,
+      {
+        method: "DELETE",
+      },
+    );
+    fetchStudents();
+  }
+
+  // ================= EDIT =================
+  function handleEdit(s) {
+    setForm({
+      id: s.id,
+      name: s.name || "",
+      gender: s.gender || "",
+      age: s.age || "",
+      phone: s.phone || "",
+      email: s.email || "",
+      courseName: s.training_program_id || "",
+      trainingLevel: s.training_level_id || "",
+      timeSlot: s.time_slot || "",
+      trainingDay: s.training_day_id || "",
+    });
+
+    setShow(true);
+  }
+
+  // ============= Cancel ================= //
   function handleCancel() {
     setShow(false);
   }
 
   return (
     <div style={{ padding: "20px" }}>
+      {/* HEADER */}
       <div className="studenttitle">
         <div className="studentheader">
           <PersonIcon />
           <h3>Students</h3>
         </div>
+
         <div className="addstudentbtn">
-          <AddIcon />
-          {/* BUTTON */}
           <button onClick={() => setShow(true)} className="cs">
-            Add Student
+            <AddIcon /> Add Student
           </button>
         </div>
       </div>
 
-      {/* ================= POPUP ================= */}
+      {/* POPUP */}
       {show && (
         <div className="popup">
           <div className="popup-box">
-            <h2>Add New Student</h2>
+            <h2>{form.id ? "Add New Student" : "Add New Student"}</h2>
+
             {message && <div className="alert-message">{message}</div>}
 
-            {/* Name */}
+            {/* NAME */}
             <div className="form-group">
-              <label>Name :</label>
-
+              <label>Name:</label>
               <input
-                type="text"
                 name="name"
-                placeholder="Enter Name"
+                value={form.name}
                 onChange={handleChange}
+                placeholder="Name"
               />
             </div>
 
-            {/* Gender */}
+            {/* GENDER */}
             <div className="form-group">
-              <label>Gender :</label>
-
+              <label>Gender</label>
               <div className="gender-box">
                 <label>
                   <input
                     type="radio"
                     name="gender"
-                    value="Male"
+                    value="male"
+                    checked={form.gender === "male"}
                     onChange={handleChange}
                   />
                   Male
@@ -138,7 +314,8 @@ function ClassStudent() {
                   <input
                     type="radio"
                     name="gender"
-                    value="Female"
+                    value="female"
+                    checked={form.gender === "female"}
                     onChange={handleChange}
                   />
                   Female
@@ -146,131 +323,143 @@ function ClassStudent() {
               </div>
             </div>
 
-            {/* Age */}
+            {/* AGE */}
             <div className="form-group">
-              <label>Age :</label>
-
+              <label>Age</label>
               <input
-                type="number"
                 name="age"
-                placeholder="Enter Age"
+                type="number"
+                value={form.age}
                 onChange={handleChange}
+                placeholder="Age"
               />
             </div>
 
-            {/* Phone */}
+            {/* PHONE */}
             <div className="form-group">
-              <label>Phone Number :</label>
-
+              <label>Phone</label>
               <input
-                type="text"
                 name="phone"
-                placeholder="Enter Phone Number"
+                value={form.phone}
                 onChange={handleChange}
+                placeholder="Phone"
               />
             </div>
 
-            {/* Emergency */}
+            {/* EMAIL */}
             <div className="form-group">
-              <label>Emergency Number :</label>
-
+              <label>Email</label>
               <input
-                type="text"
-                name="emergencyPhone"
-                placeholder="Enter Emergency Number"
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Email */}
-            <div className="form-group">
-              <label>Email :</label>
-
-              <input
-                type="email"
                 name="email"
-                placeholder="Enter Email"
+                value={form.email}
                 onChange={handleChange}
+                placeholder="Email"
               />
             </div>
 
-            {/* Course */}
+            {/* COURSE */}
             <div className="form-group">
-              <label>Course Name :</label>
-
-              <select name="courseName" onChange={handleChange}>
-                <option value="">Choose Course Selection</option>
-                <option>Badminton</option>
-                <option>Futsal</option>
-                <option>Tennis</option>
+              <label>Course Name</label>
+              <select
+                name="courseName"
+                value={form.courseName}
+                onChange={handleCourseChange}
+              >
+                <option value="">Choose Course</option>
+                <option value="1">Badminton</option>
+                <option value="2">Futsal</option>
+                <option value="3">Tennis</option>
               </select>
             </div>
 
-            {/* Training */}
+            {/* LEVEL */}
             <div className="form-group">
-              <label>Training Level :</label>
-
-              <select name="trainingLevel" onChange={handleChange}>
-                <option value="">Choose Training Level</option>
-                <option>Basic</option>
-                <option>Intermediate</option>
-                <option>Advanced</option>
+              <label>Training Level</label>
+              <select
+                name="trainingLevel"
+                value={form.trainingLevel}
+                onChange={handleChange}
+              >
+                <option value="">Choose Level</option>
+                {courseDetail?.levels?.map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {l.name}
+                  </option>
+                ))}
               </select>
             </div>
 
-            {/* Time */}
+            {/* TIME */}
             <div className="form-group">
-              <label>Time Slots :</label>
-
-              <select name="timeSlot" onChange={handleChange}>
-                <option value="">Choose Time Slots</option>
-                <option>9 AM - 11 AM</option>
-                <option>1 PM - 3 PM</option>
-                <option>6 PM - 8 PM</option>
+              <label>Time Slot</label>
+              <select
+                name="timeSlot"
+                value={form.timeSlot}
+                onChange={handleChange}
+              >
+                <option value="">Choose Time</option>
+                {courseDetail?.time_slots?.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.slot}
+                  </option>
+                ))}
               </select>
             </div>
 
-            {/* Buttons */}
+            {/* DAY */}
+            <div className="form-group">
+              <label>Training Day</label>
+              <select
+                name="trainingDay"
+                value={form.trainingDay}
+                onChange={handleChange}
+              >
+                <option value="">Choose Day</option>
+                {courseDetail?.days?.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.day}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* BUTTON */}
+
             <div className="button-group">
               <button className="cancel-btn" onClick={handleCancel}>
                 Cancel
               </button>
-
-              <button className="create-btn" onClick={createStudent}>
-                Create
+              <button
+                onClick={form.id ? () => {} : createStudent}
+                className="create-btn"
+              >
+                {form.id ? "Update" : "Create"}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ================= TABLE ================= */}
+      {/* TABLE */}
       <div className="student-wrapper">
         <div className="student-top">
           <div className="filter-btn">
-            <button
-              onClick={() => setCategory("Badminton")}
-              className={category === "Badminton" ? "active" : "'"}
-            >
-              Badminton
-            </button>
-            <button
-              onClick={() => setCategory("Futsal")}
-              className={category === "Futsal" ? "active" : "'"}
-            >
-              Futsal
-            </button>
-            <button
-              onClick={() => setCategory("Tennis")}
-              className={category === "Tennis" ? "active" : "'"}
-            >
-              Tennis
-            </button>
+            {courses.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setCategory(c.id)}
+                className={category === c.id ? "active" : ""}
+              >
+                {c.course_name}
+              </button>
+            ))}
           </div>
           <input
             type="search"
-            placeholder="Enter search"
+            placeholder="Search everything..."
             className="student-search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className="student-table-wrapper">
@@ -281,30 +470,52 @@ function ClassStudent() {
                 <th>Gender</th>
                 <th>Age</th>
                 <th>Phone</th>
-                <th>Emergency</th>
                 <th>Email</th>
-                <th>Course</th>
-                <th>Level</th>
-                <th>Time Slot</th>
+                <th>CourseName</th>
+                <th>TrainingLevel</th>
+                <th>TrainingDay</th>
+                <th>Status</th>
               </tr>
             </thead>
 
             <tbody>
-              {students
-                .filter((s) => s.courseName === category)
-                .map((s) => (
+              {loading ? (
+                <tr>
+                  <td colSpan="6">
+                    <div className="loading-container">
+                      <div className="spinner"></div>
+                      <p>Loading...</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : error ? (
+                <tr>
+                  <td colSpan="6">❌ Network Error / Server Down</td>
+                </tr>
+              ) : filteredStudents.length === 0 ? (
+                <tr>
+                  <td colSpan="6">📭 No Student Found</td>
+                </tr>
+              ) : (
+                filteredStudents.map((s) => (
                   <tr key={s.id}>
                     <td>{s.name}</td>
                     <td>{s.gender}</td>
                     <td>{s.age}</td>
                     <td>{s.phone}</td>
-                    <td>{s.emergencyPhone}</td>
                     <td>{s.email}</td>
-                    <td>{s.courseName}</td>
-                    <td>{s.trainingLevel}</td>
-                    <td>{s.timeSlot}</td>
+                    <td>
+                      <button onClick={() => handleEdit(s)}>
+                        <VisibilityIcon />
+                      </button>
+
+                      <button onClick={() => deleteStudent(s.id)}>
+                        <DeleteIcon />
+                      </button>
+                    </td>
                   </tr>
-                ))}
+                ))
+              )}
             </tbody>
           </table>
         </div>

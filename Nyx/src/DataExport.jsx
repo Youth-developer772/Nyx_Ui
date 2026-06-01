@@ -2,6 +2,10 @@ import HeaderIcon from "@mui/icons-material/Inventory2Outlined";
 import CheckIcon from "@mui/icons-material/CheckCircleOutlined";
 import OutIcon from "@mui/icons-material/ReportOutlined";
 import NewIcon from "@mui/icons-material/VerifiedOutlined";
+import TrainingIcon from "@mui/icons-material/SportsScore";
+import CashIcon from "@mui/icons-material/PaymentsOutlined";
+import PersonIcon from "@mui/icons-material/PeopleAltOutlined";
+import PersonIcon1 from "@mui/icons-material/PersonAddAltOutlined";
 
 export const headerdata = [
   {
@@ -71,4 +75,35 @@ export const classbookingheading = [
   { title: "Today bookings", icon: 2, info: 21 },
   { title: "Today bookings", icon: 3, info: 21 },
   { title: "Today bookings", icon: 4, info: 21 },
+];
+
+export const classtrainingoverview = [
+  {
+    icon: PersonIcon,
+    rightside: "+5%",
+    body: "Total Students",
+    footer: "3",
+    footerright: "students",
+  },
+  {
+    icon: TrainingIcon,
+    rightside: "current",
+    body: "Active Training",
+    footer: "3",
+    footerright: "active classes",
+  },
+  {
+    icon: CashIcon,
+    rightside: "+10%",
+    body: "Monthly Revenue",
+    footer: "3",
+    footerright: "ks",
+  },
+  {
+    icon: PersonIcon1,
+    rightside: "+This week",
+    body: "New Enrollment",
+    footer: "3",
+    footerright: "students",
+  },
 ];

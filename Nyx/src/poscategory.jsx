@@ -14,6 +14,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import BrandPopUp from "./Components/brandaddpopup";
 import UploadIcon from "@mui/icons-material/UploadFile";
 import { useGetCategory } from "./Api_Call";
+import { useNoti } from "./Hooks/alert";
 
 function PosCategory() {
   const [show, setshow] = useState(false);
@@ -33,6 +34,14 @@ function PosCategory() {
 
   const { Categories, GetCategories, Tags, GetTags } = useGetCategory();
   const { backcolor, Token } = useContext(Context);
+  const {
+    Loading: categoryloading,
+    openconfirm,
+    openerror,
+    openloading,
+    opensuccess,
+    close,
+  } = useNoti();
 
   const Font_color = Boolean(backcolor == "#1A1C1E");
   const FontStyle = {
@@ -48,7 +57,7 @@ function PosCategory() {
     let formdata = new FormData();
     formdata.append("image", CategoryImage.current.files[0]);
     formdata.append("name", Categoryname.current.value);
-    const loadingtoast = toast.loading("Uploading...");
+    openloading();
     try {
       let reponse = await fetch(import.meta.env.VITE_ADD_CATEGORY, {
         method: "POST",
@@ -62,20 +71,20 @@ function PosCategory() {
           await GetCategories();
         }, 500);
         setshow(false);
-        toast.success("Successfully Uploaded", { id: loadingtoast });
+        opensuccess("Action Successful", "New Category added successfully");
       } else {
-        toast.error("Upload Failed", { id: loadingtoast });
+        openerror("Something went worng");
         setshow(false);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Connection error", { id: loadingtoast });
+      openerror("Cannot connect with sever");
     }
   }
   async function AddTags(e) {
     e.preventDefault();
-    const addingtag = toast.loading("Uploading...");
     let data = { name: Tagsref.current.value };
+    openloading();
     try {
       let reponse = await fetch(import.meta.env.VITE_ADD_TAGS, {
         method: "POST",
@@ -87,15 +96,15 @@ function PosCategory() {
       });
       if (reponse.ok) {
         GetTags();
-        toast.success("Successfully Uploaded", { id: addingtag });
+        opensuccess("Action Successful", "New Tag added successfully");
         setshow1(false);
       } else {
-        toast.error("Upload Fail", { id: addingtag });
+        openerror("Something went wrong");
         setshow1(false);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Connection error", { id: addingtag });
+      openerror("Cannot connect with sever");
     }
   }
 
@@ -126,13 +135,12 @@ function PosCategory() {
       Categoryname.current.value == selecttoDel.name &&
       !CategoryImage.current.files[0]
     ) {
-      toast.error("No changes made");
       setshow(false);
       setallow(false);
       setselecttoDel(null);
       return;
     }
-    const laodingtag = toast.loading("Updating Tags...");
+    openloading();
     try {
       let reponse = await fetch(import.meta.env.VITE_UPDATE_CATEGORY, {
         method: "PUT",
@@ -144,19 +152,19 @@ function PosCategory() {
 
       if (reponse.ok) {
         GetCategories();
-        toast.success("Successfully Uploaded", { id: laodingtag });
+        opensuccess("Action Successful", "Category updated successfully");
         setselecttoDel(null);
         setallow(false);
         setshow(false);
       } else {
-        toast.error("Upload Fail", { id: laodingtag });
+        openerror("Something went wrong");
         setselecttoDel(null);
         setshow(false);
         setallow(false);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Connecting error", { id: laodingtag });
+      openerror("Cannot connect with sever");
       setselecttoDel(null);
       setallow(false);
       setshow(false);
@@ -174,7 +182,7 @@ function PosCategory() {
       setisallow(false);
       return;
     }
-    const updatingtag = toast.loading("Please Wait");
+    openloading();
     try {
       let response = await fetch(import.meta.env.VITE_UPDATE_TAGS, {
         method: "PUT",
@@ -190,124 +198,93 @@ function PosCategory() {
         seteditdata(null);
         setisallow(false);
         setfile(null);
-        toast.success("Successfully updated", { id: updatingtag });
+        opensuccess("Action Successful", "Tags updated successfully");
       } else {
         setshow1(false);
         seteditdata(null);
         setisallow(false);
         toast.error("Failed to update Tags");
         setfile(null);
-        toast.error("Failed to delete", { id: updatingtag });
+        openerror("Something went wrong");
       }
     } catch (err) {
       console.log(err);
-      toast.error("Connection error", { id: updatingtag });
+      openerror("Cannot connect with sever");
     }
   }
 
   async function handleDeleteTags() {
     let tagsName = editdata.name;
-    const result = await Swal.fire({
-      title: "Are you sure To Delete?",
-      text: "You will not be able to recover this Tags",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        popup: "modern-swal-popup",
-        title: "modern-swal-title",
-        htmlContainer: "modern-swal-text",
-        confirmButton: "modern-swal-confirm",
-        cancelButton: "modern-swal-cancel",
-        icon: "modern-swal-icon",
-      },
-      buttonsStyling: false,
-    });
-    if (result.isConfirmed) {
-      const tagdelete = toast.loading("Deleting Tags...");
-      try {
-        let reponse = await fetch(
-          `${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${Token}`,
-            },
+
+    let isconfirm = await openconfirm();
+
+    if (!isconfirm) return;
+
+    const tagdelete = toast.loading("Deleting Tags...");
+    try {
+      let reponse = await fetch(
+        `${import.meta.env.VITE_DELETE_TAGS}${tagsName}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${Token}`,
           },
-        );
-        if (reponse.ok) {
-          toast.success("Tags Deleted", { id: tagdelete });
-          GetTags();
-          setshow1(false);
-          seteditdata(null);
-          setisallow(false);
-          setfile(null);
-        } else {
-          setshow1(false);
-          seteditdata(null);
-          setisallow(false);
-          toast.error("Failed to delete Tags", { id: tagdelete });
-          setfile(null);
-        }
-      } catch (err) {
-        console.log(err);
+        },
+      );
+      if (reponse.ok) {
+        opensuccess("Action Successful", "Tags deleted successfully");
+        GetTags();
         setshow1(false);
         seteditdata(null);
         setisallow(false);
-        toast.error("Failed to delete Tags", { id: tagdelete });
+        setfile(null);
+      } else {
+        setshow1(false);
+        seteditdata(null);
+        setisallow(false);
+        openerror("Something went wrong");
+        setfile(null);
       }
+    } catch (err) {
+      console.log(err);
+      setshow1(false);
+      seteditdata(null);
+      setisallow(false);
+      openerror("Cannot connect with sever");
     }
   }
 
   async function handleDeleteCategory() {
     let data = selecttoDel.name;
-    const result = await Swal.fire({
-      title: "Are you sure To Delete?",
-      text: "You will not be able to recover this Category",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        popup: "modern-swal-popup",
-        title: "modern-swal-title",
-        htmlContainer: "modern-swal-text",
-        confirmButton: "modern-swal-confirm",
-        cancelButton: "modern-swal-cancel",
-        icon: "modern-swal-icon",
-      },
-      buttonsStyling: false,
-    });
-    if (result.isConfirmed) {
-      const deleting = toast.loading("Please wait");
-      try {
-        let reponse = await fetch(
-          `${import.meta.env.VITE_DELETE_CATEGORY}${data}`,
-          {
-            method: "DELETE",
-          },
-        );
-        if (reponse.ok) {
-          await GetCategories();
-          setshow(false);
-          setselecttoDel(null);
-          toast.success("Category Deleted", { id: deleting });
-          setfile(null);
-        } else {
-          setshow(false);
-          setselecttoDel(null);
-          toast.error("Failed to delete Category", { id: deleting });
-          setfile(null);
-        }
-      } catch (err) {
-        console.log(err);
+    let isconfirm = await openconfirm();
+
+    if (!isconfirm) return;
+    openloading();
+
+    try {
+      let reponse = await fetch(
+        `${import.meta.env.VITE_DELETE_CATEGORY}${data}`,
+        {
+          method: "DELETE",
+        },
+      );
+      if (reponse.ok) {
+        await GetCategories();
         setshow(false);
         setselecttoDel(null);
-        toast.error("Cannot connect with sever", { id: deleting });
+        opensuccess("Action Successful", "Category deleted successfully");
+        setfile(null);
+      } else {
+        setshow(false);
+        setselecttoDel(null);
+        openerror("Something went wrong");
+        setfile(null);
       }
+    } catch (err) {
+      console.log(err);
+      setshow(false);
+      setselecttoDel(null);
+      openerror("Cannot connect with sever");
     }
   }
 
@@ -324,16 +301,7 @@ function PosCategory() {
 
   return (
     <>
-      <Toaster
-        position="top-center"
-        containerStyle={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-          zIndex: 1000,
-        }}
-      />
+      {categoryloading}
       <div className="poscategorymain">
         <div className="Poscategoryheader">
           <h1 style={FontStyle}>

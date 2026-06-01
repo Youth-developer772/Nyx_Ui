@@ -28,7 +28,8 @@ function ClassAddCourt() {
   const navigate = useNavigate();
 
   const { venue_id, GetCourts, Courts, index } = useOutletContext();
-  const { Loading, openerror, openloading, opensuccess } = useNoti();
+  const { Loading, openerror, openloading, opensuccess, openconfirm } =
+    useNoti();
 
   function showimg(e) {
     let img = e.target.files[0];
@@ -43,8 +44,8 @@ function ClassAddCourt() {
   //add rule
   async function add_rule(rule) {
     if (!venue_id) return { ok: true };
-    if (!rule.header == null) return { ok: true };
-    if (!rule.body == null) return { ok: true };
+    if (!rule.header || !rule.body) return { ok: true };
+
     try {
       let response = await fetch(`${import.meta.env.VITE_CLASS_ADD_RULE}`, {
         method: "POST",
@@ -130,14 +131,23 @@ function ClassAddCourt() {
   //add gallery
   async function add_gallery(id) {
     if (!id) return { ok: true };
+    if (!fileref.current.files[0]) return { ok: true };
     let formData = new FormData();
     formData.append("court_id", id);
     formData.append("court_gallery", fileref.current.files[0]);
+    console.log("gallery loading....");
     try {
       let response = await fetch(import.meta.env.VITE_CLASS_ADD_COURT_GALLERY, {
         method: "POST",
         body: formData,
       });
+      if (response.ok) {
+        console.log("child gallery fun ok p");
+      } else {
+        let daa = await response.json();
+        console.log(daa);
+        console.log("child gallery ma ok par");
+      }
       return response;
     } catch (err) {
       console.log(err);
@@ -149,7 +159,7 @@ function ClassAddCourt() {
   async function add_court(e) {
     e.preventDefault();
     if (!venue_id) return;
-    console.log("............", venue_id);
+
     let court_detail = {
       venue_id: venue_id,
       court_name: court_nameref.current.value,
@@ -157,7 +167,7 @@ function ClassAddCourt() {
       open_at: open_timeref.current.value,
       close_at: close_timeref.current.value, //need to change the time format according to backend
       about_court: about_courtref.current.value,
-      court_active: true, //this is default
+      court_active: "true", //this is default
     };
     openloading();
     try {
@@ -204,13 +214,10 @@ function ClassAddCourt() {
           rulebodyref.current.value = "";
           await GetCourts(venue_id);
         } else {
-          console.log("child fun err");
           openerror("Something went wrong");
         }
       } else {
         openerror("Something went wrong");
-        console.log("main fun err");
-        console.log(response);
       }
     } catch (err) {
       openerror("Cannot Connect with sever");
@@ -294,9 +301,9 @@ function ClassAddCourt() {
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.isArray(Courts.data?.[index].equipment) ? (
-                    Courts.data?.[index].equipment.length > 0 ? (
-                      Courts.data?.[index].equipment.map((item, index) => {
+                  {Array.isArray(Courts.data?.[index]?.equipment) ? (
+                    Courts.data?.[index]?.equipment.length > 0 ? (
+                      Courts.data?.[index]?.equipment.map((item, index) => {
                         return (
                           <tr key={index}>
                             <td>{item.product_name}</td>
@@ -441,7 +448,9 @@ function ClassAddCourt() {
             </div>
             <div className="cacr5">
               <button>Create</button>
-              <button type="button">Cancel</button>
+              <button type="button" onClick={() => navigate(-1)}>
+                Cancel
+              </button>
             </div>
           </section>
         </main>

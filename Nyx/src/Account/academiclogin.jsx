@@ -1,11 +1,13 @@
 import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../Hooks/context";
+import { useNoti } from "../Hooks/alert";
 
 function AcademicLogin() {
   const navigate = useNavigate();
 
   const { setisClassLogin } = useContext(Context);
+  const { Loading, openerror, openloading, opensuccess, close } = useNoti();
 
   const emailref = useRef();
   const passwordref = useRef();
@@ -18,6 +20,7 @@ function AcademicLogin() {
       email: emailref.current.value,
       password: passwordref.current.value,
     };
+    openloading("100%");
     try {
       let response = await fetch(import.meta.env.VITE_ADMIN_LOGIN, {
         method: "POST",
@@ -28,7 +31,7 @@ function AcademicLogin() {
       });
       if (response.ok) {
         let data = await response.json();
-
+        close();
         if (data.token == "User not found") {
           validemail.current.style.visibility = "visible";
           emailref.current.style.border = "1px solid red";
@@ -55,14 +58,18 @@ function AcademicLogin() {
           localStorage.setItem("isClassLogin", "true");
           setisClassLogin(true);
         }
+      } else {
+        openerror("something went wrong");
       }
     } catch (error) {
+      openerror("Cannot connect with sever");
       console.log(error);
     }
   }
 
   return (
     <form className="posloginwarper" onSubmit={adminLogin}>
+      {Loading}
       <span>
         <label htmlFor="email">Email</label>
         <input
@@ -91,7 +98,6 @@ function AcademicLogin() {
         <p className="faillogin" ref={validpassword}>
           *invalid password
         </p>
-        <p className="forgot">Forgot Password ?</p>
       </span>
 
       <button>Login</button>

@@ -11,6 +11,7 @@ export const useNoti = () => {
   const [success, setsuccess] = useState(false);
   const [error, seterror] = useState(false);
   const [confirmbox, setconfirmbox] = useState(false);
+  const [width, setwidth] = useState("calc(100% - 230px)");
 
   const [errortext, seterrortext] = useState("something went wrong");
   const [successtext, setsuccesstext] = useState({
@@ -32,7 +33,10 @@ export const useNoti = () => {
     setconfirmbox(false);
   };
 
-  const openloading = () => {
+  const openloading = (divwidth) => {
+    if (divwidth) {
+      setwidth(divwidth);
+    }
     setwait(true);
     setconfirmbox(false);
     setloading(true);
@@ -83,7 +87,7 @@ export const useNoti = () => {
   const Loading =
     wait &&
     createPortal(
-      <div className="alretwarper">
+      <div className="alretwarper" style={{ width: width }}>
         {loading && (
           <div className="alretmain">
             <p>Please wait</p>

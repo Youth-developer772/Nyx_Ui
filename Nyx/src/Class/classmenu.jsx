@@ -7,6 +7,7 @@ import FoodIcon from "@mui/icons-material/Flatware";
 import DotIcon from "@mui/icons-material/FiberManualRecord";
 import AddMenuPopUp from "../ClassComponent/AddMenupopup";
 import { useNoti } from "../Hooks/alert";
+
 function ClassMenu() {
   const [show, setshow] = useState(false);
   const [info, setinfo] = useState(null);
@@ -15,7 +16,8 @@ function ClassMenu() {
   const [purfiedData, setpurfiedData] = useState(null);
 
   const { ClassMenu, GetClassmenu } = useGetClassMenu();
-  const { Loading, openloading, opensuccess, openerror } = useNoti();
+  const { Loading, openloading, opensuccess, openerror, openconfirm } =
+    useNoti();
 
   useEffect(() => {
     GetClassmenu();
@@ -69,6 +71,7 @@ function ClassMenu() {
             openloading: openloading,
             opensuccess: opensuccess,
             openerror: openerror,
+            openconfirm: openconfirm,
           }}
         />
       )}

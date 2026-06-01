@@ -18,6 +18,7 @@ import uploader from "@zwehtetpaing55/uploader";
 import { Context } from "./Hooks/context";
 import UploadIcon from "@mui/icons-material/UploadFile";
 import { useGetCategory, useGetProducts } from "./Api_Call";
+import { useNoti } from "./Hooks/alert";
 
 function AddProduct() {
   const { info, setinfo, GetProducts } = useOutletContext();
@@ -29,6 +30,8 @@ function AddProduct() {
 
   const { Categories, GetCategories, Tags, GetTags } = useGetCategory();
   const { Products } = useGetProducts();
+  const { Loading, openconfirm, openerror, openloading, opensuccess, close } =
+    useNoti();
 
   useEffect(() => {
     GetCategories();
@@ -56,7 +59,7 @@ function AddProduct() {
 
   async function AddProduct(e) {
     e.preventDefault();
-    const uploading = toast.loading("Uploading Prodcut");
+    openloading();
     try {
       console.log(ratingref.current.value);
       console.log("item Uploaded");
@@ -78,8 +81,6 @@ function AddProduct() {
       formdata.append("warranty", wranartref.current.value);
       formdata.append("date", dateref.current.value);
       formdata.append("image", imageref.current.files[0]);
-      const data = Object.fromEntries(formdata);
-      console.log(data);
 
       let reponse = await fetch(import.meta.env.VITE_ADD_PRODUCT, {
         method: "POST",
@@ -87,7 +88,7 @@ function AddProduct() {
       });
 
       if (reponse.ok) {
-        toast.success("Successfully Uploaded", { id: uploading });
+        opensuccess("Action Successfully", "New Product Added Successfully");
         GetProducts();
         nameref.current.value = "";
         brandref.current.value = "";
@@ -108,62 +109,41 @@ function AddProduct() {
         setfile(null);
         setfilepath(null);
       } else {
-        toast.error("Action Failed", { id: uploading });
+        openerror("Something went Wrong");
         setfile(null);
         setfilepath(null);
       }
     } catch (err) {
       console.log(err);
-      toast.error("upload fail", { id: uploading });
+      openerror("Cannot connect with sever");
     }
   }
 
   async function deleteProduct(id) {
-    console.log(id);
-    const result = await Swal.fire({
-      title: "Are you sure to delete this product?",
-      text: "You can't undo this action!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#a2aeb9",
-      confirmButtonText: "Delete",
-      cancelButtonText: "Cancel",
-      background: "#F0F0F0",
-      customClass: {
-        popup: "modern-swal-popup",
-        title: "modern-swal-title",
-        htmlContainer: "modern-swal-text",
-        confirmButton: "modern-swal-confirm",
-        cancelButton: "modern-swal-cancel",
-        icon: "modern-swal-icon",
-      },
-      buttonsStyling: false,
-    });
+    let isconfirm = await openconfirm();
+    if (!isconfirm) return;
 
-    if (result.isConfirmed) {
-      const deleting = toast.loading("Deleting Prodcut");
-      try {
-        let reponse = await fetch(
-          `${import.meta.env.VITE_DELETE_PRODUCT}/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
+    openloading();
+    try {
+      let reponse = await fetch(
+        `${import.meta.env.VITE_DELETE_PRODUCT}/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
-        if (reponse.ok) {
-          toast.success("Succssfully Deleted", { id: deleting });
-          await GetProducts();
-          navigate(-1);
-        } else {
-          toast.error("Deleting fail", { id: deleting });
-        }
-      } catch (err) {
-        console.log(err);
-        toast.error("Deleting fail", { id: deleting });
+        },
+      );
+      if (reponse.ok) {
+        await GetProducts();
+        close();
+        navigate(-1);
+      } else {
+        openerror("Something went worng");
       }
+    } catch (err) {
+      console.log(err);
+      openerror("Cannot connect with sever");
     }
   }
 
@@ -192,14 +172,14 @@ function AddProduct() {
       if (imageref.current.files[0]) {
         formdata.append("image", imageref.current.files[0]);
       }
-      const productUpdateLoading = toast.loading("Updating Product");
+      openloading();
       let reponse = await fetch(import.meta.env.VITE_UPDATE_PRODUCT, {
         method: "PUT",
         body: formdata,
       });
       if (reponse.ok) {
         await GetProducts();
-        toast.success("Successfully Updated", { id: productUpdateLoading });
+        close();
         setallowupdate(true);
         setinfo(null);
         navigate(-1);
@@ -209,14 +189,14 @@ function AddProduct() {
         GetProducts();
         setallowupdate(true);
         setinfo(null);
-        navigate(-1);
+
         setfile(null);
         setfilepath(null);
-        toast.error("Updating fail", { id: productUpdateLoading });
+        openerror("Something went worng");
       }
     } catch (err) {
       console.log(err);
-      toast.error("Updating failed", { id: productUpdateLoading });
+      openerror("Cannot connect with sever");
     }
   }
 
@@ -233,11 +213,11 @@ function AddProduct() {
 
   return (
     <>
-      <Toaster />
       <form
         onSubmit={info ? updateProduct : AddProduct}
         className="addproductform"
       >
+        {Loading}
         <div className="posadditemcontainer">
           <div className="additemheader">
             <button

@@ -13,6 +13,7 @@ import { Context } from "../Hooks/context";
 import { useNavigate } from "react-router-dom";
 import { useReceipt } from "../Components/Receipt";
 import { useGetOrder, useGetPayment } from "../Api_Call";
+import { useNoti } from "../Hooks/alert";
 
 function AddOrder() {
   const [reciept, setreciept] = useState();
@@ -33,6 +34,8 @@ function AddOrder() {
   const paymentref = useRef();
   const { Token } = useContext(Context);
   const { Payment, Products, GetPayment, Tax, GetTax } = useGetPayment();
+  const { Loading, openconfirm, openerror, openloading, opensuccess, close } =
+    useNoti();
   const { GetLocalOrders } = useGetOrder();
   const { ReceipetJsx, open } = useReceipt();
 
@@ -150,26 +153,26 @@ function AddOrder() {
     formData.append("reciept_no", reciept);
     formData.append("payment_method", paymentref.current.value);
     formData.append("items", JSON.stringify(delta));
-
+    openloading();
     try {
-      const loading = toast.loading("Please Wait...");
       let response = await fetch(import.meta.env.VITE_ADD_ORDER, {
         method: "POST",
         body: formData,
       });
       if (response.ok) {
+        opensuccess("Action Successful", "New Order added successfully");
         await GetLocalOrders();
-        toast.success("successfully Added", { id: loading });
+
         show_receipet();
         setchilddata([]);
         setfiletosend(null);
         setfile(null);
         setCart({});
       } else {
-        toast.error("adding Failed", { id: loading });
+        openerror("Something went wrong");
       }
     } catch (err) {
-      toast.error("Can not connetct with sever", { id: loading });
+      openerror("Cannot connect with sever");
       console.log(err);
     }
   }
@@ -181,7 +184,7 @@ function AddOrder() {
 
   return createPortal(
     <div className="addordermain">
-      <Toaster />
+      {Loading}
       {ReceipetJsx}
       <div className="addordernav">
         <button

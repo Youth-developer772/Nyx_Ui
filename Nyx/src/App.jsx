@@ -48,6 +48,9 @@ import ClassCustomer from "./Class/classcustomer";
 import ClassMobileBooking from "./ClassComponent/classmobilebooking";
 import ClassLoaclBooking from "./ClassComponent/classlocalbooking";
 import ClassProtectedRoute from "./Hooks/ClassProtectedRouted";
+import ClassTrainingOverview from "./ClassComponent/classtrainingoverview";
+import ClassRentalOverveiw from "./ClassComponent/classrentaloverview";
+import ClassCanteenOverview from "./ClassComponent/classcanteenoverview";
 
 function App() {
   const [childData, SetchildData] = useState({});
@@ -135,7 +138,24 @@ function App() {
               }
             >
               <Route index element={<Navigate to="classoverview" replace />} />
-              <Route path="classoverview" element={<ClassOverview />} />
+              <Route path="classoverview" element={<ClassOverview />}>
+                <Route
+                  index
+                  element={<Navigate to="classtrainingoverview" />}
+                />
+                <Route
+                  path="classtrainingoverview"
+                  element={<ClassTrainingOverview />}
+                />
+                <Route
+                  path="classrentaloverview"
+                  element={<ClassRentalOverveiw />}
+                />
+                <Route
+                  path="classcanteenoverview"
+                  element={<ClassCanteenOverview />}
+                />
+              </Route>
               <Route
                 path="classcoursemanagement"
                 element={<CourseManagement />}

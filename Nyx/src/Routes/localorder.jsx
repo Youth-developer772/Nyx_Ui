@@ -6,6 +6,7 @@ import useReceipt from "../Components/Receipt";
 import { useGetOrder } from "../Api_Call";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import * as XLSX from "xlsx";
+import { useTableFooter } from "../Hooks/tablefooter";
 
 function LocalOrder() {
   const [text, settext] = useState("");
@@ -13,7 +14,7 @@ function LocalOrder() {
 
   const { LOrders, GetLocalOrders } = useGetOrder();
   const { open, ReceipetJsx } = useReceipt();
-  console.log(LOrders);
+  const { TableFooterJsx, startnumber, endnumber } = useTableFooter(filterdata);
 
   useEffect(() => {
     if (!LOrders.data) return;
@@ -109,62 +110,71 @@ function LocalOrder() {
           Export
         </button>
       </div>
-      <table className="posordertable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Receipt</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Payment</th>
-            <th>Payment Proof</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.isArray(filterdata) ? (
-            filterdata.length > 0 ? (
-              filterdata.map((item, index) => {
-                return (
-                  <tr key={index} className="ordertablerow">
-                    <td>#{item.order_id}</td>
-                    <td>{item.reciept_no}</td>
-                    <td>{item.Total}</td>
-                    <td>{item.Date}</td>
-                    <td>{item.Time}</td>
-                    <td>{item.payment_method}</td>
-                    <td className="imgcontainer">
-                      <img
-                        src={item.payment_proof}
-                        className="posorderimg"
-                        onClick={() => showImagePreview(item.payment_proof)}
-                      />
-                    </td>
+      <div className="warpthetableorder">
+        <div className="posordertablewarper">
+          <table className="posordertable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Receipt</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Payment</th>
+                <th>Payment Proof</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(filterdata) ? (
+                filterdata.length > 0 ? (
+                  filterdata
+                    .slice(startnumber, endnumber)
+                    .map((item, index) => {
+                      return (
+                        <tr key={index} className="ordertablerow">
+                          <td>#{item.order_id}</td>
+                          <td>{item.reciept_no}</td>
+                          <td>{item.Total}</td>
+                          <td>{item.Date}</td>
+                          <td>{item.Time}</td>
+                          <td>{item.payment_method}</td>
+                          <td className="imgcontainer">
+                            <img
+                              src={item.payment_proof}
+                              className="posorderimg"
+                              onClick={() =>
+                                showImagePreview(item.payment_proof)
+                              }
+                            />
+                          </td>
 
-                    <td className="actioncolumn">
-                      <p onClick={() => show_order(item)}>view</p>
+                          <td className="actioncolumn">
+                            <p onClick={() => show_order(item)}>view</p>
+                          </td>
+                        </tr>
+                      );
+                    })
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="9"
+                      style={{ textAlign: "center", padding: "20px" }}
+                    >
+                      no result found...
                     </td>
                   </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td
-                  colSpan="9"
-                  style={{ textAlign: "center", padding: "20px" }}
-                >
-                  No data
-                </td>
-              </tr>
-            )
-          ) : (
-            [...Array(12)].map((_, index) => (
-              <CustomerLoading key={index} times={9} />
-            ))
-          )}
-        </tbody>
-      </table>
+                )
+              ) : (
+                [...Array(12)].map((_, index) => (
+                  <CustomerLoading key={index} times={9} />
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        {TableFooterJsx}
+      </div>
     </div>
   );
 }

@@ -69,6 +69,7 @@
 .cctablewarper {
   width: 100%;
   overflow: scroll;
+  height: 80vh;
 }
 .cctablewarper table {
   width: 100%;
@@ -115,4 +116,10 @@
 }
 .classactiondiv :last-child {
   color: #ba1a1a;
+}
+.towarpthetable {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }

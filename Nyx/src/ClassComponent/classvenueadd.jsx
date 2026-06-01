@@ -80,6 +80,7 @@ function ClassVenueAdd({ data }) {
     formData.append("price", priceref.current.value);
     formData.append("available", checkboxref.current.checked);
 
+    openloading();
     try {
       let response = await fetch(import.meta.env.VITE_CLASS_ADD_VENUE, {
         method: "POST",

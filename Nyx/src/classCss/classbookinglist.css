@@ -200,3 +200,12 @@
   color: #ffffff;
   width: 50px;
 }
+.mobilebookingtablewaper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 60vh;
+  max-height: 80vh;
+  overflow: scroll;
+}

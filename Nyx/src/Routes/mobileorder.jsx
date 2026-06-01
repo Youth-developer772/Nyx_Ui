@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useReceipt from "../Components/Receipt";
 import { useGetOrder } from "../Api_Call";
 import * as XLSX from "xlsx";
+import { useTableFooter } from "../Hooks/tablefooter";
 
 function MobileOrder() {
   const [text, settext] = useState("");
@@ -13,6 +14,8 @@ function MobileOrder() {
 
   const { open, ReceipetJsx } = useReceipt();
   const { MOrders, GetMobileOrders } = useGetOrder();
+  const { TableFooterJsx, startnumber, endnumber } = useTableFooter(filterdata);
+
   useEffect(() => {
     if (!MOrders.data) return;
     if (text === "") {
@@ -125,76 +128,85 @@ function MobileOrder() {
           Export
         </button>
       </div>
-      <table className="posordertable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Customer</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Payment</th>
-            <th>Proof</th>
-            <th>Order Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.isArray(filterdata) ? (
-            filterdata.length > 0 ? (
-              filterdata.map((item, index) => {
-                return (
-                  <tr key={index} className="ordertablerow">
-                    <td>{item.order_id}</td>
-                    <td>{item.customer_name}</td>
-                    <td>{item.Total}</td>
-                    <td>{item.Date}</td>
-                    <td>{item.Time}</td>
-                    <td>{item.payment_method}</td>
-                    <td className="imgcontainer">
-                      <img
-                        src={item.payment_proof}
-                        className="posorderimg"
-                        onClick={() => showImagePreview(item.payment_proof)}
-                      />
-                    </td>
+      <div className="towarpthetableorder">
+        <div className="posordertablewarper">
+          <table className="posordertable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Payment</th>
+                <th>Proof</th>
+                <th>Order Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(filterdata) ? (
+                filterdata.length > 0 ? (
+                  filterdata
+                    .slice(startnumber, endnumber)
+                    .map((item, index) => {
+                      return (
+                        <tr key={index} className="ordertablerow">
+                          <td>{item.order_id}</td>
+                          <td>{item.customer_name}</td>
+                          <td>{item.Total}</td>
+                          <td>{item.Date}</td>
+                          <td>{item.Time}</td>
+                          <td>{item.payment_method}</td>
+                          <td className="imgcontainer">
+                            <img
+                              src={item.payment_proof}
+                              className="posorderimg"
+                              onClick={() =>
+                                showImagePreview(item.payment_proof)
+                              }
+                            />
+                          </td>
+                          <td
+                            className={`${item.order_status.toLowerCase()}action`}
+                            id="vss"
+                          >
+                            <select
+                              onChange={(event) => UpdateOrder(item, event)}
+                              aria-readonly
+                              value={item.order_status}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="completed">Completed</option>
+                              <option value="cancel">Cancel</option>
+                            </select>
+                          </td>
+                          <td className="actioncolumn">
+                            <p onClick={() => show_order(item)}>View</p>
+                          </td>
+                        </tr>
+                      );
+                    })
+                ) : (
+                  <tr>
                     <td
-                      className={`${item.order_status.toLowerCase()}action`}
-                      id="vss"
+                      colSpan="9"
+                      style={{ textAlign: "center", padding: "20px" }}
                     >
-                      <select
-                        onChange={(event) => UpdateOrder(item, event)}
-                        aria-readonly
-                        value={item.order_status}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancel">Cancel</option>
-                      </select>
-                    </td>
-                    <td className="actioncolumn">
-                      <p onClick={() => show_order(item)}>View</p>
+                      No data
                     </td>
                   </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td
-                  colSpan="9"
-                  style={{ textAlign: "center", padding: "20px" }}
-                >
-                  No data
-                </td>
-              </tr>
-            )
-          ) : (
-            [...Array(12)].map((_, index) => (
-              <CustomerLoading key={index} times={9} />
-            ))
-          )}
-        </tbody>
-      </table>
+                )
+              ) : (
+                [...Array(12)].map((_, index) => (
+                  <CustomerLoading key={index} times={9} />
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+        {TableFooterJsx}
+      </div>
     </div>
   );
 }

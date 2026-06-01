@@ -11,7 +11,6 @@ import ClassVenueAdd from "../ClassComponent/classvenueadd";
 import { useNoti } from "../Hooks/alert";
 
 function VenueManagement() {
-  const [checked, setChecked] = useState(false);
   const [venue_id, setvenue_id] = useState(null);
   const [index, setindex] = useState(0);
   const [venue_index, setvenue_index] = useState(0);
@@ -36,21 +35,10 @@ function VenueManagement() {
     }
   }, [Venue.data, venue_id]);
 
-  useEffect(() => {
-    console.log(Venue);
-    console.log(Venue.data?.[venue_index].id);
-  }, [Courts.data]);
-
-  console.log(Courts);
-  console.log(Venue);
-
-  // const changeBox = (e) => {
-  //   e.stopPropagation();
-  //   setChecked(e.target.checked);
-
-  // };
   async function changeBox(e, item) {
     e.stopPropagation();
+
+    if (!item.id) return;
     openloading();
     try {
       let response = await fetch(
@@ -66,7 +54,7 @@ function VenueManagement() {
         await GetCourts(venue_id);
         opensuccess(
           "Action Successful",
-          `The Court is successfully ${item.available == true ? "Closed" : "Opened"}`,
+          `The Court is successfully ${item.court_active == true ? "Closed" : "Opened"}`,
         );
       } else {
         openerror("Something went wrong");
@@ -84,6 +72,7 @@ function VenueManagement() {
     openloading();
     await GetCourts(id);
     close();
+    console.log(Courts);
   }
 
   return (
@@ -217,7 +206,7 @@ function VenueManagement() {
                         >
                           <input
                             type="checkbox"
-                            defaultChecked={item.court_active}
+                            checked={item.court_active}
                             onChange={(e) => changeBox(e, item)}
                           />
                           <span className="slider"></span>

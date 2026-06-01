@@ -52,14 +52,13 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  position: sticky;
-  top: 0;
+
   z-index: 2;
   margin: 0;
   height: 10%;
-  background-color: white;
   align-items: center;
   gap: 10px;
+  background-color: #f0f0f0;
 }
 .ordertableheader h2 {
   font-family: Inter;
@@ -138,37 +137,39 @@
   color: #0d1b2a !important;
 }
 .posfooter {
-  height: 70vh;
+  height: 60vh;
   overflow-y: scroll;
   padding-top: 0;
   padding: 0;
 }
 
 /*for Mobile order and local order*/
-
+.posordertablewarper {
+  width: 100%;
+  height: 55vh;
+}
 .posordertable {
   width: 100%;
   border-collapse: collapse;
 }
 .posordertable thead {
-  position: sticky;
-  top: 10%;
   z-index: 2;
-  background-color: white;
+  background-color: #f0f0f0;
 }
 .posordertable th {
   font-family: Inter;
   font-size: small;
   font-weight: 700;
   color: #000000;
-  padding: 5px 1px;
-  padding-top: 10px !important;
+  padding: 15px 4px !important;
+  text-align: left;
 }
 .posordertable td {
   font-family: Inter;
   font-size: small;
   padding: 0;
   text-align: left;
+  padding: 5px 4px !important;
 }
 
 .posordertable .ordertablerow:hover td {
@@ -242,3 +243,10 @@
 
 /*for pop up*/
 /* overlay */
+.towarpthetableorder {
+  width: 100%;
+  height: 55vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

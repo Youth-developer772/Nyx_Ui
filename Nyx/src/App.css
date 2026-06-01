@@ -35,3 +35,9 @@ textarea {
 input {
   outline-color: blueviolet !important;
 }
+.towarpthetable {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

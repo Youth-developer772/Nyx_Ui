@@ -7,7 +7,6 @@
   }
 }
 .alretwarper {
-  width: calc(100% - 230px);
   height: 100vh;
   z-index: 30000;
   background-color: rgba(128, 128, 128, 0.699);

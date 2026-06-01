@@ -37,6 +37,11 @@ function ClassCourtDetail({ data }) {
 
   const court_id = Courts.data?.[index].id || null;
 
+  //for style gallery
+  const gallery_data = Courts.data?.[index]?.gallery || [];
+  const item_count = gallery_data.length + 1;
+  const col_count = item_count === 0 ? 1 : Math.ceil(Math.sqrt(item_count));
+
   function showPopup(id, header, heading) {
     if (header) setheader(header);
     if (heading) setheading(heading);
@@ -223,7 +228,10 @@ function ClassCourtDetail({ data }) {
           <div className="addcourtleft">
             <div className="addcourtleft1">
               <h3 className="addcourtleft1header">Court Gallery</h3>
-              <div className="addcourtleft11">
+              <div
+                className="addcourtleft11"
+                style={{ "--col-count": col_count }}
+              >
                 {Array.isArray(Courts.data?.[index]?.gallery) ? (
                   Courts.data?.[index]?.gallery.length > 0 ? (
                     Courts.data?.[index]?.gallery.map((item, index) => {
